@@ -2,6 +2,7 @@
 //   return [t, Math.sin(2 * t) * Math.cos(2 * t)];
 // });
 
+import {  }
 
 var width = screen.width,
     height = screen.height,
@@ -20,6 +21,8 @@ var svg = d3.select("body").append("svg")
     .attr("height", height)
   .append("g")
     .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+import
 
 var gr = svg.append("g")
     .attr("class", "r axis")
