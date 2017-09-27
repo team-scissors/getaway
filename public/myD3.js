@@ -47,18 +47,18 @@ ga.append("line")
     .attr("x2", radius);
 
 const cardinals = {
-  0: 'E',
-  30: 'ENE',
-  60: 'NNE',
-  90: 'N',
-  120: 'NNW',
-  150: 'WNW',
-  180: 'W',
-  210: 'WSW',
-  240: 'SSW',
-  270: 'S',
-  300: 'SSE',
-  330: 'ESE',
+  0: 'N',
+  30: 'NNE',
+  60: 'ENE',
+  90: 'E',
+  120: 'ESE',
+  150: 'SSE',
+  180: 'S',
+  210: 'SSW',
+  240: 'WSW',
+  270: 'W',
+  300: 'WNW',
+  330: 'NNW',
 }
 
 ga.append("text")
