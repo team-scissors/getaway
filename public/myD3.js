@@ -7,6 +7,10 @@ var width = screen.width,
     height = screen.height,
     radius = Math.min(width, height) / 2 - 30;
 
+console.log(width);
+console.log(height);
+console.log(radius);
+
 var r = d3.scale.linear()
     .domain([0, 500])
     .range([0, radius]);
