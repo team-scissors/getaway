@@ -24,6 +24,8 @@
     "express": "^4.14.1",
     "express-session": "^1.15.1",
     "history": "^4.6.3",
+    "material-ui": "^1.0.0-beta.12",
+    "material-ui-icons": "^1.0.0-beta.10",
     "morgan": "^1.8.1",
     "passport": "^0.3.2",
     "passport-google-oauth": "^1.0.0",
@@ -39,7 +41,8 @@
     "redux-logger": "^2.8.1",
     "redux-thunk": "^2.2.0",
     "sequelize": "^4.3.1",
-    "socket.io": "^2.0.3"
+    "socket.io": "^2.0.3",
+    "typeface-roboto": "0.0.35"
   },
   "devDependencies": {
     "axios-mock-adapter": "^1.9.0",
@@ -51,8 +54,10 @@
     "babel-register": "^6.24.1",
     "chai": "^3.5.0",
     "css-loader": "^0.26.1",
+    "csvtojson": "^1.1.7",
     "enzyme": "^2.8.2",
     "file-loader": "^0.11.2",
+    "jsonfile": "^4.0.0",
     "mocha": "^3.3.0",
     "node-sass": "^4.5.0",
     "nodemon": "^1.12.1",
