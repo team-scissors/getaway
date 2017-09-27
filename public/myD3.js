@@ -36,9 +36,16 @@ gr.append("circle")
 
 gr.append("text")
     .attr("y", function(d) { return -r(d) - 4; })
-    .attr("transform", "rotate(15)")
+    .attr("transform", "rotate(349)")
     .style("text-anchor", "middle")
     .text(function(d) { return '$' + d; });
+
+// Little blue circle. Try to make this appear along the appropriate axis:
+gr.append("circle")
+  .attr("cy", -300)
+  .attr("transform", "rotate(349)")
+  .attr("r", 4)
+  .style("fill", "steelblue")
 
 var ga = svg.append("g")
     .attr("class", "a axis")
