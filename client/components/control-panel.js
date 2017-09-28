@@ -10,6 +10,7 @@ const ControlPanel = props => {
 
   return (
     <div>
+      <h2>Control Panel</h2>
       <button onClick={handleIncrement}>Increment</button>
       <button onClick={handleDecrement}>Decrement</button>
     </div>

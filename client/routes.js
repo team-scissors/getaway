@@ -10,6 +10,7 @@ import {
   Signup,
   UserHome,
   Flights,
+  ControlPanel,
 } from './components'
 import {me} from './store'
 
@@ -26,6 +27,7 @@ class Routes extends Component {
     return (
       <Router history={history}>
         <Main>
+          <ControlPanel />
           <Switch>
             {/* Routes placed here are available to all visitors */}
             <Route path='/login' component={Login} />
