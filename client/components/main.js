@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import { logout } from '../store';
 import { SideMenu } from '../components';
+import { Container, Appbar, Button, Panel } from 'muicss/react';
 
 /**
  * COMPONENT
@@ -12,10 +13,22 @@ import { SideMenu } from '../components';
  *  rendered out by the component's `children`.
  */
 class Main extends Component {
+  onClick() {
+    console.log('clicked on button');
+  }
+
   render() {
     const classes = this.props.classes;
     const { children, handleClick, isLoggedIn } = this.props;
-    return <SideMenu />;
+
+    return (
+      <div id="content-wrapper">
+        <div className="mui-container-fluid">
+          <br />
+          <h1>Cool Content Goes Here</h1>
+        </div>
+      </div>
+    );
   }
 }
 
