@@ -1,13 +1,18 @@
-import rd3 from 'react-d3-library';
-// import node from '../myD3';
 import geolib from 'geolib';
 import * as d3 from 'd3';
 import React, { Component } from 'react';
-// const RD3Component = rd3.Component;
+import { connect } from 'react-redux';
+import { withRouter, Link } from 'react-router-dom';
+import { fetchAirports } from '../store';
 
-export default class Flights extends Component {
+
+class Flights extends Component {
   constructor(props) {
     super(props);
+  }
+
+  componentDidMount() {
+    this.props.loadAirports();
   }
 
   // This tells React not to re-render this component even if
@@ -29,8 +34,10 @@ export default class Flights extends Component {
 
   renderFlightsD3(node) {
     // const node = this.refs.d3Target;
-    console.log('node:');
-    console.log(node);
+    // console.log('node:');
+    // console.log(node);
+    const airports = this.props.airports;
+    console.log('this.props.airports', airports);
 
     const width = screen.width,
         height = screen.height,
@@ -66,17 +73,8 @@ export default class Flights extends Component {
       longitude: -87.623177,
     };
 
-    const aiportsLocations = [
-      {"airport_id":"6891","city":"Greencastle","country":"United States","latitude":"39.6335556","longitude":"-86.8138056"},
-      {"airport_id":"6890","name":"Dowagiac Municipal Airport","city":"Dowagiac","country":"United States","latitude":"41.9929342","longitude":"-86.1280125"},
-      {"airport_id":"6889","name":"Cambridge Municipal Airport","city":"Cambridge","country":"United States","latitude":"39.9750278","longitude":"-81.5775833"},
-      {"airport_id":"6885","name":"Door County Cherryland Airport","city":"Sturgeon Bay","country":"United States","latitude":"44.8436667","longitude":"-87.4215556"},
-      {"airport_id":"6884","name":"Shoestring Aviation Airfield","city":"Stewartstown","country":"United States","latitude":"39.7948244","longitude":"-76.6471914"},
-      {"airport_id":"6883","name":"Eastern Oregon Regional Airport","city":"Pendleton","country":"United States","iaco":"KPDT","latitude":"45.695","longitude":"-118.841389"},
-      {"airport_id":"6882","name":"Tyonek Airport","city":"Tyonek","country":"United States","latitude":"61.076667","longitude":"-151.138056"},
-    ]
 
-    const airports = aiportsLocations.map(airport => {
+    const filteredAirports = airports.map(airport => {
       const otherAirport = {
         latitude: airport.latitude,
         longitude: airport.longitude,
@@ -84,7 +82,7 @@ export default class Flights extends Component {
      return {
        price: 250,
        bearing: geolib.getBearing(chicago, otherAirport),
-     }
+     };
     });
 
     function renderDots(airports) {
@@ -95,10 +93,10 @@ export default class Flights extends Component {
         .attr("r", 8)
         // Apply a label?
         .style("fill", "steelblue")
-      })
+      });
     }
 
-    renderDots(airports);
+    renderDots(filteredAirports);
 
     const ga = svg.append("g")
         .attr("class", "a axis")
@@ -145,3 +143,24 @@ export default class Flights extends Component {
     );
   }
 }
+
+/**
+ * CONTAINER
+ */
+const mapState = (state) => {
+  return {
+    airports: state.airports,
+  };
+};
+
+const mapDispatch = (dispatch) => {
+  return {
+    loadAirports() {
+      fetchAirports();
+    },
+  };
+};
+
+// The `withRouter` wrapper makes sure that updates are not blocked
+// when the url changes
+export default withRouter(connect(mapState, mapDispatch)(Flights));
