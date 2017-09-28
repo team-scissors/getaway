@@ -36,10 +36,15 @@ class Flights extends Component {
 
   renderFlightsD3(node) {
     // const node = this.refs.d3Target;
-    console.log('node:', node);
+    // console.log('this.d3Node:');
+    // console.log(this.d3Node);
+
+    console.log('node: ');
+    if (node) console.dir(node.childNodes.length);
+    else console.log('node empty');
 
     const airports = this.props.airports;
-    console.log('this.props.airports', airports);
+    // console.log('this.props.airports', airports);
 
     const width = screen.width,
         height = screen.height,
@@ -77,7 +82,6 @@ class Flights extends Component {
 
 
     const airportsData = airports.map(airport => {
-      console.log('inside airportsData');
       const otherAirport = {
         latitude: airport.latitude,
         longitude: airport.longitude,
@@ -88,22 +92,18 @@ class Flights extends Component {
      };
     });
 
-    function renderDots(airports) {
-      console.log('inside renderDots');
-
-      airports.forEach(airport => {
-        console.log('inside renderDots forEach airport: ', airport);
-        svg.append("circle")
-        .attr("cy", -airport.price - 7)
-        .attr("transform", `rotate(${airport.bearing})`)
-        .attr("r", 8)
-        // Apply a label?
-        .style("fill", "steelblue")
-      });
-    }
-
-    console.log('airportsData', airportsData);
-    renderDots(airportsData);
+    // function renderDots(airports) {
+    //   console.log('inside renderDots');
+    //
+    // }
+    airportsData.forEach(airport => {
+      svg.append("circle")
+      .attr("cy", - airport.price - 7)
+      .attr("transform", `rotate(${airport.bearing})`)
+      .attr("r", 8)
+      // Apply a label?
+      .style("fill", "steelblue")
+    });
 
     const ga = svg.append("g")
         .attr("class", "a axis")
@@ -145,7 +145,7 @@ class Flights extends Component {
   render() {
     return (
       <div>
-        <div ref={d3Node => { this.renderFlightsD3(d3Node); }} />
+        <div ref={d3Node => { this.d3Node = d3Node; this.renderFlightsD3(d3Node); }} />
       </div>
     );
   }
