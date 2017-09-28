@@ -15,11 +15,7 @@ class Main extends Component {
   render() {
     const classes = this.props.classes;
     const { children, handleClick, isLoggedIn } = this.props;
-    return (
-      <div className={classes.root}>
-        <SideMenu />
-      </div>
-    );
+    return <SideMenu />;
   }
 }
 
