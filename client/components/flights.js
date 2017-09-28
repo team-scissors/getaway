@@ -52,16 +52,7 @@ class Flights extends Component {
       .append('g')
       .attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')');
 
-    const gr = svg
-      .append('g')
-      .attr('class', 'r axis')
-      .selectAll('g')
-      .data(r.ticks(5).slice(1))
-      .enter()
-      .append('g')
-      .style('stroke-width', 0.5) // set the stroke width
-      .style('stroke', 'black') // set the line colour
-      .style('fill', 'none'); // set the fill colour
+    const gr = svg.append('g').attr('class', 'r axis').selectAll('g').data(r.ticks(5).slice(1)).enter().append('g');
     gr.append('circle').attr('r', r);
 
     gr

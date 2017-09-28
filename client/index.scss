@@ -18,6 +18,33 @@ buttons {
   text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.004);
 }
 
+.frame {
+  fill: none;
+  stroke: #000;
+}
+
+.axis text {
+  font: 10px;
+}
+
+.axis line,
+.axis circle {
+  fill: none;
+  stroke: #777;
+  stroke-dasharray: 1, 4;
+}
+
+.axis :last-of-type circle {
+  stroke: #333;
+  stroke-dasharray: none;
+}
+
+.line {
+  fill: none;
+  stroke: red;
+  stroke-width: 1.5px;
+}
+
 /**
   * Layout CSS
   */
