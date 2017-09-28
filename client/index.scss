@@ -4,7 +4,7 @@
 html,
 body {
   height: 100%;
-  background-color: #eee;
+  background-color: #fff;
   font-family: "Raleway", "Helvetica Neue", Helvetica, Arial;
 }
 
@@ -70,14 +70,14 @@ buttons {
 }
 
 #content-wrapper {
-  min-height: 100%;
+  height: 100%;
   overflow-x: hidden;
   margin-left: 0px;
   transition: margin-left 0.2s;
 
   /* sticky bottom */
-  margin-bottom: -160px;
-  padding-bottom: 160px;
+  // margin-bottom: -160px;
+  // padding-bottom: 160px;
 }
 
 #footer {

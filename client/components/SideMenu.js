@@ -7,7 +7,7 @@ class SideMenu extends Component {
   render() {
     const { children, handleClick, isLoggedIn } = this.props;
     return (
-      <div id="sidedrawer" className="mui--z1">
+      <div id="sidedrawer" className="mui--z3">
         <div id="sidedrawer-brand" className="mui--appbar-line-height">
           <span className="mui--text-title">GETAWAY</span>
         </div>

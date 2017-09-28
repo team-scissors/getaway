@@ -47,10 +47,11 @@ class Flights extends Component {
     const svg = d3
       .select(node)
       .append('svg')
-      .attr('width', width)
-      .attr('height', height)
+      .attr('width', '100%')
+      .attr('height', '100%')
+      .attr('viewBox', '0 0 ' + Math.min(width, height) + ' ' + Math.min(width, height))
       .append('g')
-      .attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')');
+      .attr('transform', 'translate(' + Math.min(width, height) / 2 + ',' + Math.min(width, height) / 2 + ')');
 
     const gr = svg.append('g').attr('class', 'r axis').selectAll('g').data(r.ticks(5).slice(1)).enter().append('g');
     gr.append('circle').attr('r', r);
@@ -132,6 +133,7 @@ class Flights extends Component {
         return d < 270 && d > 90 ? 'end' : null;
       })
       .attr('transform', function(d) {
+        console.log(d);
         return d < 270 && d > 90 ? 'rotate(180 ' + (radius + 6) + ',0)' : null;
       })
       .text(function(d) {
