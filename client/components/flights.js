@@ -18,12 +18,14 @@ class Flights extends Component {
   // This tells React not to re-render this component even if
   // state or props change.
   // Read this! https://facebook.github.io/react/docs/react-component.html#shouldcomponentupdate
-  shouldComponentUpdate(nextProps, nextState) {
-    // Do the D3 render here. And then return false. This wll save us from having
-    // to redraw the whole D3 SVG every time the props change.
-    console.log('shouldComponentUpdate just ran!');
-    return false;
-  }
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   // Do the D3 render here. And then return false. This wll save us from having
+
+  //   // to redraw the whole D3 SVG every time the props change.
+  //   console.log('shouldComponentUpdate just ran!');
+  //   this.renderFlightsD3(this.d3Node);
+  //   return true;
+  // }
 
   // // We probably don't need this. It wont run if shouldComponentUpdate returns
   // // which we want it to.
@@ -34,8 +36,8 @@ class Flights extends Component {
 
   renderFlightsD3(node) {
     // const node = this.refs.d3Target;
-    // console.log('node:');
-    // console.log(node);
+    console.log('node:', node);
+
     const airports = this.props.airports;
     console.log('this.props.airports', airports);
 
@@ -74,7 +76,8 @@ class Flights extends Component {
     };
 
 
-    const filteredAirports = airports.map(airport => {
+    const airportsData = airports.map(airport => {
+      console.log('inside airportsData');
       const otherAirport = {
         latitude: airport.latitude,
         longitude: airport.longitude,
@@ -86,7 +89,10 @@ class Flights extends Component {
     });
 
     function renderDots(airports) {
+      console.log('inside renderDots');
+
       airports.forEach(airport => {
+        console.log('inside renderDots forEach airport: ', airport);
         svg.append("circle")
         .attr("cy", -airport.price - 7)
         .attr("transform", `rotate(${airport.bearing})`)
@@ -96,7 +102,8 @@ class Flights extends Component {
       });
     }
 
-    renderDots(filteredAirports);
+    console.log('airportsData', airportsData);
+    renderDots(airportsData);
 
     const ga = svg.append("g")
         .attr("class", "a axis")
@@ -138,12 +145,13 @@ class Flights extends Component {
   render() {
     return (
       <div>
-        <div ref={node => this.renderFlightsD3(node)} />
+        <div ref={d3Node => { this.renderFlightsD3(d3Node); }} />
       </div>
     );
   }
 }
 
+//this.d3Node = d3Node;
 /**
  * CONTAINER
  */
@@ -156,7 +164,7 @@ const mapState = (state) => {
 const mapDispatch = (dispatch) => {
   return {
     loadAirports() {
-      fetchAirports();
+      dispatch(fetchAirports());
     },
   };
 };
