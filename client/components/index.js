@@ -5,5 +5,5 @@
  */
 export { default as Main } from './Main';
 export { default as UserHome } from './UserHome';
-export { default as Topbar } from './Topbar';
+export { default as SideMenu } from './SideMenu';
 export { Login, Signup } from './AuthForm';

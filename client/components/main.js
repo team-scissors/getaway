@@ -2,24 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
-import { withStyles } from 'material-ui/styles';
 import { logout } from '../store';
-import { Topbar } from '../components';
-import { AppBar, Toolbar, Typography, Button, IconButton, MenuIcon } from 'material-ui';
-
-const styles = (theme) => ({
-  root: {
-    // marginTop: theme.spacing.unit * 3,
-    width: '100%',
-  },
-  flex: {
-    flex: 1,
-  },
-  menuButton: {
-    marginLeft: -12,
-    marginRight: 20,
-  },
-});
+import { SideMenu } from '../components';
 
 /**
  * COMPONENT
@@ -33,7 +17,7 @@ class Main extends Component {
     const { children, handleClick, isLoggedIn } = this.props;
     return (
       <div className={classes.root}>
-        <Topbar />
+        <SideMenu />
       </div>
     );
   }
@@ -58,7 +42,7 @@ const mapDispatch = (dispatch) => {
 
 // The `withRouter` wrapper makes sure that updates are not blocked
 // when the url changes
-export default withRouter(connect(mapState, mapDispatch)(withStyles(styles)(Main)));
+export default withRouter(connect(mapState, mapDispatch)(Main));
 
 /**
  * PROP TYPES
