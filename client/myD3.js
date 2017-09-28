@@ -2,23 +2,23 @@ import geolib from 'geolib';
 import * as d3 from 'd3';
 
 
-var node = document.createElement('div');
+const node = document.createElement('div');
 
-var width = screen.width,
+const width = screen.width,
     height = screen.height,
     radius = Math.min(width, height) / 2 - 30;
 
-var r = d3.scaleLinear()
+const r = d3.scaleLinear()
     .domain([0, 500])
     .range([0, radius]);
 
-var svg = d3.select(node).append("svg")
+const svg = d3.select(node).append("svg")
     .attr("width", width)
     .attr("height", height)
   .append("g")
     .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
-var gr = svg.append("g")
+const gr = svg.append("g")
     .attr("class", "r axis")
   .selectAll("g")
     .data(r.ticks(5).slice(1))
@@ -78,7 +78,7 @@ renderDots(airports);
 //   .attr("r", 4)
 //   .style("fill", "steelblue")
 
-var ga = svg.append("g")
+const ga = svg.append("g")
     .attr("class", "a axis")
   .selectAll("g")
     .data(d3.range(0, 360, 30))
