@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import { fetchAirports } from '../store';
 
-
 class Flights extends Component {
   constructor(props) {
     super(props);
@@ -40,73 +39,84 @@ class Flights extends Component {
     console.log('this.props.airports', airports);
 
     const width = screen.width,
-        height = screen.height,
-        radius = Math.min(width, height) / 2 - 30;
+      height = screen.height,
+      radius = Math.min(width, height) / 2 - 30;
 
-    const r = d3.scaleLinear()
-        .domain([0, 500])
-        .range([0, radius]);
+    const r = d3.scaleLinear().domain([ 0, 500 ]).range([ 0, radius ]);
 
-    const svg = d3.select(node).append("svg")
-        .attr("width", width)
-        .attr("height", height)
-        .append("g")
-        .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+    const svg = d3
+      .select(node)
+      .append('svg')
+      .attr('width', width)
+      .attr('height', height)
+      .append('g')
+      .attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')');
 
-    const gr = svg.append("g")
-        .attr("class", "r axis")
-        .selectAll("g")
-        .data(r.ticks(5).slice(1))
-        .enter().append("g");
+    const gr = svg
+      .append('g')
+      .attr('class', 'r axis')
+      .selectAll('g')
+      .data(r.ticks(5).slice(1))
+      .enter()
+      .append('g')
+      .style('stroke-width', 0.5) // set the stroke width
+      .style('stroke', 'black') // set the line colour
+      .style('fill', 'none'); // set the fill colour
+    gr.append('circle').attr('r', r);
 
-    gr.append("circle")
-        .attr("r", r);
-
-    gr.append("text")
-        .attr("y", function(d) { return -r(d) - 4; })
-        .attr("transform", "rotate(15)")
-        .style("text-anchor", "middle")
-        .text(function(d) { return '$' + d; });
+    gr
+      .append('text')
+      .attr('y', function(d) {
+        return -r(d) - 4;
+      })
+      .attr('transform', 'rotate(15)')
+      .style('text-anchor', 'middle')
+      .text(function(d) {
+        return '$' + d;
+      });
 
     const chicago = {
       latitude: 41.881832,
       longitude: -87.623177,
     };
 
-
-    const filteredAirports = airports.map(airport => {
+    const filteredAirports = airports.map((airport) => {
       const otherAirport = {
         latitude: airport.latitude,
         longitude: airport.longitude,
       };
-     return {
-       price: 250,
-       bearing: geolib.getBearing(chicago, otherAirport),
-     };
+      return {
+        price: 250,
+        bearing: geolib.getBearing(chicago, otherAirport),
+      };
     });
 
     function renderDots(airports) {
-      airports.forEach(airport => {
-        svg.append("circle")
-        .attr("cy", -airport.price - 7)
-        .attr("transform", `rotate(${airport.bearing})`)
-        .attr("r", 8)
-        // Apply a label?
-        .style("fill", "steelblue")
+      airports.forEach((airport) => {
+        svg
+          .append('circle')
+          .attr('cy', -airport.price - 7)
+          .attr('transform', `rotate(${airport.bearing})`)
+          .attr('r', 8)
+          // Apply a label?
+          .style('fill', 'steelblue');
       });
     }
 
     renderDots(filteredAirports);
 
-    const ga = svg.append("g")
-        .attr("class", "a axis")
-        .selectAll("g")
-        .data(d3.range(0, 360, 30))
-        .enter().append("g")
-        .attr("transform", function(d) { return "rotate(" + -d + ")"; });
+    const ga = svg
+      .append('g')
+      .attr('class', 'a axis')
+      .selectAll('g')
+      .data(d3.range(0, 360, 30))
+      .enter()
+      .append('g')
+      .attr('transform', function(d) {
+        return 'rotate(' + -d + ')';
+      });
 
-    ga.append("line")
-        .attr("x2", radius);
+    ga.append('line').attr('x2', radius);
 
     const cardinals = {
       0: 'N',
@@ -121,24 +131,29 @@ class Flights extends Component {
       270: 'W',
       300: 'WNW',
       330: 'NNW',
-    }
+    };
 
-    ga.append("text")
-        .attr("x", radius + 6)
-        .attr("dy", ".35em")
-        .style("text-anchor", function(d) { return d < 270 && d > 90 ? "end" : null; })
-        .attr("transform", function(d) {
-          return d < 270 && d > 90 ? "rotate(180 " + (radius + 6) + ",0)" : null;
-        })
-        .text(function(d) { return cardinals[d]; }); //cardinals[d]
+    ga
+      .append('text')
+      .attr('x', radius + 6)
+      .attr('dy', '.35em')
+      .style('text-anchor', function(d) {
+        return d < 270 && d > 90 ? 'end' : null;
+      })
+      .attr('transform', function(d) {
+        return d < 270 && d > 90 ? 'rotate(180 ' + (radius + 6) + ',0)' : null;
+      })
+      .text(function(d) {
+        return cardinals[d];
+      }); //cardinals[d]
 
-    svg.append("path")
+    svg.append('path');
   }
 
   render() {
     return (
       <div>
-        <div ref={node => this.renderFlightsD3(node)} />
+        <div ref={(node) => this.renderFlightsD3(node)} />
       </div>
     );
   }
