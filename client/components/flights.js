@@ -28,14 +28,14 @@ export default class Flights extends Component {
     const svg = d3.select(node).append("svg")
         .attr("width", width)
         .attr("height", height)
-      .append("g")
+        .append("g")
         .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
     const gr = svg.append("g")
         .attr("class", "r axis")
-      .selectAll("g")
+        .selectAll("g")
         .data(r.ticks(5).slice(1))
-      .enter().append("g");
+        .enter().append("g");
 
     gr.append("circle")
         .attr("r", r);
@@ -67,7 +67,7 @@ export default class Flights extends Component {
         longitude: airport.longitude,
       };
      return {
-       price: 200,
+       price: 250,
        bearing: geolib.getBearing(chicago, otherAirport),
      }
     });
@@ -75,9 +75,10 @@ export default class Flights extends Component {
     function renderDots(airports) {
       airports.forEach(airport => {
         svg.append("circle")
-        .attr("cy", - airport.price - 7)
+        .attr("cy", -airport.price - 7)
         .attr("transform", `rotate(${airport.bearing})`)
-        .attr("r", 5)
+        .attr("r", 8)
+        // Apply a label?
         .style("fill", "steelblue")
       })
     }
@@ -86,9 +87,9 @@ export default class Flights extends Component {
 
     const ga = svg.append("g")
         .attr("class", "a axis")
-      .selectAll("g")
+        .selectAll("g")
         .data(d3.range(0, 360, 30))
-      .enter().append("g")
+        .enter().append("g")
         .attr("transform", function(d) { return "rotate(" + -d + ")"; });
 
     ga.append("line")
@@ -116,7 +117,7 @@ export default class Flights extends Component {
         .attr("transform", function(d) {
           return d < 270 && d > 90 ? "rotate(180 " + (radius + 6) + ",0)" : null;
         })
-        .text(function(d) { return d; }); //cardinals[d]
+        .text(function(d) { return cardinals[d]; }); //cardinals[d]
 
     svg.append("path")
 
