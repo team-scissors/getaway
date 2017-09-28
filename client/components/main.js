@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import { logout } from '../store';
-import { SideMenu } from '../components';
+import { SideMenu, Flights } from '../components';
 import { Container, Appbar, Button, Panel } from 'muicss/react';
 
 /**
@@ -26,6 +26,7 @@ class Main extends Component {
         <div className="mui-container-fluid">
           <br />
           <h1>Cool Content Goes Here</h1>
+          <Flights />
         </div>
       </div>
     );

@@ -7,3 +7,5 @@ export { default as Main } from './Main';
 export { default as UserHome } from './UserHome';
 export { default as SideMenu } from './SideMenu';
 export { Login, Signup } from './AuthForm';
+export { default as Flights } from './flights';
+export { default as ControlPanel } from './control-panel';
