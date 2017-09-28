@@ -1,8 +1,4 @@
-// var data = d3.range(0, 2 * Math.PI, .01).map(function(t) {
-//   return [t, Math.sin(2 * t) * Math.cos(2 * t)];
-// });
-
-import {  }
+const geolib = require('geolib');
 
 var width = screen.width,
     height = screen.height,
@@ -12,17 +8,11 @@ var r = d3.scale.linear()
     .domain([0, 500])
     .range([0, radius]);
 
-// var line = d3.svg.line.radial()
-//     .radius(function(d) { return r(d[1]); })
-//     .angle(function(d) { return -d[0] + Math.PI / 2; });
-
 var svg = d3.select("body").append("svg")
     .attr("width", width)
     .attr("height", height)
   .append("g")
     .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
-
-import
 
 var gr = svg.append("g")
     .attr("class", "r axis")
@@ -39,16 +29,34 @@ gr.append("text")
     .style("text-anchor", "middle")
     .text(function(d) { return '$' + d; });
 
-/*
-  Pass this an array of objects of airport:
-  airport {
-    name: MKE,
-    latitude: 43.038902,
-    longitude: -87.906471,
-    price: 287,
-    bearing: 349,
-  }
-*/
+const chicago = {
+  latitude: 41.881832,
+  longitude: -87.623177,
+};
+
+const aiportsLocations = [
+  {"airport_id":"6891","city":"Greencastle","country":"United States","iata_faa":"4I7","iaco":"","latitude":"39.6335556","longitude":"-86.8138056","altitude":"842","zone":"-5","dst":"U"},
+  {"airport_id":"6890","name":"Dowagiac Municipal Airport","city":"Dowagiac","country":"United States","iata_faa":"C91","iaco":"","latitude":"41.9929342","longitude":"-86.1280125","altitude":"748","zone":"-5","dst":"U"},
+  {"airport_id":"6889","name":"Cambridge Municipal Airport","city":"Cambridge","country":"United States","iata_faa":"CDI","iaco":"","latitude":"39.9750278","longitude":"-81.5775833","altitude":"799","zone":"-5","dst":"U"},
+  {"airport_id":"6885","name":"Door County Cherryland Airport","city":"Sturgeon Bay","country":"United States","iata_faa":"SUE","iaco":"","latitude":"44.8436667","longitude":"-87.4215556","altitude":"725","zone":"-6","dst":"U"},
+  {"airport_id":"6884","name":"Shoestring Aviation Airfield","city":"Stewartstown","country":"United States","iata_faa":"0P2","iaco":"","latitude":"39.7948244","longitude":"-76.6471914","altitude":"1000","zone":"-5","dst":"U"},
+  {"airport_id":"6883","name":"Eastern Oregon Regional Airport","city":"Pendleton","country":"United States","iata_faa":"PDT","iaco":"KPDT","latitude":"45.695","longitude":"-118.841389","altitude":"1497","zone":"-7","dst":"A"},
+  {"airport_id":"6882","name":"Tyonek Airport","city":"Tyonek","country":"United States","iata_faa":"TYE","iaco":"","latitude":"61.076667","longitude":"-151.138056","altitude":"110","zone":"-8","dst":"A"},
+]
+
+const bearingsOfAirports = {};
+
+const airports = aiportsLocations.map(airport => {
+  const otherAirport = {
+    latitude: airport.latitude,
+    longitude: airport.longitude,
+  };
+ return {
+   price: 200,
+   bearing: geolib.getBearing(chicago, otherAirport),
+ }
+});
+
 function renderDots(airports) {
   airports.forEach(airport => {
     svg.append("circle")
@@ -59,31 +67,7 @@ function renderDots(airports) {
   })
 }
 
-const fakeAirports = [
-  {
-    name: 'MKE',
-    latitude: 43.038902,
-    longitude: -87.906471,
-    price: 287,
-    bearing: 349,
-  },
-  {
-    name: 'MKE',
-    latitude: 43.038902,
-    longitude: -87.906471,
-    price: 287,
-    bearing: 349,
-  },
-  {
-    name: 'MKE',
-    latitude: 43.038902,
-    longitude: -87.906471,
-    price: 287,
-    bearing: 349,
-  },
-];
-
-renderDots(fakeAirports);
+renderDots(airports);
 
 // Little blue circle. Try to make this appear along the appropriate axis:
 // svg.append("circle")
