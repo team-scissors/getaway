@@ -2,15 +2,12 @@ import geolib from 'geolib';
 import * as d3 from 'd3';
 
 
-console.log('in myD3.js');
 var node = document.createElement('div');
 
 var width = screen.width,
     height = screen.height,
     radius = Math.min(width, height) / 2 - 30;
 
-
-console.dir(d3);
 var r = d3.scaleLinear()
     .domain([0, 500])
     .range([0, radius]);

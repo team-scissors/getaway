@@ -14,7 +14,6 @@ export default class Flights extends Component {
   }
 
   render() {
-    console.log('in flights.js');
     return (
       <div>
         <RD3Component data={this.state.d3} />
