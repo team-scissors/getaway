@@ -8,14 +8,29 @@ import React, { Component } from 'react';
 export default class Flights extends Component {
   constructor(props) {
     super(props);
-    // this.state = {d3: ''}
   }
 
-  componentDidMount() {
-    // this.setState({d3: node});
-    // this.refs.d3Target; // Do something with this...
+  // This tells React not to re-render this component even if
+  // state or props change.
+  // Read this! https://facebook.github.io/react/docs/react-component.html#shouldcomponentupdate
+  shouldComponentUpdate(nextProps, nextState) {
+    // Do the D3 render here. And then return false. This wll save us from having
+    // to redraw the whole D3 SVG every time the props change.
+    console.log('shouldComponentUpdate just ran!');
+    return false;
+  }
 
-    const node = this.refs.d3Target;
+  // // We probably don't need this. It wont run if shouldComponentUpdate returns
+  // // which we want it to.
+  // // Here, we'll pass in data that we want D3 to render.
+  // componentWillUpdate(nextProps, nextState) {
+  //
+  // }
+
+  renderFlightsD3(node) {
+    // const node = this.refs.d3Target;
+    console.log('node:');
+    console.log(node);
 
     const width = screen.width,
         height = screen.height,
@@ -120,25 +135,12 @@ export default class Flights extends Component {
         .text(function(d) { return cardinals[d]; }); //cardinals[d]
 
     svg.append("path")
-
-  }
-
-  // This tells React not to rerender this component even if
-  // state or props change.
-  shouldComponentUpdate() {
-    return false;
-  }
-
-  // Here, we'll pass in data that we want D3 to render.
-  componentWillUpdate() {
-
   }
 
   render() {
     return (
       <div>
-        {/* <RD3Component data={this.state.d3} /> */}
-        <div ref="d3Target"></div>
+        <div ref={node => this.renderFlightsD3(node)} />
       </div>
     );
   }
