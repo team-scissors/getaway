@@ -23,11 +23,7 @@ class Main extends Component {
 
     return (
       <div id="content-wrapper">
-        <div className="mui-container-fluid">
-          <br />
-          <h1>Cool Content Goes Here</h1>
-          <Flights />
-        </div>
+        <Flights />
       </div>
     );
   }
