@@ -1,0 +1,15 @@
+{
+  "extends": "fullstack",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true,
+      "experimentalObjectRestSpread": true
+    }
+  },
+  "rules": {
+    "id-length": 0,
+    "no-tabs": 1,
+    "semi": [1, "always"],
+    "space-infix-ops": 0
+  }
+}
