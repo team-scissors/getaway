@@ -32,7 +32,7 @@ export const getAirports = (airports) => {
 /**
  * THUNK CREATORS
  */
-export const fetchAirports = () => airportsData;
+export const fetchAirports = () => (dispatch) => dispatch(getAirports(airportsData));
 
 /**
  * REDUCER
