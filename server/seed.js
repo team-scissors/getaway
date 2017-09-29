@@ -1,3 +1,4 @@
+const Sequelize = require('sequelize');
 const airports = require('../data/nonDuplicate_airports.json');
 const db = require('./db');
 const {
@@ -35,22 +36,22 @@ const fakeUsers = [
 
 const fakeTrips = [
   {
-    email: 'admin@admin.admin',
-    firstName: 'Admin',
-    lastName: 'McAdminFace',
-    password: 'admin',
+    name: 'aaah! i need to run from the law!',
+    airports: [ 1, 200, 75 ],
+    departFrom: 5275,
+    departAt: Sequelize.NOW,
   },
   {
-    email: 'a@b.c',
-    firstName: 'AB',
-    lastName: 'CDEFG',
-    password: 'abc',
+    name: 'looking for a nice getaway',
+    airports: [ 220 ],
+    departFrom: 45,
+    departAt: Sequelize.NOW,
   },
   {
-    email: 'joonkim@timsucks.com',
-    firstName: 'Joon',
-    lastName: 'Kim',
-    password: 'lolol',
+    name: 'where even is papau new guinea?!1?',
+    airports: [ 1, 2, 3 ],
+    departFrom: 51,
+    departAt: Sequelize.NOW,
   },
 ];
 
@@ -82,7 +83,13 @@ const seed = () => {
   return Promise.all([
     createAirports(airports),
     createUsers(fakeUsers),
-  ]);
+  ])
+  .spread( (airports, users) => {
+    const createTrips = fakeTrips.map(trip => {
+      return Trip.create(trip);
+    })
+    return Promise.all(createTrips);
+  });
 };
 
 db.sync({ force: true})
