@@ -1,5 +1,7 @@
+/* eslint new-cap:0 */
 const Sequelize = require('sequelize');
 const db = require('../db');
+const Airport = require('./airport');
 
 const Trip = db.define('trip', {
   name: {
@@ -7,19 +9,20 @@ const Trip = db.define('trip', {
     unique: true,
     allowNull: false
   },
-  abbrv: {
-    type: Sequelize.STRING,
-    unique: true,
-    allowNull: false
+  airports: {
+    type: Sequelize.ARRAY(Sequelize.INTEGER), // An array of foreign keys of airports
+    allowNull: false,
+    get() {
+      const airportIds = this.getDataValue('airports');
+      const findAirports = airportIds.map( id => Airport.findById(id));
+      return Promise.all(findAirports); // TODO: Confirm this actually works.
+                                        // Can we return a promise like this?
+    }
   },
-  longitude: {
-    type: Sequelize.FLOAT,
-    allowNull: false
-  },
-  latitude: {
-    type: Sequelize.FLOAT,
-    allowNull: false
+  departAt: {
+    type: Sequelize.DATEONLY,
+    allowNull: false,
   }
 });
 
-module.exports = Airport;
+module.exports = Trip;
