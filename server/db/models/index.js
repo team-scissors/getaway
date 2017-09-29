@@ -17,4 +17,4 @@ const Airport = require('./airport');
 module.exports = {
   User,
   Airport
-}
+};
