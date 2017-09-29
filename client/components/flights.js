@@ -96,39 +96,29 @@ class Flights extends Component {
     };
     });
 
-
-    airportsData.forEach(airport => {
-      svg.append("circle")
-      .attr("cy", - airport.price - 7)
-      .attr("transform", `rotate(${airport.bearing})`)
-      .attr("r", 8)
-      // Apply a label?
-      .style("fill", "steelblue")
-    });
-
     const ga = svg.append("g")
         .attr("class", "a axis")
         .selectAll("g")
         .data(d3.range(0, 360, 30))
         .enter().append("g")
-        .attr("transform", function(d) { return "rotate(" + -d + ")"; });
+        .attr("transform", function(d) { return "rotate(" + d + ")"; });
 
     ga.append("line")
         .attr("x2", radius);
 
     const cardinals = {
-      0: 'N',
-      30: 'NNE',
-      60: 'ENE',
-      90: 'E',
-      120: 'ESE',
-      150: 'SSE',
-      180: 'S',
-      210: 'SSW',
-      240: 'WSW',
-      270: 'W',
-      300: 'WNW',
-      330: 'NNW',
+      0: 'E',
+      30: 'ESE',
+      60: 'SSE',
+      90: 'S',
+      120: 'SSW',
+      150: 'WSW',
+      180: 'W',
+      210: 'WNW',
+      240: 'NNW',
+      270: 'N',
+      300: 'NNE',
+      330: 'ENE',
     }
 
     ga.append("text")
@@ -139,6 +129,16 @@ class Flights extends Component {
           return d < 270 && d > 90 ? "rotate(180 " + (radius + 6) + ",0)" : null;
         })
         .text(function(d) { return cardinals[d]; }); //cardinals[d]
+
+     airportsData.forEach(airport => {
+      console.log(airport.bearing);
+      svg.append("circle")
+      .attr("cy", - airport.price - 7)
+      .attr("transform", `rotate(${airport.bearing})`)
+      .attr("r", 8)
+      // Apply a label?
+      .style("fill", "steelblue")
+    });
 
     svg.append("path");
   }
