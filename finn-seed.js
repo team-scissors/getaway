@@ -22,3 +22,20 @@ const fakeUsers = [
     password: 'lolol',
   },
 ];
+
+const createUsers = fakeUsers.map(user => {
+  console.log('user: ', user);
+  return User.create(user);
+});
+
+dbSync
+.then( () => {
+  console.log('db');
+  console.log(db);
+  return Promise.all(createUsers);
+})
+.then(() => {
+  db.close();
+  return null;
+})
+// .catch(console.error);
