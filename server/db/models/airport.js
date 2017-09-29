@@ -20,7 +20,6 @@ const Airport = db.define('airport', {
     type: Sequelize.FLOAT,
     allowNull: false
   }
-
-})
+});
 
 module.exports = Airport;
