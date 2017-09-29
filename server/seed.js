@@ -40,6 +40,8 @@ const createAirports = ((airports) => (
       Airport.create({
         name: airport.name,
         abbrv: airport.iata_faa,
+        city: airport.city,
+        country: airport.country,
         longitude: airport.longitude,
         latitude: airport.latitude,
       })

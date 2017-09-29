@@ -12,6 +12,12 @@ const Airport = db.define('airport', {
     unique: true,
     allowNull: false
   },
+  city: {
+    type: Sequelize.STRING,
+  },
+  country: {
+    type: Sequelize.STRING,
+  },
   longitude: {
     type: Sequelize.FLOAT,
     allowNull: false
@@ -19,7 +25,7 @@ const Airport = db.define('airport', {
   latitude: {
     type: Sequelize.FLOAT,
     allowNull: false
-  }
+  },
 });
 
 module.exports = Airport;
