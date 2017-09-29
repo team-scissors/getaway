@@ -66,8 +66,7 @@ class Flights extends Component {
         .enter().append("g")
         .attr("transform", function(d) { return "rotate(" + d + ")"; });
 
-    ga.append("line")
-        .attr("x2", radius);
+    ga.append('line').attr('x2', radius);
 
     ga.append("text")
         .attr("x", radius + 6)
