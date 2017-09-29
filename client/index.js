@@ -1,16 +1,17 @@
-import './index.scss'
-import React from 'react'
-import ReactDOM from 'react-dom'
-import {Provider} from 'react-redux'
-import store from './store'
-import Routes from './routes'
+import './index.scss';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import store from './store';
+import App from './app';
 
-// establishes socket connection
-// import './socket'
+//require('./myD3.js')
 
-// ReactDOM.render(
-//   <Provider store={store}>
-//     <Routes />
-//   </Provider>,
-//   document.getElementById('app')
-// )
+// import './socket';
+
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById('app'),
+);
