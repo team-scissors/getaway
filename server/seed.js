@@ -33,6 +33,27 @@ const fakeUsers = [
   },
 ];
 
+const fakeTrips = [
+  {
+    email: 'admin@admin.admin',
+    firstName: 'Admin',
+    lastName: 'McAdminFace',
+    password: 'admin',
+  },
+  {
+    email: 'a@b.c',
+    firstName: 'AB',
+    lastName: 'CDEFG',
+    password: 'abc',
+  },
+  {
+    email: 'joonkim@timsucks.com',
+    firstName: 'Joon',
+    lastName: 'Kim',
+    password: 'lolol',
+  },
+];
+
 /* ---------- Set up airports data ---------- */
 
 const createAirports = ((airports) => (
