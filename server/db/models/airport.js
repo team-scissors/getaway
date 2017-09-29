@@ -4,13 +4,19 @@ const db = require('../db');
 const Airport = db.define('airport', {
   name: {
     type: Sequelize.STRING,
-    unique: true,
+    unique: false,
     allowNull: false
   },
   abbrv: {
     type: Sequelize.STRING,
     unique: true,
     allowNull: false
+  },
+  city: {
+    type: Sequelize.STRING,
+  },
+  country: {
+    type: Sequelize.STRING,
   },
   longitude: {
     type: Sequelize.FLOAT,
@@ -19,7 +25,7 @@ const Airport = db.define('airport', {
   latitude: {
     type: Sequelize.FLOAT,
     allowNull: false
-  }
+  },
 });
 
 module.exports = Airport;
