@@ -1,11 +1,37 @@
 const airports = require('../data/nonDuplicate_airports.json');
 const db = require('./db');
-const { Airport } = require('./db/models');
+const {
+  User,
+  Airport,
+  Trip,
+  flightPrice,
+} = require('./db/models');
 const Promise = require('bluebird');
 
 //iata_faa is the abbrv
 //airport = {"airport_id":"1","name":"Goroka","city":"Goroka","country":"Papua New Guinea","iata_faa":"GKA","iaco":"AYGA","latitude":"-6.081689","longitude":"145.391881","altitude":"5282","zone":"10","dst":"U"}
-//dataBase columns: name, abbrv, longitude, latitude, 
+//dataBase columns: name, abbrv, longitude, latitude,
+
+const fakeUsers = [
+  {
+    email: 'admin@admin.admin',
+    firstName: 'Admin',
+    lastName: 'McAdminFace',
+    password: 'admin',
+  },
+  {
+    email: 'a@b.c',
+    firstName: 'AB',
+    lastName: 'CDEFG',
+    password: 'abc',
+  },
+  {
+    email: 'joonkim@timsucks.com',
+    firstName: 'Joon',
+    lastName: 'Kim',
+    password: 'lolol',
+  },
+];
 
 /* ---------- Set up airports data ---------- */
 
@@ -20,9 +46,21 @@ const createAirports = ((airports) => (
   )))
 ));
 
+/* ---------- Set up users ---------- */
+
+const createUsers = (users => (
+  Promise.all(users.map(user => (
+    User.create(user)
+  )))
+));
 
 /* ---------- Syncing database ---------- */
-const seed = () => createAirports(airports);
+const seed = () => {
+  return Promise.all([
+    createAirports(airports),
+    createUsers(fakeUsers),
+  ]);
+};
 
 db.sync({ force: true})
   .then(() => {
@@ -30,7 +68,6 @@ db.sync({ force: true})
     return seed();
   })
   .then(() => {
-    console.log("DB", db);
     console.log('Seeding successful!');
   })
   .catch((err) => {
@@ -40,4 +77,3 @@ db.sync({ force: true})
     db.close();
     return null;
 });
-
