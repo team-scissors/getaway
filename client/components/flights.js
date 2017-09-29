@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { fetchAirports } from '../store';
-import { getAirportsData, cardinals } from './util_helper';
+import { getAirportsData, cardinals, ticketPrices } from './util_helper';
 
 class Flights extends Component {
   constructor(props) {
@@ -29,9 +29,8 @@ class Flights extends Component {
         radius = Math.min(width, height) / 2 - 30;
 
     const r = d3.scaleLinear()
-        .domain([0, 500])
+        .domain([0, d3.max(ticketPrices(this.props.airports))])
         .range([0, radius]);
-
 
     const svg = d3.select(node)
       .attr('width', '100%')
@@ -43,22 +42,18 @@ class Flights extends Component {
     const gr = svg.append("g")
         .attr("class", "r axis")
         .selectAll("g")
-        .data(r.ticks(5).slice(1))
+        .data(r.ticks(25).slice(1))
         .enter().append("g");
 
     gr.append("circle")
         .attr("r", r);
 
     gr.append("text")
-        .attr("y", function(d) { return -r(d) - 4; })
-        .attr("transform", "rotate(15)")
+        .attr("y", function(d) { return -r(d) - 2; })
+        .attr("transform", "rotate(0)")
+        .style("font-size", "10px")
         .style("text-anchor", "middle")
         .text(function(d) { return '$' + d; });
-
-    const chicago = {
-      latitude: 41.881832,
-      longitude: -87.623177,
-    };
 
     const ga = svg.append("g")
         .attr("class", "a axis")
@@ -78,16 +73,34 @@ class Flights extends Component {
         })
         .text(function(d) { return cardinals[d]; });
 
-     const airportsData = getAirportsData(chicago, this.props.airports);
+    const chicago = {
+      latitude: 41.881832,
+      longitude: -87.623177,
+    };
+
+    // getAirportsData returns the object of arrays and each object has name, scaled price and bearing from current airport to destination airport
+    const airportsData = getAirportsData(chicago, this.props.airports, r);
+    console.log('airports data after scaling', airportsData);
 
      airportsData.forEach(airport => {
-      console.log(airport.bearing);
+       //appends dot
+       console.log('airport name', airport.name);
+       console.log('airport price', airport.price);
+       console.log('airport bearing', airport.bearing);
       svg.append("circle")
-      .attr("cy", - airport.price - 7)
-      .attr("transform", `rotate(${airport.bearing})`)
-      .attr("r", 8)
-      // Apply a label?
-      .style("fill", "steelblue")
+        .attr("cy",  -airport.price)
+        .attr("transform", `rotate(${airport.bearing})`)
+        .attr("r", 5)
+        .style("fill", "steelblue");
+
+      //appends label to the dot
+      svg.append("text")
+        .attr("y", -airport.price)
+        .attr("transform", `rotate(${airport.bearing})`)
+        .style("fill", "red")
+        .style("font-size", "10px")
+        .style("text-anchor", "middle")
+        .text(airport.name);
     });
 
     svg.append("path");
@@ -100,9 +113,6 @@ class Flights extends Component {
   }
 }
 
-// <div>
-//         <div ref={d3Node => { this.d3Node = d3Node; this.renderFlightsD3(d3Node); }} />
-//       </div>
 /**
  * CONTAINER
  */
