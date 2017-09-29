@@ -53,10 +53,11 @@ class Flights extends Component {
 
 
     const svg = d3.select(node)
-      .attr("width", width)
-      .attr("height", height)
+      .attr('width', '100%')
+      .attr('height', '100%')
+      .attr('viewBox', '0 0 ' + Math.min(width, height) + ' ' + Math.min(width, height))
       .append("g")
-      .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+      .attr('transform', 'translate(' + Math.min(width, height) / 2 + ',' + Math.min(width, height) / 2 + ')');
 
     const gr = svg.append("g")
         .attr("class", "r axis")
