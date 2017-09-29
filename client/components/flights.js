@@ -5,7 +5,6 @@ import { withRouter } from 'react-router-dom';
 import { fetchAirports } from '../store';
 import { getAirportsData, cardinals } from './util_helper';
 
-
 class Flights extends Component {
   constructor(props) {
     super(props);
@@ -21,25 +20,6 @@ class Flights extends Component {
   componentDidUpdate(){
     this.renderFlightsD3();
   }
-
-  // This tells React not to re-render this component even if
-  // state or props change.
-  // Read this! https://facebook.github.io/react/docs/react-component.html#shouldcomponentupdate
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   // Do the D3 render here. And then return false. This wll save us from having
-
-  //   // to redraw the whole D3 SVG every time the props change.
-  //   console.log('shouldComponentUpdate just ran!');
-  //   this.renderFlightsD3(this.d3Node);
-  //   return false;
-  // }
-
-  // // We probably don't need this. It wont run if shouldComponentUpdate returns
-  // // which we want it to.
-  // // Here, we'll pass in data that we want D3 to render.
-  // componentWillUpdate(nextProps, nextState) {
-  //
-  // }
 
   renderFlightsD3() {
     const node = this.node;
