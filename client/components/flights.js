@@ -9,10 +9,17 @@ import { fetchAirports } from '../store';
 class Flights extends Component {
   constructor(props) {
     super(props);
+    this.state = {};
+    this.renderFlightsD3 = this.renderFlightsD3.bind(this);
   }
 
   componentDidMount() {
     this.props.loadAirports();
+    this.renderFlightsD3();
+  }
+
+  componentDidUpdate(){
+    this.renderFlightsD3();
   }
 
   // This tells React not to re-render this component even if
@@ -24,7 +31,7 @@ class Flights extends Component {
   //   // to redraw the whole D3 SVG every time the props change.
   //   console.log('shouldComponentUpdate just ran!');
   //   this.renderFlightsD3(this.d3Node);
-  //   return true;
+  //   return false;
   // }
 
   // // We probably don't need this. It wont run if shouldComponentUpdate returns
@@ -34,17 +41,13 @@ class Flights extends Component {
   //
   // }
 
-  renderFlightsD3(node) {
+  renderFlightsD3() {
     // const node = this.refs.d3Target;
     // console.log('this.d3Node:');
-    // console.log(this.d3Node);
+    const node = this.node;
 
-    console.log('node: ');
-    if (node) console.dir(node.childNodes.length);
-    else console.log('node empty');
 
     const airports = this.props.airports;
-    // console.log('this.props.airports', airports);
 
     const width = screen.width,
         height = screen.height,
@@ -54,11 +57,12 @@ class Flights extends Component {
         .domain([0, 500])
         .range([0, radius]);
 
-    const svg = d3.select(node).append("svg")
-        .attr("width", width)
-        .attr("height", height)
-        .append("g")
-        .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+    const svg = d3.select(node)
+      .attr("width", width)
+      .attr("height", height)
+      .append("g")
+      .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
     const gr = svg.append("g")
         .attr("class", "r axis")
@@ -86,16 +90,13 @@ class Flights extends Component {
         latitude: airport.latitude,
         longitude: airport.longitude,
       };
-     return {
-       price: 250,
-       bearing: geolib.getBearing(chicago, otherAirport),
-     };
+    return {
+      price: 250,
+      bearing: geolib.getBearing(chicago, otherAirport),
+    };
     });
 
-    // function renderDots(airports) {
-    //   console.log('inside renderDots');
-    //
-    // }
+
     airportsData.forEach(airport => {
       svg.append("circle")
       .attr("cy", - airport.price - 7)
@@ -139,19 +140,19 @@ class Flights extends Component {
         })
         .text(function(d) { return cardinals[d]; }); //cardinals[d]
 
-    svg.append("path")
+    svg.append("path");
   }
 
   render() {
     return (
-      <div>
-        <div ref={d3Node => { this.d3Node = d3Node; this.renderFlightsD3(d3Node); }} />
-      </div>
+      <svg ref={node => this.node = node }></svg>
     );
   }
 }
 
-//this.d3Node = d3Node;
+// <div>
+//         <div ref={d3Node => { this.d3Node = d3Node; this.renderFlightsD3(d3Node); }} />
+//       </div>
 /**
  * CONTAINER
  */
