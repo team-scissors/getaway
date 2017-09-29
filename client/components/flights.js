@@ -1,9 +1,9 @@
-import geolib from 'geolib';
 import * as d3 from 'd3';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { fetchAirports } from '../store';
+import { getAirportsData, cardinals } from './util_helper';
 
 
 class Flights extends Component {
@@ -42,12 +42,7 @@ class Flights extends Component {
   // }
 
   renderFlightsD3() {
-    // const node = this.refs.d3Target;
-    // console.log('this.d3Node:');
     const node = this.node;
-
-
-    const airports = this.props.airports;
 
     const width = screen.width,
         height = screen.height,
@@ -84,18 +79,6 @@ class Flights extends Component {
       longitude: -87.623177,
     };
 
-
-    const airportsData = airports.map(airport => {
-      const otherAirport = {
-        latitude: airport.latitude,
-        longitude: airport.longitude,
-      };
-    return {
-      price: 250,
-      bearing: geolib.getBearing(chicago, otherAirport),
-    };
-    });
-
     const ga = svg.append("g")
         .attr("class", "a axis")
         .selectAll("g")
@@ -106,21 +89,6 @@ class Flights extends Component {
     ga.append("line")
         .attr("x2", radius);
 
-    const cardinals = {
-      0: 'E',
-      30: 'ESE',
-      60: 'SSE',
-      90: 'S',
-      120: 'SSW',
-      150: 'WSW',
-      180: 'W',
-      210: 'WNW',
-      240: 'NNW',
-      270: 'N',
-      300: 'NNE',
-      330: 'ENE',
-    }
-
     ga.append("text")
         .attr("x", radius + 6)
         .attr("dy", ".35em")
@@ -128,7 +96,9 @@ class Flights extends Component {
         .attr("transform", function(d) {
           return d < 270 && d > 90 ? "rotate(180 " + (radius + 6) + ",0)" : null;
         })
-        .text(function(d) { return cardinals[d]; }); //cardinals[d]
+        .text(function(d) { return cardinals[d]; });
+
+     const airportsData = getAirportsData(chicago, this.props.airports);
 
      airportsData.forEach(airport => {
       console.log(airport.bearing);
