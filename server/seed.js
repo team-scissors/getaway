@@ -1,4 +1,4 @@
-const airports = require('./airports.json');
+const airports = require('../data/nonDuplicate_airports.json');
 const db = require('./db');
 const { Airport } = require('./db/models');
 const Promise = require('bluebird');
