@@ -16,7 +16,7 @@ class Main extends Component {
     const classes = this.props.classes;
     const { children, handleClick, isLoggedIn } = this.props;
     return (
-      <div className={classes.root}>
+      <div>
         <SideMenu />
       </div>
     );
