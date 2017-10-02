@@ -6,7 +6,7 @@ const db = require('../server/db/index');
 const Trip = db.model('trip');
 const Airport = db.model('airport');
 
-describe('Trip model', () => {
+describe.only('Trip model', () => {
   beforeEach(() => db.sync({ force: true }));
 
   describe('model definition', () => {
@@ -21,27 +21,26 @@ describe('Trip model', () => {
       })
         .then((trip) => {
           testTrip = trip;
-        })
-          .then(() => {
-            Airport.create({
-              id: 2,
-              name: 'O-Hare',
-              abbrv: 'OHA',
-              city: "Chicago",
-              country: "USA",
-              longitude: 10,
-              latitude: 10,
-            })
+          return Airport.create({
+            id: 2,
+            name: 'O-Hare',
+            abbrv: 'OHA',
+            city: "Chicago",
+            country: "USA",
+            longitude: 10,
+            latitude: 10,
           })
-            .then((airport) => {
-              testAirport = airport;
-            })
+        })
+          .then((airport) => {
+            testAirport = airport;
+          })
     );
 
     it('includes a correct array of airports', () => {
-      console.log("AIRPORT: ", testAirport );
-      console.log("TESTTRIP: ", testTrip);
-      // expect(testTrip.airports[0]).to.be.equal(testTrip.airports[0]);
+      testTrip.airports
+        .then(airports => {
+          expect(airports[0].dataValues).to.deep.equal(testAirport.dataValues);
+        })
     })
 
     it('requires a depart time', () => {
