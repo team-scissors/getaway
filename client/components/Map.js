@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import { logout } from '../store';
 import mapboxgl from 'mapbox-gl';
-import stores from '/Users/theshuo/Documents/Fullstack/getaway/data/sweetgreen.json';
+import gridTestData from '/Users/theshuo/Documents/Fullstack/getaway/gridtest.json';
 
 /**
  * COMPONENT
@@ -20,6 +20,7 @@ class Map extends Component {
     this.map = new mapboxgl.Map({
       container: this.mapContainer,
       style: 'mapbox://styles/mapbox/light-v9',
+      // style: 'mapbox://styles/theshuo/cj82h754i9kgz2so12kkyyzon',
       // initial position in [lon, lat] format
       center: [-87.623177, 41.881832], // Chicago
       // initial zoom
@@ -29,8 +30,30 @@ class Map extends Component {
     this.map.on('load', () => {
       const nav = new mapboxgl.NavigationControl();
       this.map.addControl(nav, 'top-left');
+      this.map.addControl(
+        (this.GeoControl = new mapboxgl.GeolocateControl({
+          positionOptions: {
+            enableHighAccuracy: true,
+          },
+          trackUserLocation: false,
+        })),
+      );
+
+      this.GeoControl.on('geolocate', pos => {
+        console.log(pos);
+      });
+
+      this.map.addLayer({
+        id: 'points',
+        type: 'circle',
+        source: {
+          type: 'geojson',
+          data: gridTestData,
+        },
+      });
     });
   }
+
   componentWillUnmount() {
     this.map.remove();
   }

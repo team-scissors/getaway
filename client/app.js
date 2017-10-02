@@ -4,7 +4,7 @@ import { Router } from 'react-router';
 import { Route, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import history from './history';
-import { Main, Map, Login, Signup, UserHome } from './components';
+import { Main, SideMenu, Map, Login, Signup, UserHome } from './components';
 import { me } from './store';
 
 /**
@@ -21,10 +21,8 @@ class App extends Component {
     return (
       <Router history={history}>
         <div className="columns is-gapless main-container">
-          <div className="column is-narrow hero is-fullheight sidenav">
-            <div className="hero-head has-text-centered">escape!</div>
-          </div>
-          <div className="column is-marginless main-content">
+          <SideMenu />
+          <div className="column main-content">
             <Map />
           </div>
         </div>
