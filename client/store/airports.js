@@ -1,4 +1,3 @@
-//import history from '../history';
 
 // fake airports
 const airportsData = [
@@ -10,7 +9,6 @@ const airportsData = [
       {"airport_id":"6883","name":"EORA","city":"Pendleton","country":"United States","iaco":"KPDT","latitude":"45.695","longitude":"-118.841389","price": "100"},
       {"airport_id":"6882","name":"TA","city":"Tyonek","country":"United States","latitude":"61.076667","longitude":"-151.138056","price": "600"},
     ];
-
 
 /**
  * ACTION TYPES
