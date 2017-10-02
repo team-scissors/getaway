@@ -5,7 +5,7 @@ const {
   User,
   Airport,
   Trip,
-  flightPrice,
+  FlightPrice,
 } = require('./db/models');
 const Promise = require('bluebird');
 
@@ -39,19 +39,19 @@ const fakeTrips = [
     name: 'aaah! i need to run from the law!',
     airports: [ 1, 200, 75 ],
     departFrom: 5275,
-    departAt: Sequelize.NOW,
+    departAt: (new Date()).toISOString(),
   },
   {
     name: 'looking for a nice getaway',
     airports: [ 220 ],
     departFrom: 45,
-    departAt: Sequelize.NOW,
+    departAt: (new Date()).toISOString(),
   },
   {
     name: 'where even is papau new guinea?!1?',
     airports: [ 1, 2, 3 ],
     departFrom: 51,
-    departAt: Sequelize.NOW,
+    departAt: (new Date()).toISOString(),
   },
 ];
 
