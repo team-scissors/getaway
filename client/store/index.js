@@ -10,6 +10,7 @@ import { ApolloClient, createNetworkInterface } from 'react-apollo';
 
 import user from './user';
 import airports from './airports';
+import flightPrices from './flight-prices';
 
 // At this time, the GraphQL URI route is hard-coded. This won't work in production.
 // TODO: Instead of hard-coding it, find the production URI and set the client to that.
@@ -33,3 +34,4 @@ const store = createStore(reducer, middleware);
 export default store;
 export * from './user';
 export * from './airports';
+export * from './flight-prices';
