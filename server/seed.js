@@ -1,4 +1,4 @@
-const Sequelize = require('sequelize');
+const moment = require('moment');
 const airports = require('../data/nonDuplicate_airports.json');
 const db = require('./db');
 const {
@@ -66,21 +66,21 @@ const fakeTrips = [
     name: 'aaah! i need to run from the law!',
     airports: [ 1, 200, 75 ],
     departFrom: 5275,
-    departAt: (new Date()).toISOString(),
+    departAt: moment().add(1, 'days').format(),
     userId: 1,
   },
   {
     name: 'looking for a nice getaway',
     airports: [ 220 ],
     departFrom: 45,
-    departAt: (new Date()).toISOString(),
+    departAt: moment().add(21, 'days').format(),
     userId: 2,
   },
   {
     name: 'where even is papau new guinea?!1?',
     airports: [ 1, 2, 3 ],
     departFrom: 51,
-    departAt: (new Date()).toISOString(),
+    departAt: moment().add(3, 'months').format(),
     userId: 3,
   },
 ];
