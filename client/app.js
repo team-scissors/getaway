@@ -20,7 +20,7 @@ class App extends Component {
 
     return (
       <Router history={history}>
-        <div className="columns main-container">
+        <div className="columns is-gapless main-container">
           <div className="column is-narrow hero is-fullheight sidenav">
             <div className="hero-head has-text-centered">escape!</div>
           </div>

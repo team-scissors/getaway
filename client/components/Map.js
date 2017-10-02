@@ -21,27 +21,14 @@ class Map extends Component {
       container: this.mapContainer,
       style: 'mapbox://styles/mapbox/light-v9',
       // initial position in [lon, lat] format
-      //   center: [-87.623177, 41.881832], // Chicago
-      center: [-77.034084, 38.909671], // D.C
+      center: [-87.623177, 41.881832], // Chicago
       // initial zoom
       zoom: 14,
     });
 
     this.map.on('load', () => {
-      // Add the data to your map as a layer
-      this.map.addLayer({
-        id: 'locations',
-        type: 'symbol',
-        // Add a GeoJSON source containing place coordinates and information.
-        source: {
-          type: 'geojson',
-          data: stores,
-        },
-        layout: {
-          'icon-image': 'restaurant-15',
-          'icon-allow-overlap': true,
-        },
-      });
+      const nav = new mapboxgl.NavigationControl();
+      this.map.addControl(nav, 'top-left');
     });
   }
   componentWillUnmount() {
