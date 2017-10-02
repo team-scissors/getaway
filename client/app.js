@@ -20,7 +20,7 @@ class App extends Component {
 
     return (
       <Router history={history}>
-        <div className="columns is-gapless main-container">
+        <div className="columns  main-container">
           <SideMenu />
           <div className="column main-content">
             <Map />

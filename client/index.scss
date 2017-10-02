@@ -1,3 +1,5 @@
+@import '~bulma';
+
 $pink: #ffb3b3;
 
 body,
@@ -18,6 +20,7 @@ html {
 }
 
 .main-content {
+  padding-left: 0;
   position: relative;
   box-sizing: content-box;
   background: $pink;
@@ -25,13 +28,12 @@ html {
 }
 
 .sidenav {
+  padding-right: 0;
   box-sizing: content-box;
-  padding: 10px;
+  padding: 20px;
   min-width: 250px;
   height: 100vh;
   background: #fefefe;
   box-shadow: -1px 0px 5px 0px rgba(50, 50, 50, 0.5);
   border: 1x solid teal;
 }
-
-@import '~bulma';

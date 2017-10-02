@@ -5,6 +5,7 @@ import { withRouter, Link } from 'react-router-dom';
 import { logout } from '../store';
 import mapboxgl from 'mapbox-gl';
 import gridTestData from '/Users/theshuo/Documents/Fullstack/getaway/gridtest.json';
+import isoTestData from '/Users/theshuo/Documents/Fullstack/getaway/isobands.json';
 
 /**
  * COMPONENT
@@ -39,16 +40,34 @@ class Map extends Component {
         })),
       );
 
-      this.GeoControl.on('geolocate', pos => {
-        console.log(pos);
+      this.GeoControl.on('geolocate', position => {
+        console.log(position);
       });
 
       this.map.addLayer({
-        id: 'points',
-        type: 'circle',
+        id: 'isoPrices',
+        type: 'fill',
         source: {
           type: 'geojson',
-          data: gridTestData,
+          data: isoTestData,
+        },
+        paint: {
+          'fill-color': {
+            property: 'price',
+            type: 'categorical',
+            stops: [
+              ['0-25', '#F2F12D'],
+              ['25-50', '#EED322'],
+              ['50-75', '#E6B71E'],
+              // [1000000, '#DA9C20'],
+              // [2500000, '#CA8323'],
+              // [5000000, '#B86B25'],
+              // [7500000, '#A25626'],
+              // [10000000, '#8B4225'],
+              // [25000000, '#723122'],
+            ],
+          },
+          'fill-opacity': 0.5,
         },
       });
     });
