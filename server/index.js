@@ -5,12 +5,17 @@ const bodyParser = require('body-parser')
 const session = require('express-session')
 const passport = require('passport')
 const SequelizeStore = require('connect-session-sequelize')(session.Store)
+const { graphqlExpress, graphiqlExpress } = require('apollo-server-express');
+
+// const graphqlSchema = require('./getaway-schema.graphql');
 const db = require('./db')
 const sessionStore = new SequelizeStore({db})
 const PORT = process.env.PORT || 8080
 const app = express()
 const socketio = require('socket.io')
 module.exports = app
+
+console.log('process.env.DATABASE_URL:', process.env.DATABASE_URL);
 
 /**
  * In your development environment, you can keep all of your
@@ -50,6 +55,10 @@ const createApp = () => {
   // auth and api routes
   app.use('/auth', require('./auth'))
   app.use('/api', require('./api'))
+
+  // Serve GraphQL and GraphiQL
+  app.use('/graphql', bodyParser.json(), graphqlExpress({ schema: graphqlSchema }));
+  app.get('/graphiql', graphiqlExpress({ endpointURL: '/graphql' })); // if you want GraphiQL enabled
 
   // static file-serving middleware
   app.use(express.static(path.join(__dirname, '..', 'public')))
