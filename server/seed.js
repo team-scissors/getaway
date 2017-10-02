@@ -106,7 +106,7 @@ const fakeFlightPrices = [
   },
 ];
 
-const createFlightPrices = (flightPrice => (
+const createFlightPrices = (fakeFlightPrices => (
   Promise.all(fakeFlightPrices.map(flightPrice => (
     FlightPrice.create(flightPrice)
   )))
@@ -124,7 +124,18 @@ const seed = () => {
       return Trip.create(trip);
     });
     return Promise.all(createTrips);
-  });
+  })
+  .then(createdTrips => {
+    console.log('createdTrips');
+    // console.log(createdTrips);
+    return createdTrips.forEach(t => {
+      console.log(t.name);
+      console.log(t.airports);
+      // console.log(t.getAirports());
+      return t.getAirports();
+    });
+    // return Promise.resolve();
+  })
 };
 
 db.sync({ force: true})
