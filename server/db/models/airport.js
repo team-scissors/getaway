@@ -5,12 +5,12 @@ const Airport = db.define('airport', {
   name: {
     type: Sequelize.STRING,
     unique: false,
-    allowNull: false
+    allowNull: false,
   },
   abbrv: {
     type: Sequelize.STRING,
     unique: true,
-    allowNull: false
+    allowNull: false,
   },
   city: {
     type: Sequelize.STRING,
@@ -20,11 +20,11 @@ const Airport = db.define('airport', {
   },
   longitude: {
     type: Sequelize.FLOAT,
-    allowNull: false
+    allowNull: false,
   },
   latitude: {
     type: Sequelize.FLOAT,
-    allowNull: false
+    allowNull: false,
   },
 });
 
