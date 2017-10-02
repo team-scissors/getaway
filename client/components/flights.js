@@ -2,7 +2,10 @@ import * as d3 from 'd3';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { fetchAirports } from '../store';
+import {
+  fetchAirports,
+  fetchFlightPrices,
+} from '../store';
 import { getAirportsData, cardinals, ticketPrices } from './util_helper';
 
 class Flights extends Component {
@@ -14,6 +17,7 @@ class Flights extends Component {
 
   componentDidMount() {
     this.props.loadAirports();
+    this.props.loadFlightPrices();
     this.renderFlightsD3();
   }
 
@@ -154,6 +158,7 @@ class Flights extends Component {
 const mapState = (state) => {
   return {
     airports: state.airports,
+    flightPrices: state.flightPrices,
   };
 };
 
@@ -161,6 +166,9 @@ const mapDispatch = (dispatch) => {
   return {
     loadAirports() {
       dispatch(fetchAirports());
+    },
+    loadFlightPrices() {
+      dispatch(fetchFlightPrices());
     },
   };
 };
