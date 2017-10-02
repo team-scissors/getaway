@@ -27,6 +27,7 @@
     "express-session": "^1.15.1",
     "geolib": "^2.0.23",
     "history": "^4.6.3",
+    "moment": "^2.18.1",
     "morgan": "^1.8.1",
     "muicss": "^0.9.26",
     "passport": "^0.3.2",
