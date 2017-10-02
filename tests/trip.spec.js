@@ -26,7 +26,7 @@ describe('Trip model', () => {
       expect(testTrip.airports).to.be.equal([2,3,4]);
     });
 
-    it('requires a abbrv', () => {
+    it('requires a depart time', () => {
       testTrip.departAt = null;
 
       return testTrip.validate()
