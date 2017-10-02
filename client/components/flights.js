@@ -16,6 +16,7 @@ class Flights extends Component {
 
   componentDidMount() {
     this.props.loadAirports();
+    this.props.loadFlightPrices();
     this.renderFlightsD3();
   }
 
@@ -156,6 +157,7 @@ class Flights extends Component {
 const mapState = (state) => {
   return {
     airports: state.airports,
+    flightPrices: state.flightPrices,
   };
 };
 
@@ -163,6 +165,9 @@ const mapDispatch = (dispatch) => {
   return {
     loadAirports() {
       dispatch(fetchAirports());
+    },
+    loadFlightPrices() {
+      dispatch(fetchFlightPrices());
     },
   };
 };

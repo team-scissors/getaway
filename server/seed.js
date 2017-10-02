@@ -13,8 +13,6 @@ const Promise = require('bluebird');
 //airport = {"airport_id":"1","name":"Goroka","city":"Goroka","country":"Papua New Guinea","iata_faa":"GKA","iaco":"AYGA","latitude":"-6.081689","longitude":"145.391881","altitude":"5282","zone":"10","dst":"U"}
 //dataBase columns: name, abbrv, longitude, latitude,
 
-
-
 /* ---------- Set up airports data ---------- */
 
 const createAirports = ((airports) => (
