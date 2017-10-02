@@ -5,8 +5,6 @@ import { Provider } from 'react-redux';
 import store from './store';
 import App from './app';
 
-//require('./myD3.js')
-
 // import './socket';
 
 ReactDOM.render(
@@ -15,3 +13,4 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('app'),
 );
+

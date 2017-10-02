@@ -6,8 +6,6 @@ const Airport = require('./airport');
 const Trip = db.define('trip', {
   name: {
     type: Sequelize.STRING,
-    unique: true,
-    allowNull: false
   },
   airports: {
     type: Sequelize.ARRAY(Sequelize.INTEGER), // An array of foreign keys of airports
@@ -22,7 +20,7 @@ const Trip = db.define('trip', {
   departAt: {
     type: Sequelize.DATEONLY,
     allowNull: false,
-  }
+  },
 });
 
 module.exports = Trip;
