@@ -2,10 +2,9 @@ import * as d3 from 'd3';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import {
-  fetchAirports,
-  fetchFlightPrices,
-} from '../store';
+import { gql, graphql } from 'react-apollo';
+
+import { fetchAirports } from '../store';
 import { getAirportsData, cardinals, ticketPrices } from './util_helper';
 
 class Flights extends Component {
@@ -173,6 +172,18 @@ const mapDispatch = (dispatch) => {
   };
 };
 
+const ApolloFlights = graphql(gql`
+  query {
+    allTrips {
+      nodes {
+        id
+        name
+      }
+    }
+  }
+`)(Flights);
+
+
 // The `withRouter` wrapper makes sure that updates are not blocked
 // when the url changes
-export default withRouter(connect(mapState, mapDispatch)(Flights));
+export default withRouter(connect(mapState, mapDispatch)(ApolloFlights));
