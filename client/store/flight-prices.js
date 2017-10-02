@@ -2,7 +2,7 @@
 const flightPriceData = [
       {id: 1, departAt: '2017-10-03', createdAt: '2017-10-02 11:15:11.72-05', fromId: 1, toId: 2},
       {id: 2, departAt: '2017-11-01', createdAt: '2017-10-02 11:15:11.72-05', fromId: 2, toId: 5},
-      {id: 3, departAt: '2017-10-21', createdAt: '2017-10-02 11:15:11.72-05', fromId: 3, toId: 8},
+      {id: 3, departAt: '2017-10-21', createdAt: '2017-10-02 11:15:11.72-05', fromId: 3, toId: 7},
     ];
 
 /**
@@ -33,7 +33,7 @@ export const fetchFlightPrices = () => (dispatch) => dispatch(getFlightPrices(fl
 export default function(state = initialState, action) {
   switch (action.type) {
     case GET_FLIGHT_PRICES:
-      return action.flightPriceData;
+      return action.flightPrices;
     default:
       return state;
   }
