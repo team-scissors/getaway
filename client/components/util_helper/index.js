@@ -40,3 +40,9 @@ export const ticketPrices = airports => {
 
   return prices;
 };
+
+// Export the GeoJson converter functions
+export {
+  airportToGeoJson,
+  flightPriceToGeoJson,
+} from './geoJsonConverter';

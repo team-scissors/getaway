@@ -11,7 +11,7 @@ class SideMenu extends Component {
     const { match, location, history } = this.props;
 
     console.log(`Location: ${location.pathname}`);
-
+    
     return (
       <div className="column is-narrow is-fullheight sidenav">
         <aside className="menu">
