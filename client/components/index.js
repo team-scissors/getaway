@@ -4,6 +4,7 @@
  * having to figure out which file they belong to!
  */
 export { default as Main } from './Main';
+export { default as Map } from './Map';
 export { default as UserHome } from './UserHome';
 export { default as SideMenu } from './SideMenu';
 export { Login, Signup } from './AuthForm';

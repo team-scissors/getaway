@@ -4,7 +4,15 @@ import { Router } from 'react-router';
 import { Route, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import history from './history';
-import { Main, Login, Signup, SideMenu, UserHome } from './components';
+import {
+  Main,
+  Flights,
+  SideMenu,
+  Map,
+  Login,
+  Signup,
+  UserHome,
+} from './components';
 import { me } from './store';
 
 /**
@@ -20,9 +28,14 @@ class App extends Component {
 
     return (
       <Router history={history}>
-        <div>
+        <div className="columns  main-container">
           <SideMenu />
-          <Main />
+          <div className="column main-content">
+            <Switch>
+              <Route path="/rideshare" component={Map} />
+              <Route path="/flights" component={Flights} />
+            </Switch>
+          </div>
         </div>
       </Router>
     );
@@ -32,7 +45,7 @@ class App extends Component {
 /**
  * CONTAINER
  */
-const mapState = (state) => {
+const mapState = state => {
   return {
     // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
     // Otherwise, state.user will be an empty object, and state.user.id will be falsey
@@ -40,7 +53,7 @@ const mapState = (state) => {
   };
 };
 
-const mapDispatch = (dispatch) => {
+const mapDispatch = dispatch => {
   return {
     loadInitialData() {
       dispatch(me());

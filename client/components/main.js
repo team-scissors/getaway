@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import { logout } from '../store';
-import { SideMenu, Flights } from '../components';
-import { Container, Appbar, Button, Panel } from 'muicss/react';
 
 /**
  * COMPONENT
@@ -20,31 +18,22 @@ class Main extends Component {
   render() {
     const classes = this.props.classes;
     const { children, handleClick, isLoggedIn } = this.props;
-
-    return (
-      <div id="content-wrapper">
-        <Flights />
-      </div>
-    );
+    return <div />;
   }
 }
 
 /**
  * CONTAINER
  */
-const mapState = (state) => {
-  return {
-    isLoggedIn: !!state.user.id,
-  };
-};
+const mapState = state => ({
+  isLoggedIn: !!state.user.id,
+});
 
-const mapDispatch = (dispatch) => {
-  return {
-    handleClick() {
-      dispatch(logout());
-    },
-  };
-};
+const mapDispatch = dispatch => ({
+  handleClick() {
+    dispatch(logout());
+  },
+});
 
 // The `withRouter` wrapper makes sure that updates are not blocked
 // when the url changes

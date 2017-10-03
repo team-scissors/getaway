@@ -1,73 +1,73 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter, Link, NavLink } from 'react-router-dom';
 import { logout } from '../store';
 
 class SideMenu extends Component {
   render() {
     const { children, handleClick, isLoggedIn } = this.props;
+    const { match, location, history } = this.props;
+
+    console.log(`Location: ${location.pathname}`);
+
     return (
-      <div id="sidedrawer" className="mui--z3">
-        <div id="sidedrawer-brand" className="mui--appbar-line-height">
-          <span className="mui--text-title">GETAWAY</span>
-        </div>
-        <div className="mui-divider" />
-        <ul>
-          <li>
-            <strong>Category 1</strong>
-            <ul>
-              <li>
-                <a href="#">Item 1</a>
-              </li>
-              <li>
-                <a href="#">Item 2</a>
-              </li>
-              <li>
-                <a href="#">Item 3</a>
-              </li>
-            </ul>
-          </li>
-          <li>
-            <strong>Category 2</strong>
-            <ul>
-              <li>
-                <a href="#">Item 1</a>
-              </li>
-              <li>
-                <a href="#">Item 2</a>
-              </li>
-              <li>
-                <a href="#">Item 3</a>
-              </li>
-            </ul>
-          </li>
-          <li>
-            <strong>Category 3</strong>
-            <ul>
-              <li>
-                <a href="#">Item 1</a>
-              </li>
-              <li>
-                <a href="#">Item 2</a>
-              </li>
-              <li>
-                <a href="#">Item 3</a>
-              </li>
-            </ul>
-          </li>
-        </ul>
+      <div className="column is-narrow is-fullheight sidenav">
+        <aside className="menu">
+          <p className="menu-label">Travel Options</p>
+          <ul className="menu-list">
+            <li>
+              <NavLink to="/flights" activeClassName="is-active">
+                Flights
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/rideshare" activeClassName="is-active">
+                Uber Rides
+              </NavLink>
+            </li>
+          </ul>
+          <p className="menu-label">Controls Go Here</p>
+          <ul className="menu-list">
+            <li>
+              <a>Team Settings</a>
+            </li>
+            <li>
+              <a>Manage Your Team</a>
+              <ul>
+                <li>
+                  <a>Members</a>
+                </li>
+                <li>
+                  <a>Plugins</a>
+                </li>
+                <li>
+                  <a>Add a member</a>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <a>Invitations</a>
+            </li>
+            <li>
+              <a>Cloud Storage Environment Settings</a>
+            </li>
+            <li>
+              <a>Authentication</a>
+            </li>
+          </ul>
+        </aside>
       </div>
     );
   }
 }
 
-const mapState = (state) => {
+const mapState = state => {
   return {
     isLoggedIn: !!state.user.id,
   };
 };
 
-const mapDispatch = (dispatch) => {
+const mapDispatch = dispatch => {
   return {
     handleClick() {
       dispatch(logout());
