@@ -1,30 +1,38 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter, Link, NavLink } from 'react-router-dom';
 import { logout } from '../store';
 
 class SideMenu extends Component {
   render() {
     const { children, handleClick, isLoggedIn } = this.props;
+    const { match, location, history } = this.props;
+
+    console.log(`Location: ${location.pathname}`);
+
     return (
       <div className="column is-narrow is-fullheight sidenav">
         <aside className="menu">
-          <p className="menu-label">General</p>
+          <p className="menu-label">Travel Options</p>
           <ul className="menu-list">
             <li>
-              <a>Dashboard</a>
+              <NavLink to="/flights" activeClassName="is-active">
+                Flights
+              </NavLink>
             </li>
             <li>
-              <a>Customers</a>
+              <NavLink to="/rideshare" activeClassName="is-active">
+                Uber Rides
+              </NavLink>
             </li>
           </ul>
-          <p className="menu-label">Administration</p>
+          <p className="menu-label">Controls Go Here</p>
           <ul className="menu-list">
             <li>
               <a>Team Settings</a>
             </li>
             <li>
-              <a className="is-active">Manage Your Team</a>
+              <a>Manage Your Team</a>
               <ul>
                 <li>
                   <a>Members</a>
@@ -45,18 +53,6 @@ class SideMenu extends Component {
             </li>
             <li>
               <a>Authentication</a>
-            </li>
-          </ul>
-          <p className="menu-label">Transactions</p>
-          <ul className="menu-list">
-            <li>
-              <a>Payments</a>
-            </li>
-            <li>
-              <a>Transfers</a>
-            </li>
-            <li>
-              <a>Balance</a>
             </li>
           </ul>
         </aside>

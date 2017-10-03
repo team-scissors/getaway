@@ -4,7 +4,15 @@ import { Router } from 'react-router';
 import { Route, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import history from './history';
-import { Main, SideMenu, Map, Login, Signup, UserHome } from './components';
+import {
+  Main,
+  Flights,
+  SideMenu,
+  Map,
+  Login,
+  Signup,
+  UserHome,
+} from './components';
 import { me } from './store';
 
 /**
@@ -23,7 +31,10 @@ class App extends Component {
         <div className="columns  main-container">
           <SideMenu />
           <div className="column main-content">
-            <Map />
+            <Switch>
+              <Route path="/rideshare" component={Map} />
+              <Route path="/flights" component={Flights} />
+            </Switch>
           </div>
         </div>
       </Router>
