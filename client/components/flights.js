@@ -174,6 +174,7 @@ const mapDispatch = (dispatch) => {
   };
 };
 
+// REVIEW: discuss apollo stuff
 const ApolloFlights = graphql(gql`
   query {
     allTrips {
