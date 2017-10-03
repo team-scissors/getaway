@@ -62,38 +62,76 @@ const createUsers = (users => (
 const fakeTrips = [
   {
     name: 'aaah! i need to run from the law!',
-    airports: [ 1, 200, 75 ],
     departFrom: 5275,
     departAt: moment().add(1, 'days').format(),
     userId: 1,
   },
   {
     name: 'looking for a nice getaway',
-    airports: [ 220 ],
     departFrom: 45,
     departAt: moment().add(21, 'days').format(),
     userId: 2,
   },
   {
     name: 'where even is papau new guinea?!1?',
-    airports: [ 1, 2, 3 ],
     departFrom: 51,
     departAt: moment().add(3, 'months').format(),
     userId: 3,
   },
 ];
 
+const createTrips = (trips => (
+  Promise.all(trips.map(trip => (
+    Trip.create(trip)
+  )))
+));
+
+/* ---------- Set up flight-prices ---------- */
+
+const fakeFlightPrices = [
+  {
+    departAt: moment().add(2, 'months').format(),
+    fromId: 2585,
+    toId: 1,
+    price: 1860,
+  },
+  {
+    departAt: moment().add(4, 'months').format(),
+    fromId: 51,
+    toId: 3,
+    price: 810,
+  },
+  {
+    departAt: moment().add(6, 'days').format(),
+    fromId: 45,
+    toId: 220,
+    price: 1048,
+  },
+];
+
+const createFlightPrices = (fakeFlightPrices => (
+  Promise.all(fakeFlightPrices.map(flightPrice => (
+    FlightPrice.create(flightPrice)
+  )))
+));
+
 /* ---------- Syncing database ---------- */
 const seed = () => {
   return Promise.all([
     createAirports(airports),
     createUsers(fakeUsers),
+    createFlightPrices(fakeFlightPrices),
   ])
-  .spread( (airports, users) => {
-    const createTrips = fakeTrips.map(trip => {
-      return Trip.create(trip);
-    });
-    return Promise.all(createTrips);
+  .then( () => {
+    return createTrips(fakeTrips);
+  })
+  .then( trips => {
+    const airportsToAdd = [1, 220, 3];
+    let airportIdx = -1;
+    return Promise.all( [trips, ...trips.map(trip => {
+      airportIdx++;
+      return trip.addAirport(airportsToAdd[airportIdx]);
+    })]);
   });
 };
 
