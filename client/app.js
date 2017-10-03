@@ -32,6 +32,8 @@ class App extends Component {
           <SideMenu />
           <div className="column main-content">
             <Switch>
+              <Route path='/login' component={Login} />
+              <Route path='/signup' component={Signup} />
               <Route path="/rideshare" component={Map} />
               <Route path="/flights" component={Flights} />
             </Switch>
