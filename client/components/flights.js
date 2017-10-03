@@ -49,7 +49,7 @@ class Flights extends Component {
     const gr = svg.append("g")
       .attr("class", "r axis")
       .selectAll("g")
-      .data(r.ticks(20).slice(1))
+      .data(r.ticks(10).slice(1))
       .enter().append("g");
 
     gr.append("circle")
@@ -67,7 +67,7 @@ class Flights extends Component {
 
     gr.append("text")
       .attr("y", function(d) { return -r(d) - 2; })
-      .attr("transform", "rotate(105)")
+      .attr("transform", "rotate(135)")
       .style("font-size", "10px")
       .style("fill", "#0F5BA7")
       .style("text-anchor", "middle")
@@ -75,15 +75,7 @@ class Flights extends Component {
 
     gr.append("text")
       .attr("y", function(d) { return -r(d) - 2; })
-      .attr("transform", "rotate(195)")
-      .style("font-size", "10px")
-      .style("fill", "#0F5BA7")
-      .style("text-anchor", "middle")
-      .text(function(d) { return '$' + d; });
-
-    gr.append("text")
-      .attr("y", function(d) { return -r(d) - 2; })
-      .attr("transform", "rotate(285)")
+      .attr("transform", "rotate(255)")
       .style("font-size", "10px")
       .style("fill", "#0F5BA7")
       .style("text-anchor", "middle")
@@ -101,7 +93,7 @@ class Flights extends Component {
     ga.append('line')
       .attr('x2', radius)
       .style("stroke", "#0F5BA7")
-      .style("stroke-dasharray", "1, 24");
+      .style("stroke-dasharray", "1, 10");
 
     //assigning the cardinal directions
     ga.append("text")
@@ -122,24 +114,94 @@ class Flights extends Component {
 
     // getAirportsData returns the object of arrays and each object has name, scaled price and bearing from current airport to destination airport
     const airportsData = getAirportsData(chicago, this.props.airports, r);
+    console.log('airports data after scaling', airportsData);
+    const gc = svg.append("g")
+      .attr("class", "a axis")
+      .selectAll("g")
+      .data(airportsData)
+      .enter()
+      .append("g");
 
-    airportsData.forEach(airport => {
-      //appends dot
-      svg.append("circle")
-        .attr("cy",  -airport.price)
-        .attr("transform", `rotate(${airport.bearing})`)
-        .attr("r", 3)
-        .style("fill", "black");
+    gc.append("circle")
+      .attr("cy", function(d) { return -d.price;})
+      .attr("transform", function(d) { return "rotate(" + d.bearing + ")";})
+      .attr("r", 5)
+      .style("fill", "steelblue")
+      .style("fill-opacity", 0.7)
+      .on("mouseover", function(d) {
+          d3.select(this)
+            .transition()
+            .attr("r", 15)
+            .style("fill", "maroon");
+      })
+      .on("mouseout", function(d) {
+          d3.select(this)
+            .transition()
+            .attr("r", 5)
+            .style("fill", "steelblue");
+      });
 
-      //adds label to the dot
-      svg.append("text")
-        .attr("y", -airport.price - 5)
-        .attr("transform", `rotate(${airport.bearing})`)
-        .style("fill", "#8D0505")
-        .style("font-size", "10px")
-        .style("text-anchor", "middle")
-        .text(airport.name);
-    });
+    gc.append("text")
+      .attr("y", function(d) { return -d.price - 5; })
+      .attr("transform", function(d) { return "rotate(" + d.bearing + ")";})
+      .style("fill", "steelblue")
+      .style("font-size", "10px")
+      .style("text-anchor", "middle")
+      .text(function(d) { return d.name; })
+      .on("mouseover", function(d) {
+          d3.select(this)
+            .transition()
+            .style("fill", "maroon")
+            .style("font-size", "20px");
+      })
+      .on("mouseout", function(d) {
+          d3.select(this)
+            .transition()
+            .style("fill", "steelblue")
+            .style("font-size", "10px");
+      });
+
+    // const gc = svg.append("g");
+
+    // airportsData.forEach(airport => {
+    //   //appends dot
+    //   gc.append("circle")
+    //     .attr("cy",  -airport.price)
+    //     .attr("transform", `rotate(${airport.bearing})`)
+    //     .attr("r", 5)
+    //     .style("fill", "steelblue")
+    //     .style("fill-opacity", 0.7)
+    //     .on("mouseover", function(d) {
+    //         d3.select(this)
+    //           .transition()
+    //           .attr("r", 15)
+    //           .style("fill", "maroon");
+    //     })
+    //     .on("mouseout", function(d) {
+    //         d3.select(this)
+    //           .transition()
+    //           .attr("r", 5)
+    //           .style("fill", "steelblue");
+    //     });
+    //   //appends text
+    //   gc.append("text")
+    //     .attr("y", -airport.price - 5)
+    //     .attr("transform", `rotate(${airport.bearing})`)
+    //     .style("fill", "steelblue")
+    //     .style("font-size", "10px")
+    //     .style("text-anchor", "middle")
+    //     .text(airport.name)
+    //     .on("mouseover", function(d) {
+    //         d3.select(this)
+    //           .transition()
+    //           .style("fill", "maroon");
+    //     })
+    //     .on("mouseout", function(d) {
+    //         d3.select(this)
+    //           .transition()
+    //           .style("fill", "steelblue");
+    //     });
+    // });
 
     svg.append("path");
   }
