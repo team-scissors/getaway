@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import { logout } from '../store';
 import mapboxgl from 'mapbox-gl';
-import gridTestData from '/Users/theshuo/Documents/Fullstack/getaway/gridtest.json';
-import isoTestData from '/Users/theshuo/Documents/Fullstack/getaway/isobands.json';
+// import gridTestData from '/Users/theshuo/Documents/Fullstack/getaway/gridtest.json';
+// import isoTestData from '/Users/theshuo/Documents/Fullstack/getaway/isobands.json';
 
 /**
  * COMPONENT
@@ -49,7 +49,7 @@ class Map extends Component {
         type: 'fill',
         source: {
           type: 'geojson',
-          data: isoTestData,
+          // data: isoTestData,
         },
         paint: {
           'fill-color': {
