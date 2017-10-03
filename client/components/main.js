@@ -11,6 +11,10 @@ import { logout } from '../store';
  *  rendered out by the component's `children`.
  */
 class Main extends Component {
+  onClick() {
+    console.log('clicked on button');
+  }
+
   render() {
     const classes = this.props.classes;
     const { children, handleClick, isLoggedIn } = this.props;
@@ -39,7 +43,7 @@ export default withRouter(connect(mapState, mapDispatch)(Main));
  * PROP TYPES
  */
 Main.propTypes = {
-  children: PropTypes.object,
+  children: PropTypes.array,
   handleClick: PropTypes.func.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
 };

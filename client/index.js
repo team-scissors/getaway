@@ -1,16 +1,14 @@
 import './index.scss';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-import store from './store';
+// import { Provider } from 'react-redux';
+import { ApolloProvider } from 'react-apollo';
+import store, { client } from './store';
 import App from './app';
 
-// establishes socket connection
-// import './socket'
-
 ReactDOM.render(
-  <Provider store={store}>
+  <ApolloProvider store={store} client={client}>
     <App />
-  </Provider>,
-  document.getElementById('app'),
+  </ApolloProvider>,
+  document.getElementById('app')
 );

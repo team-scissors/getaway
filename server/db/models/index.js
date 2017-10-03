@@ -1,18 +1,27 @@
-const User = require('./user')
+const User = require('./user');
+const Airport = require('./airport');
+const Trip = require('./trip');
+const FlightPrice = require('./flight-price');
 
-/**
- * If we had any associations to make, this would be a great place to put them!
- * ex. if we had another model called BlogPost, we might say:
- *
- *    BlogPost.belongsTo(User)
- */
+// Each user can have many trips, and each trip must be associated with a user.
+User.hasMany(Trip);
+Trip.belongsTo(User);
 
-/**
- * We'll export all of our models here, so that any time a module needs a model,
- * we can just require it from 'db/models'
- * for example, we can say: const {User} = require('../db/models')
- * instead of: const User = require('../db/models/user')
- */
+// Each trip has one departing airport and many possible arrival airports.
+// The possible destinations are stored in the airports column as an array.
+Trip.belongsTo(Airport, {foreignKey: 'departFrom'});
+
+// FlightPrice stores the price between two airports, from and to.
+// Note that the price from one airport to another varies depending on the
+// departure date (its more expensive to fly from CHI to LON tomorrow morning
+// than three months from now). Also, the flight price can change over time.
+// Refer to the created_at column to see historical data.
+FlightPrice.belongsTo(Airport, {as: 'from'});
+FlightPrice.belongsTo(Airport, {as: 'to'});
+
 module.exports = {
-  User
-}
+  User,
+  Airport,
+  Trip,
+  FlightPrice,
+};

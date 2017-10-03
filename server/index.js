@@ -1,16 +1,17 @@
-const path = require('path')
-const express = require('express')
-const morgan = require('morgan')
-const bodyParser = require('body-parser')
-const session = require('express-session')
-const passport = require('passport')
-const SequelizeStore = require('connect-session-sequelize')(session.Store)
-const db = require('./db')
-const sessionStore = new SequelizeStore({db})
-const PORT = process.env.PORT || 8080
-const app = express()
-const socketio = require('socket.io')
-module.exports = app
+const path = require('path');
+const express = require('express');
+const morgan = require('morgan');
+const bodyParser = require('body-parser');
+const session = require('express-session');
+const passport = require('passport');
+const SequelizeStore = require('connect-session-sequelize')(session.Store);
+const postgraphql = require('postgraphql').postgraphql;
+const db = require('./db');
+const sessionStore = new SequelizeStore({db});
+const PORT = process.env.PORT || 8080;
+const app = express();
+const socketio = require('socket.io');
+module.exports = app;
 
 /**
  * In your development environment, you can keep all of your
@@ -50,6 +51,12 @@ const createApp = () => {
   // auth and api routes
   app.use('/auth', require('./auth'))
   app.use('/api', require('./api'))
+
+  // Serve GraphQL and GraphiQL
+  // app.use('/graphql', bodyParser.json(), graphqlExpress({ schema: graphqlSchema }));
+  // app.get('/graphiql', graphiqlExpress({ endpointURL: '/graphql' })); // if you want GraphiQL enabled
+  const database_url = process.env.DATABASE_URL || 'postgres://localhost:5432/getaway';
+  app.use(postgraphql(database_url, {graphiql: true}));
 
   // static file-serving middleware
   app.use(express.static(path.join(__dirname, '..', 'public')))
