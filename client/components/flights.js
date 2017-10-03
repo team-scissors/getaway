@@ -120,22 +120,46 @@ class Flights extends Component {
     // getAirportsData returns the object of arrays and each object has name, scaled price and bearing from current airport to destination airport
     const airportsData = getAirportsData(chicago, this.props.airports, r);
 
+    const gc = svg.append("g");
+
     airportsData.forEach(airport => {
       //appends dot
-      svg.append("circle")
+      gc.append("circle")
         .attr("cy",  -airport.price)
         .attr("transform", `rotate(${airport.bearing})`)
-        .attr("r", 3)
-        .style("fill", "black");
-
-      //adds label to the dot
-      svg.append("text")
+        .attr("r", 5)
+        .style("fill", "steelblue")
+        .style("fill-opacity", 0.7)
+        .on("mouseover", function(d) {
+            d3.select(this)
+              .transition()
+              .attr("r", 15)
+              .style("fill", "maroon");
+        })
+        .on("mouseout", function(d) {
+            d3.select(this)
+              .transition()
+              .attr("r", 5)
+              .style("fill", "steelblue");
+        });
+      //appends text
+      gc.append("text")
         .attr("y", -airport.price - 5)
         .attr("transform", `rotate(${airport.bearing})`)
-        .style("fill", "#8D0505")
+        .style("fill", "steelblue")
         .style("font-size", "10px")
         .style("text-anchor", "middle")
-        .text(airport.name);
+        .text(airport.name)
+        .on("mouseover", function(d) {
+            d3.select(this)
+              .transition()
+              .style("fill", "maroon");
+        })
+        .on("mouseout", function(d) {
+            d3.select(this)
+              .transition()
+              .style("fill", "steelblue");
+        });
     });
 
     svg.append("path");
