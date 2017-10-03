@@ -62,26 +62,29 @@ const createUsers = (users => (
 const fakeTrips = [
   {
     name: 'aaah! i need to run from the law!',
-    airports: [ 1, 200, 75 ],
     departFrom: 5275,
     departAt: moment().add(1, 'days').format(),
     userId: 1,
   },
   {
     name: 'looking for a nice getaway',
-    airports: [ 220 ],
     departFrom: 45,
     departAt: moment().add(21, 'days').format(),
     userId: 2,
   },
   {
     name: 'where even is papau new guinea?!1?',
-    airports: [ 1, 2, 3 ],
     departFrom: 51,
     departAt: moment().add(3, 'months').format(),
     userId: 3,
   },
 ];
+
+const createTrips = (trips => (
+  Promise.all(trips.map(trip => (
+    Trip.create(trip)
+  )))
+));
 
 /* ---------- Set up flight-prices ---------- */
 
@@ -119,23 +122,17 @@ const seed = () => {
     createUsers(fakeUsers),
     createFlightPrices(fakeFlightPrices),
   ])
-  .spread( (airports, users) => {
-    const createTrips = fakeTrips.map(trip => {
-      return Trip.create(trip);
-    });
-    return Promise.all(createTrips);
+  .then( () => {
+    return createTrips(fakeTrips);
   })
-  .then(createdTrips => {
-    console.log('createdTrips');
-    // console.log(createdTrips);
-    return createdTrips.forEach(t => {
-      console.log(t.name);
-      console.log(t.airports);
-      // console.log(t.getAirports());
-      return t.getAirports();
-    });
-    // return Promise.resolve();
-  })
+  .then( trips => {
+    const airportsToAdd = [1, 220, 3];
+    let airportIdx = -1;
+    return Promise.all(trips.map(trip => {
+      airportIdx++;
+      return trip.addAirport(airportsToAdd[airportIdx]);
+    }));
+  });
 };
 
 db.sync({ force: true})

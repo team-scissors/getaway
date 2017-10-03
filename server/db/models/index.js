@@ -6,6 +6,7 @@ const FlightPrice = require('./flight-price');
 // Each user can have many trips, and each trip must be associated with a user.
 User.hasMany(Trip);
 Trip.belongsTo(User);
+Trip.belongsToMany(Airport, {through: 'tripArrivals'});
 
 // Each trip has one departing airport and many possible arrival airports.
 // The possible destinations are stored in the airports column as an array.
