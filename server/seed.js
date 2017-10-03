@@ -1,4 +1,5 @@
 const moment = require('moment');
+const util = require('util'); // Remove me later!
 const airports = require('../data/nonDuplicate_airports.json');
 const db = require('./db');
 const {
@@ -128,11 +129,22 @@ const seed = () => {
   .then( trips => {
     const airportsToAdd = [1, 220, 3];
     let airportIdx = -1;
-    return Promise.all(trips.map(trip => {
+    return Promise.all( [trips, ...trips.map(trip => {
       airportIdx++;
       return trip.addAirport(airportsToAdd[airportIdx]);
-    }));
-  });
+    })]);
+  })
+  .spread( (trips, tripArrivals) => {
+    // console.log(trips);
+    // return Promise.all(trips.map( trip => {
+    //   // console.log(trip);
+    //   return trip.getFlightPrices();
+    // }));
+    return trips[1].getFlightPrices();
+  })
+  .then(someStuff => {
+    console.log(util.inspect(someStuff, {showHidden: false, depth: 4}));
+  })
 };
 
 db.sync({ force: true})
