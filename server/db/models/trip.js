@@ -1,7 +1,6 @@
 /* eslint new-cap:0 */
 const Sequelize = require('sequelize');
 const db = require('../db');
-const Airport = require('./airport');
 const FlightPrice = require('./flight-price');
 
 const Trip = db.define('trip', {
@@ -15,14 +14,10 @@ const Trip = db.define('trip', {
 });
 
 Trip.prototype.getFlightPrices = function() {
-  console.log('this.departFrom:');
-  console.log(this.departFrom);
-  return this.getAirports().map( airport => {
-    return FlightPrice.findAll({
-      // include: [Airport],
-      where: {
-        fromId: this.departFrom,
-    }});
+  return FlightPrice.findAll({
+    where: {
+      fromId: this.departFrom,
+    }
   });
 };
 
