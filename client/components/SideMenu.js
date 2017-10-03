@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { withRouter, Link, NavLink } from 'react-router-dom';
 import { logout } from '../store';
 
+import GeoJsonDummy from './GeoJsonDummy';
+
 class SideMenu extends Component {
   render() {
     const { children, handleClick, isLoggedIn } = this.props;
@@ -13,6 +15,7 @@ class SideMenu extends Component {
     return (
       <div className="column is-narrow is-fullheight sidenav">
         <aside className="menu">
+          <GeoJsonDummy />
           <p className="menu-label">Travel Options</p>
           <ul className="menu-list">
             <li>
