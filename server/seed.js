@@ -3,11 +3,14 @@ const airports = require('../data/nonDuplicate_airports.json');
 const db = require('./db');
 const { User, Airport, Trip, FlightPrice } = require('./db/models');
 const topAirports = require('../data/topAirports.json');
+const geolib = require('geolib');
 const Promise = require('bluebird');
 
 //iata_faa is the abbrv
 //airport = {"airport_id":"1","name":"Goroka","city":"Goroka","country":"Papua New Guinea","iata_faa":"GKA","iaco":"AYGA","latitude":"-6.081689","longitude":"145.391881","altitude":"5282","zone":"10","dst":"U"}
 //dataBase columns: name, abbrv, longitude, latitude,
+
+const pricePerKm = 0.18;
 
 /* ---------- Set up airports data ---------- */
 
@@ -100,9 +103,21 @@ const seed = () => {
     const createPrices = topCreatedAirports.map(fromAirport => {
       return Promise.all(
         topCreatedAirports.map(toAirport => {
+          const distance = geolib.getDistance(
+            {
+              latitude: fromAirport.latitude,
+              longitude: fromAirport.longitude,
+            },
+            {
+              latitude: toAirport.latitude,
+              longitude: toAirport.longitude,
+            },
+          );
+          const minDist = 241.402 * 1000; // Minimum distance for a flight to exist
+          if (distance < minDist) return;
           return fromAirport.addToAirport(toAirport, {
             through: {
-              price: 1,
+              price: distance / 1000 * pricePerKm,
               departAt: Date.now(),
             },
           });
@@ -113,20 +128,11 @@ const seed = () => {
       // });
     });
 
-    // const createPrices = Promise.map(topCreatedAirports, fromAirport => {
-    //   return topCreatedAirports.map(toAirport => {
-    //     fromAirport.addTo(toAirport, { as: 'from', through: FlightPrice });
-    //   });
-    // });
+    const createTrips = fakeTrips.map(trip => {
+      return Trip.create(trip);
+    });
 
-    // const createTrips = fakeTrips.map(trip => {
-    //   return Trip.create(trip);
-    // });
-
-    return Promise.all(createPrices);
-
-    // return Promise.all([createTrips, createPrices]);
-    // return Promise.all([createTrips, createPrices]);
+    return Promise.all([...createPrices, ...createTrips]);
   });
 };
 
