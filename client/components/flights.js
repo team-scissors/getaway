@@ -2,7 +2,7 @@ import * as _ from 'underscore';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { gql, graphql } from 'react-apollo';
+import { graphql } from 'react-apollo';
 import {
   VictoryTheme,
   VictoryPolarAxis,
@@ -18,7 +18,6 @@ import {
 } from 'victory';
 import geolib from 'geolib';
 
-import { fetchAirports } from '../store';
 import {
   getAirportsData,
   flightsFromAirportByAbbrv,
@@ -37,12 +36,6 @@ const directions = {
   315: 'SE',
 };
 
-const sampleData = [
-  { x: 1, y: 2 },
-  { x: 2, y: 4 },
-  { x: 3, y: 6 },
-  { x: 4, y: 8 },
-];
 const chartStyle = {
   parent: { border: '1px solid #ccc', margin: '2%', maxWidth: '40%' },
 };
@@ -52,40 +45,54 @@ class Flights extends Component {
     super(props);
   }
 
-  componentDidMount() {
-    this.props.loadAirports();
-  }
+  componentDidMount() {}
 
   componentDidUpdate() {}
 
   render() {
-    const { airports } = this.props;
+    const { airports, airportAbbrv } = this.props;
+
     console.log('airports:', airports);
+    console.log('cur abbrv:', airportAbbrv);
 
-    const chicago = {
-      latitude: 41.881832,
-      longitude: -87.623177,
-    };
+    console.log(this.props);
 
-    const airport_data = airports.map(airport => {
-      return {
-        name: airport.name,
-        price: +airport.price,
-        // Victory polar is counter-clockwise
-        bearing:
-          (90 -
-            geolib.getBearing(chicago, {
-              latitude: airport.latitude,
-              longitude: airport.longitude,
-            })) %
-          360,
+    let airport_data;
+    if (this.props.loading === true) {
+      airport_data = [];
+    } else {
+      const curAirport = {
+        latitude: this.props.departFrom.latitude,
+        longitude: this.props.departFrom.longitude,
       };
-    });
+      airport_data = this.props.departFrom.flights.nodes
+        .map(flight => {
+          return {
+            // abbrv: flight.arriveAt.abbrv,
+            name: flight.arriveAt.name,
+            price: +flight.price,
+            country: flight.arriveAt.country,
+            // Victory polar is counter-clockwise
+            bearing:
+              (90 -
+                geolib.getBearing(curAirport, {
+                  latitude: flight.arriveAt.latitude,
+                  longitude: flight.arriveAt.longitude,
+                })) %
+              360,
+          };
+        })
+        .filter(airport => {
+          return airport.price < 1000;
+        });
+    }
 
     console.log('airports data:', airport_data);
+    console.log(this.props);
 
     return (
       <VictoryChart
+        animate={{ duration: 2000, easing: 'bounce' }}
         polar
         width={500}
         height={500}
@@ -116,8 +123,11 @@ class Flights extends Component {
         />
         <VictoryScatter
           style={{ data: { fill: '#c43a31' } }}
-          labels={d => d.name}
+          labels={d =>
+            `${d.name}, ${d.country} \n Price:$${Math.trunc(d.price)}`}
+          // labels={d => `${d.abbrv}`}
           labelPlacement="vertical"
+          labelComponent={<VictoryTooltip />}
           x="bearing"
           y="price"
           data={airport_data}
@@ -133,21 +143,18 @@ class Flights extends Component {
 const mapState = state => {
   return {
     airports: state.airports,
-    airportAbbrv: 'ROC',
+    airportAbbrv: state.userInput.originAirportAbbrv,
   };
 };
 
 const mapDispatch = dispatch => {
-  return {
-    loadAirports() {
-      dispatch(fetchAirports());
-    },
-  };
+  return {};
 };
 
 // See ./util_helper/graphQLqueries.js for queries
 const ApolloFlights = graphql(flightsFromAirportByAbbrv, {
   options: ({ airportAbbrv }) => ({ variables: { airportAbbrv } }),
+  props: ({ data: { loading, departFrom } }) => ({ loading, departFrom }),
 })(Flights);
 
 // The `withRouter` wrapper makes sure that updates are not blocked

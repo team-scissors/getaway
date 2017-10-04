@@ -25,3 +25,16 @@ export const flightsFromAirportByAbbrv = gql`
     }
   }
 `;
+
+export const airportByAbbrv = gql`
+  query airportByAbbrv($airportAbbrv: String!) {
+    departFrom: airportByAbbrv(abbrv: $airportAbbrv) {
+      id
+      name
+      city
+      country
+      longitude
+      latitude
+    }
+  }
+`;
