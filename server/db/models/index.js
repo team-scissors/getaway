@@ -19,12 +19,12 @@ Trip.belongsTo(Airport, { foreignKey: 'departFrom' });
 Airport.belongsToMany(Airport, {
   as: 'fromAirport',
   through: 'FlightPrice',
-  foreignKey: 'toAirportId',
+  foreignKey: 'toId',
 });
 Airport.belongsToMany(Airport, {
   as: 'toAirport',
   through: 'FlightPrice',
-  foreignKey: 'fromAirportId',
+  foreignKey: 'fromId',
 });
 // FlightPrice.belongsTo(Airport, { as: 'from' });
 // FlightPrice.belongsTo(Airport, { as: 'to' });
