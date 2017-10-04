@@ -1,5 +1,7 @@
 // Given an airport object returned from GraphQL, return a GeoJson object.
 export const airportToGeoJson = airport => {
+  console.log('arg to airport converter:');
+  console.log(airport);
   return {
     type: 'Feature',
     geometry: {
