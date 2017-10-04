@@ -1,7 +1,8 @@
 /**
  * ACTION TYPES
  */
-const GET_INPUT_AIRPORT = 'GET_INPUT_AIRPORT';
+const SET_AIRPORT_INPUT = 'SET_AIRPORT_INPUT';
+const CLEAR_AIRPORT_INPUT = 'CLEAR_AIRPORT_INPUT';
 
 /**
  * INITIAL STATE
@@ -11,22 +12,24 @@ const initialState = '';
 /**
  * ACTION CREATORS
  */
-export const getFlightPrices = (flightPrices) => {
-  return { type: GET_INPUT_AIRPORT, flightPrices };
+
+export const setAirportInput = (userInput) => {
+  return { type: SET_AIRPORT_INPUT, userInput };
 };
 
-/**
- * THUNK CREATORS
- */
-export const fetchFlightPrices = () => (dispatch) => dispatch(getFlightPrices(flightPriceData));
+export const clearInputAirport = () => {
+  return { type: CLEAR_AIRPORT_INPUT };
+};
 
 /**
  * REDUCER
  */
 export default function(state = initialState, action) {
   switch (action.type) {
-    case GET_FLIGHT_PRICES:
-      return action.flightPrices;
+    case SET_AIRPORT_INPUT:
+      return action.userInput;
+    case CLEAR_AIRPORT_INPUT:
+      return initialState;
     default:
       return state;
   }

@@ -11,6 +11,7 @@ import { ApolloClient, createNetworkInterface } from 'react-apollo';
 import user from './user';
 import airports from './airports';
 import flightPrices from './flight-prices';
+import userInput from './user-input';
 
 // At this time, the GraphQL URI route is hard-coded. This won't work in production.
 // TODO: Instead of hard-coding it, find the production URI and set the client to that.
@@ -22,6 +23,7 @@ export const client = new ApolloClient({
 const reducer = combineReducers({
   user,
   airports,
+  userInput,
   apollo: client.reducer(),
 });
 const middleware = applyMiddleware(
@@ -35,3 +37,4 @@ export default store;
 export * from './user';
 export * from './airports';
 export * from './flight-prices';
+export * from './user-input';
