@@ -1,3 +1,6 @@
+// REVIEW
+// main control-panel AuthForm
+// CHOOSE A CONVENTION AND STICK WITH IT
 /**
  * `components/index.js` exists simply as a 'central export' for our components.
  * This way, we can import all of our components from the same place, rather than

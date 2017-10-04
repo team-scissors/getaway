@@ -1,6 +1,7 @@
 import geolib from 'geolib';
 import * as d3 from 'd3';
 
+// REVIEW: is this used?
 
 const node = document.createElement('div');
 

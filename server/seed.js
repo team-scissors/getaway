@@ -135,6 +135,23 @@ const seed = () => {
   });
 };
 
+// REVIEW: make a habit out of async/await
+//         promises are dumb
+async function runSeed () {
+  try {
+    await db.sync({ force: true });
+    await seed();
+    console.log('Seeding successful!');
+  }
+  catch (error) {
+    console.log('Error from seeding: ', error);
+  }
+  await db.close();
+  return null;
+}
+runSeed();
+
+  /*
 db.sync({ force: true})
   .then(() => {
     console.log('Seeding database');
@@ -150,3 +167,4 @@ db.sync({ force: true})
     db.close();
     return null;
 });
+*/

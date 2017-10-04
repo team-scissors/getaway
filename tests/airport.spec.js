@@ -1,4 +1,5 @@
 /* global describe beforeEach it */
+// REVIEW: TESTS! NICE !!!
 
 const { expect } = require('chai');
 const db = require('../server/db/index');
@@ -18,7 +19,7 @@ describe('Airport model', () => {
         abbrv: 'TPT',
         country: 'USA',
         longitude: 1.11,
-        latitude: 2.22 
+        latitude: 2.22
       })
         .then((airport) => {
           testAirport = airport;

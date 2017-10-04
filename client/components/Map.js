@@ -16,6 +16,7 @@ import mapboxgl from 'mapbox-gl';
 mapboxgl.accessToken =
   'pk.eyJ1IjoidGhlc2h1byIsImEiOiJjajgyNXZhY2oyaWc4MzJzMG82dWM3Zm9mIn0._fGWYG5J5f0NwYRbVnByeQ';
 
+// REVIEW: what happens when we have props?
 class Map extends Component {
   componentDidMount() {
     this.map = new mapboxgl.Map({
