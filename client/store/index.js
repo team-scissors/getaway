@@ -23,7 +23,7 @@ export const client = new ApolloClient({
 const reducer = combineReducers({
   user,
   airports,
-  userInput,
+  airportAbbrv: userInput,
   apollo: client.reducer(),
 });
 const middleware = applyMiddleware(

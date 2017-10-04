@@ -2,7 +2,7 @@ import * as _ from 'underscore';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { gql, graphql } from 'react-apollo';
+import { graphql } from 'react-apollo';
 import {
   VictoryTheme,
   VictoryPolarAxis,
