@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import { graphql } from 'react-apollo';
 
-import { setAirportInput, clearInputAirport } from '../store/user-input';
-import { flightsFromAirportByAbbrv } from './util_helper';
+import { setAirport } from '../store/user-input';
+import { airportByAbbrv } from './util_helper';
 
 /**
  * COMPONENT
@@ -27,14 +27,13 @@ class ControlPanel extends Component {
   handleSubmit(evt) {
     evt.preventDefault();
     console.log(this.state.value);
-    this.props.dispatchSetAirportInput(this.state.value);
+    this.props.dispatchSetAirport(this.state.value);
   }
 
   render() {
     return (
       <div className="field">
         <form onSubmit={this.handleSubmit}>
-          {/* <input className="input" type="text" placeholder="select origin airport" /> */}
           <input
                  className="input"
                  type="text"
@@ -53,22 +52,16 @@ class ControlPanel extends Component {
  * CONTAINER
  */
 const mapState = state => {
-  return { state };
+  return { };
 };
 
 const mapDispatch = dispatch => {
   return {
-      dispatchSetAirportInput(input) {
-        dispatch(setAirportInput(input));
-      }
+    dispatchSetAirport(input) {
+      dispatch(setAirport(input));
+    }
   };
 };
-//
-// // See ./util_helper/graphQLqueries.js for queries
-// const ApolloControlPanel = graphql(flightsFromAirportByAbbrv, {
-//   options: ({ airportAbbrv }) => ({ variables: { airportAbbrv } }),
-//   // props: ({ data: { loading, departFrom } }) => ({ loading, departFrom }),
-// })(ControlPanel);
 
 // export default connect(mapState, mapDispatch)(ApolloControlPanel);
 export default connect(mapState, mapDispatch)(ControlPanel);

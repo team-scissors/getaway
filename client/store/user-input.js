@@ -1,20 +1,24 @@
 /**
  * ACTION TYPES
  */
-const SET_AIRPORT_INPUT = 'SET_AIRPORT_INPUT';
+const SET_AIRPORT = 'SET_AIRPORT';
 const CLEAR_AIRPORT_INPUT = 'CLEAR_AIRPORT_INPUT';
 
 /**
  * INITIAL STATE
  */
-const initialState = '';
+const initialState = {
+  originAirportAbbrv: '',
+  originAirport: {},
+  departureDate: '',
+};
 
 /**
  * ACTION CREATORS
  */
 
-export const setAirportInput = (userInput) => {
-  return { type: SET_AIRPORT_INPUT, userInput };
+export const setAirport = (abbrv) => {
+  return { type: SET_AIRPORT, abbrv };
 };
 
 export const clearInputAirport = () => {
@@ -25,11 +29,12 @@ export const clearInputAirport = () => {
  * REDUCER
  */
 export default function(state = initialState, action) {
-  console.log('action');
-  console.log(action);
   switch (action.type) {
-    case SET_AIRPORT_INPUT:
-      return action.userInput;
+    case SET_AIRPORT:
+      return {
+        ...state,
+        originAirportAbbrv: action.abbrv,
+      };
     case CLEAR_AIRPORT_INPUT:
       return initialState;
     default:
