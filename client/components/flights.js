@@ -177,23 +177,23 @@ const mapDispatch = (dispatch) => {
 // REVIEW: discuss apollo stuff
 const getThisTripApollo = gql`
   query {
-    trip: tripById(id: 2) {
-      departFrom: airportByDepartFrom {
-        id
-        name
-        longitude
-        latitude
-         arriveTo: flightPricesByFromId{
-          nodes {
-            airportByToId {
-              id
-              name
-              latitude
-              longitude
-            }
-          }
-          prices: nodes {
-            price
+    departFrom: airportByAbbrv(abbrv: "ROC") {
+      id
+      name
+      city
+      country
+      longitude
+      latitude
+      flights: flightPricesByFromId {
+        nodes {
+          price
+          arriveAt: airportByToId {
+            id
+            name
+            city
+            country
+            longitude
+            latitude
           }
         }
       }
