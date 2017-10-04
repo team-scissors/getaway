@@ -8,7 +8,7 @@ const CLEAR_AIRPORT_INPUT = 'CLEAR_AIRPORT_INPUT';
  * INITIAL STATE
  */
 const initialState = {
-  originAirportAbbrv: '',
+  originAirportAbbrv: 'ORD',
   originAirport: {},
   departureDate: '',
 };
@@ -17,7 +17,7 @@ const initialState = {
  * ACTION CREATORS
  */
 
-export const setAirport = (abbrv) => {
+export const setAirport = abbrv => {
   return { type: SET_AIRPORT, abbrv };
 };
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import { graphql } from 'react-apollo';
 
 import { setAirport } from '../store/user-input';
@@ -21,7 +21,7 @@ class ControlPanel extends Component {
   }
 
   handleChange(evt) {
-    this.setState({value: evt.target.value});
+    this.setState({ value: evt.target.value });
   }
 
   handleSubmit(evt) {
@@ -35,11 +35,11 @@ class ControlPanel extends Component {
       <div className="field">
         <form onSubmit={this.handleSubmit}>
           <input
-                 className="input"
-                 type="text"
-                 value={this.state.value}
-                 onChange={this.handleChange}
-                 placeholder="select origin airport"
+            className="input"
+            type="text"
+            value={this.state.value}
+            onChange={this.handleChange}
+            placeholder="select origin airport"
           />
           <button className="button is-primary">Set Departing Airport</button>
         </form>
@@ -62,7 +62,7 @@ const mapDispatch = dispatch => {
   return {
     dispatchSetAirport(input) {
       dispatch(setAirport(input));
-    }
+    },
   };
 };
 

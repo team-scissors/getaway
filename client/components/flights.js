@@ -70,6 +70,7 @@ class Flights extends Component {
           return {
             name: flight.arriveAt.name,
             price: +flight.price,
+            country: flight.arriveAt.country,
             // Victory polar is counter-clockwise
             bearing:
               (90 -
@@ -81,7 +82,7 @@ class Flights extends Component {
           };
         })
         .filter(airport => {
-          return airport.price < 1000;
+          return airport.price < 10000;
         });
     }
 
@@ -120,8 +121,10 @@ class Flights extends Component {
         />
         <VictoryScatter
           style={{ data: { fill: '#c43a31' } }}
-          labels={d => d.name}
+          labels={d =>
+            `${d.name}, ${d.country} \n Price:$${Math.trunc(d.price)}`}
           labelPlacement="vertical"
+          labelComponent={<VictoryTooltip />}
           x="bearing"
           y="price"
           data={airport_data}
