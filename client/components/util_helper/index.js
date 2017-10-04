@@ -40,3 +40,5 @@ export const ticketPrices = airports => {
 
   return prices;
 };
+
+export * from './graphQLqueries';

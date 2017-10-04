@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import { logout } from '../store';
 import mapboxgl from 'mapbox-gl';
-import gridTestData from '/Users/theshuo/Documents/Fullstack/getaway/gridtest.json';
-import isoTestData from '/Users/theshuo/Documents/Fullstack/getaway/isobands.json';
+// import gridTestData from '/Users/theshuo/Documents/Fullstack/getaway/gridtest.json';
+// import isoTestData from '/Users/theshuo/Documents/Fullstack/getaway/isobands.json';
 
 /**
  * COMPONENT
@@ -16,6 +16,7 @@ import isoTestData from '/Users/theshuo/Documents/Fullstack/getaway/isobands.jso
 mapboxgl.accessToken =
   'pk.eyJ1IjoidGhlc2h1byIsImEiOiJjajgyNXZhY2oyaWc4MzJzMG82dWM3Zm9mIn0._fGWYG5J5f0NwYRbVnByeQ';
 
+// REVIEW: what happens when we have props?
 class Map extends Component {
   componentDidMount() {
     this.map = new mapboxgl.Map({
@@ -49,7 +50,7 @@ class Map extends Component {
         type: 'fill',
         source: {
           type: 'geojson',
-          data: isoTestData,
+          // data: isoTestData,
         },
         paint: {
           'fill-color': {

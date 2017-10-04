@@ -1,4 +1,3 @@
-import * as d3 from 'd3';
 import * as _ from 'underscore';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
@@ -20,7 +19,12 @@ import {
 import geolib from 'geolib';
 
 import { fetchAirports } from '../store';
-import { getAirportsData, cardinals, ticketPrices } from './util_helper';
+import {
+  getAirportsData,
+  flightsFromAirportByAbbrv,
+  cardinals,
+  ticketPrices,
+} from './util_helper';
 
 const directions = {
   0: 'E',
@@ -129,7 +133,7 @@ class Flights extends Component {
 const mapState = state => {
   return {
     airports: state.airports,
-    // flightPrices: state.flightPrices,
+    airportAbbrv: 'ROC',
   };
 };
 
@@ -138,22 +142,13 @@ const mapDispatch = dispatch => {
     loadAirports() {
       dispatch(fetchAirports());
     },
-    // loadFlightPrices() {
-    //   dispatch(fetchFlightPrices());
-    // },
   };
 };
 
-const ApolloFlights = graphql(gql`
-  query {
-    allTrips {
-      nodes {
-        id
-        name
-      }
-    }
-  }
-`)(Flights);
+// See ./util_helper/graphQLqueries.js for queries
+const ApolloFlights = graphql(flightsFromAirportByAbbrv, {
+  options: ({ airportAbbrv }) => ({ variables: { airportAbbrv } }),
+})(Flights);
 
 // The `withRouter` wrapper makes sure that updates are not blocked
 // when the url changes

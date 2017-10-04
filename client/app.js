@@ -33,8 +33,20 @@ class App extends Component {
           <SideMenu />
           <div className="column main-content">
             <Switch>
-              <Route path="/flights" component={Flights} />
+              {/* Routes placed here are available to all visitors */}
               <Route path="/rideshare" component={Map} />
+              <Route path="/flights" component={Flights} />
+              {isLoggedIn ? (
+                <Switch>
+                  {/* Routes placed here are only available after logging in */}
+                  <Route path="/home" component={UserHome} />
+                </Switch>
+              ) : (
+                <Switch>
+                  <Route path="/login" component={Login} />
+                  <Route path="/signup" component={Signup} />
+                </Switch>
+              )}
             </Switch>
           </div>
         </div>

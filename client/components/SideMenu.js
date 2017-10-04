@@ -8,11 +8,31 @@ class SideMenu extends Component {
     const { children, handleClick, isLoggedIn } = this.props;
     const { match, location, history } = this.props;
 
-    console.log(`Location: ${location.pathname}`);
+    //console.log(`Location: ${location.pathname}`);
 
     return (
       <div className="column is-narrow is-fullheight sidenav">
         <aside className="menu">
+          {
+              isLoggedIn
+              ?<ul className="menu-list">
+                <li>
+                  <a className="button is-white" onClick={ handleClick }>Logout</a>
+                </li>
+              </ul>
+              : <ul className="menu-list">
+                <li>
+                  <NavLink to="/login" activeClassName="is-active">
+                    Login
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink to="/signup" activeClassName="is-active">
+                    Sign up
+                  </NavLink>
+                </li>
+              </ul>
+            }
           <p className="menu-label">Travel Options</p>
           <ul className="menu-list">
             <li>
