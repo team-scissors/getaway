@@ -13,18 +13,26 @@ class SideMenu extends Component {
     return (
       <div className="column is-narrow is-fullheight sidenav">
         <aside className="menu">
-          <ul className="menu-list">
-            <li>
-              <NavLink to="/login" activeClassName="is-active">
-                Login
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/signup" activeClassName="is-active">
-                Sign up
-              </NavLink>
-            </li>
-          </ul>
+          {
+              isLoggedIn
+              ?<ul className="menu-list">
+                <li>
+                  <a className="button is-white" onClick={ handleClick }>Logout</a>
+                </li>
+              </ul>
+              : <ul className="menu-list">
+                <li>
+                  <NavLink to="/login" activeClassName="is-active">
+                    Login
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink to="/signup" activeClassName="is-active">
+                    Sign up
+                  </NavLink>
+                </li>
+              </ul>
+            }
           <p className="menu-label">Travel Options</p>
           <ul className="menu-list">
             <li>
