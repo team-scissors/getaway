@@ -70,7 +70,7 @@ class Flights extends Component {
     console.log(this.props);
 
     let airport_data;
-    if (this.props.loading) {
+    if (!this.props || this.props.loading === false) {
       airport_data = [];
     } else {
       airport_data = this.props.departFrom.flights.nodes
@@ -145,7 +145,7 @@ class Flights extends Component {
 const mapState = state => {
   return {
     airports: state.airports,
-    airportAbbrv: 'ORD',
+    airportAbbrv: state.userInput.originAirportAbbrv,
   };
 };
 

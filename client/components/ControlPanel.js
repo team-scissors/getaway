@@ -52,7 +52,10 @@ class ControlPanel extends Component {
  * CONTAINER
  */
 const mapState = state => {
-  return { };
+  return {
+    // abbrv: 'ORD',
+    abbrv: state.userInput.originAirportAbbrv,
+  };
 };
 
 const mapDispatch = dispatch => {
@@ -63,5 +66,10 @@ const mapDispatch = dispatch => {
   };
 };
 
-// export default connect(mapState, mapDispatch)(ApolloControlPanel);
-export default connect(mapState, mapDispatch)(ControlPanel);
+// See ./util_helper/graphQLqueries.js for queries
+const ApolloControlPanel = graphql(airportByAbbrv, {
+  options: ({ abbrv }) => ({ variables: { airportAbbrv: abbrv } }),
+})(ControlPanel);
+
+export default connect(mapState, mapDispatch)(ApolloControlPanel);
+// export default connect(mapState, mapDispatch)(ControlPanel);
