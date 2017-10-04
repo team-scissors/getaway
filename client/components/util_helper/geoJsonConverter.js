@@ -22,4 +22,4 @@ export const flightPriceToGeoJson = flightPrice => {
 
 };
 
-export const flightPriceToGeoJson = flightPrice => {};
+// export const flightPriceToGeoJson = flightPrice => {};
