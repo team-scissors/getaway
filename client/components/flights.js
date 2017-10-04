@@ -67,22 +67,34 @@ class Flights extends Component {
       longitude: -87.623177,
     };
 
-    const airport_data = airports.map(airport => {
-      return {
-        name: airport.name,
-        price: +airport.price,
-        // Victory polar is counter-clockwise
-        bearing:
-          (90 -
-            geolib.getBearing(chicago, {
-              latitude: airport.latitude,
-              longitude: airport.longitude,
-            })) %
-          360,
-      };
-    });
+    console.log(this.props);
+
+    let airport_data;
+    if (this.props.loading) {
+      airport_data = [];
+    } else {
+      airport_data = this.props.departFrom.flights.nodes
+        .map(flight => {
+          return {
+            name: flight.arriveAt.name,
+            price: +flight.price,
+            // Victory polar is counter-clockwise
+            bearing:
+              (90 -
+                geolib.getBearing(chicago, {
+                  latitude: flight.arriveAt.latitude,
+                  longitude: flight.arriveAt.longitude,
+                })) %
+              360,
+          };
+        })
+        .filter(airport => {
+          return airport.price < 1000;
+        });
+    }
 
     console.log('airports data:', airport_data);
+    console.log(this.props);
 
     return (
       <VictoryChart
@@ -133,7 +145,7 @@ class Flights extends Component {
 const mapState = state => {
   return {
     airports: state.airports,
-    airportAbbrv: 'ROC',
+    airportAbbrv: 'ORD',
   };
 };
 
@@ -148,6 +160,7 @@ const mapDispatch = dispatch => {
 // See ./util_helper/graphQLqueries.js for queries
 const ApolloFlights = graphql(flightsFromAirportByAbbrv, {
   options: ({ airportAbbrv }) => ({ variables: { airportAbbrv } }),
+  props: ({ data: { loading, departFrom } }) => ({ loading, departFrom }),
 })(Flights);
 
 // The `withRouter` wrapper makes sure that updates are not blocked
