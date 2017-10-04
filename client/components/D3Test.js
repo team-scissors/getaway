@@ -67,6 +67,7 @@ class D3Test extends Component {
       return {
         name: airport.name,
         price: +airport.price,
+        // Victory polar is counter-clockwise
         bearing:
           (90 -
             geolib.getBearing(chicago, {
@@ -106,10 +107,11 @@ class D3Test extends Component {
             axis: { stroke: 'none' },
             grid: { stroke: '#aaa', strokeDasharray: '1, 5' },
           }}
-          tickCount={5}
+          tickCount={4}
           tickFormat={t => `$${t}`}
         />
         <VictoryScatter
+          style={{ data: { fill: '#c43a31' } }}
           labels={d => d.name}
           labelPlacement="vertical"
           x="bearing"
