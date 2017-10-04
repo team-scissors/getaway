@@ -1,22 +1,22 @@
 const moment = require('moment');
 const airports = require('../data/nonDuplicate_airports.json');
 const db = require('./db');
-const {
-  User,
-  Airport,
-  Trip,
-  FlightPrice,
-} = require('./db/models');
+const { User, Airport, Trip, FlightPrice } = require('./db/models');
+const topAirports = require('../data/topAirports.json');
+const geolib = require('geolib');
 const Promise = require('bluebird');
 
 //iata_faa is the abbrv
 //airport = {"airport_id":"1","name":"Goroka","city":"Goroka","country":"Papua New Guinea","iata_faa":"GKA","iaco":"AYGA","latitude":"-6.081689","longitude":"145.391881","altitude":"5282","zone":"10","dst":"U"}
 //dataBase columns: name, abbrv, longitude, latitude,
 
+const pricePerKm = 0.18;
+
 /* ---------- Set up airports data ---------- */
 
-const createAirports = ((airports) => (
-  Promise.all(airports.map(airport => (
+const createAirports = airports =>
+  Promise.all(
+    airports.map(airport =>
       Airport.create({
         name: airport.name,
         abbrv: airport.iata_faa,
@@ -24,9 +24,9 @@ const createAirports = ((airports) => (
         country: airport.country,
         longitude: airport.longitude,
         latitude: airport.latitude,
-      })
-  )))
-));
+      }),
+    ),
+  );
 
 /* ---------- Set up users ---------- */
 
@@ -51,11 +51,7 @@ const fakeUsers = [
   },
 ];
 
-const createUsers = (users => (
-  Promise.all(users.map(user => (
-    User.create(user)
-  )))
-));
+const createUsers = users => Promise.all(users.map(user => User.create(user)));
 
 /* ---------- Set up trips ---------- */
 
@@ -63,96 +59,118 @@ const fakeTrips = [
   {
     name: 'aaah! i need to run from the law!',
     departFrom: 5275,
-    departAt: moment().add(1, 'days').format(),
+    departAt: moment()
+      .add(1, 'days')
+      .format(),
     userId: 1,
   },
   {
     name: 'looking for a nice getaway',
     departFrom: 45,
-    departAt: moment().add(21, 'days').format(),
+    departAt: moment()
+      .add(21, 'days')
+      .format(),
     userId: 2,
   },
   {
     name: 'where even is papau new guinea?!1?',
     departFrom: 51,
-    departAt: moment().add(3, 'months').format(),
+    departAt: moment()
+      .add(3, 'months')
+      .format(),
     userId: 3,
   },
 ];
 
-const createTrips = (trips => (
-  Promise.all(trips.map(trip => (
-    Trip.create(trip)
-  )))
-));
+const createTrips = trips => Promise.all(trips.map(trip => Trip.create(trip)));
 
 /* ---------- Set up flight-prices ---------- */
 
 const fakeFlightPrices = [
   {
-    departAt: moment().add(2, 'months').format(),
+    departAt: moment()
+      .add(2, 'months')
+      .format(),
     fromId: 2585,
     toId: 1,
     price: 1860,
   },
   {
-    departAt: moment().add(4, 'months').format(),
+    departAt: moment()
+      .add(4, 'months')
+      .format(),
     fromId: 51,
     toId: 3,
     price: 810,
   },
   {
-    departAt: moment().add(6, 'days').format(),
+    departAt: moment()
+      .add(6, 'days')
+      .format(),
     fromId: 45,
     toId: 220,
     price: 1048,
   },
 ];
 
-const createFlightPrices = (fakeFlightPrices => (
-  Promise.all(fakeFlightPrices.map(flightPrice => (
-    FlightPrice.create(flightPrice)
-  )))
-));
+const createFlightPrices = fakeFlightPrices =>
+  Promise.all(
+    fakeFlightPrices.map(flightPrice => FlightPrice.create(flightPrice)),
+  );
 
 /* ---------- Syncing database ---------- */
 const seed = () => {
   return Promise.all([
     createAirports(airports),
     createUsers(fakeUsers),
-    createFlightPrices(fakeFlightPrices),
-  ])
-  .then( () => {
-    return createTrips(fakeTrips);
-  })
-  .then( trips => {
-    const airportsToAdd = [1, 220, 3];
-    let airportIdx = -1;
-    return Promise.all( [trips, ...trips.map(trip => {
-      airportIdx++;
-      return trip.addAirport(airportsToAdd[airportIdx]);
-    })]);
+  ]).spread((airports, users) => {
+    const topCreatedAirports = airports.filter(airport => {
+      return (
+        topAirports.find(searchAirport => {
+          return searchAirport.iata_faa === airport.abbrv;
+        }) !== undefined
+      );
+    });
+    // For topCreatedAirports we need to make complete bipartite graph of prices
+
+    const createPrices = topCreatedAirports.map(fromAirport => {
+      return Promise.all(
+        topCreatedAirports.map(toAirport => {
+          const distance = geolib.getDistance(
+            {
+              latitude: fromAirport.latitude,
+              longitude: fromAirport.longitude,
+            },
+            {
+              latitude: toAirport.latitude,
+              longitude: toAirport.longitude,
+            },
+          );
+          const minDist = 241.402 * 1000; // Minimum distance for a flight to exist
+          if (distance < minDist) return;
+          return fromAirport.addToAirport(toAirport, {
+            through: {
+              price: distance / 1000 * pricePerKm,
+              departAt: Date.now(),
+            },
+          });
+        }),
+      );
+      // topCreatedAirports.map(toAirport => {
+      //   fromAirport.addTo(toAirport, { as: 'from', through: FlightPrice });
+      // });
+    });
+
+    const createTrips = fakeTrips.map(trip => {
+      return Trip.create(trip);
+    });
+
+    return Promise.all([...createPrices, ...createTrips]);
   });
 };
 
-// REVIEW: make a habit out of async/await
-//         promises are dumb
-async function runSeed () {
-  try {
-    await db.sync({ force: true });
-    await seed();
-    console.log('Seeding successful!');
-  }
-  catch (error) {
-    console.log('Error from seeding: ', error);
-  }
-  await db.close();
-  return null;
-}
-runSeed();
-
-  /*
-db.sync({ force: true})
+db
+  .sync({ force: true })
   .then(() => {
     console.log('Seeding database');
     return seed();
@@ -160,11 +178,10 @@ db.sync({ force: true})
   .then(() => {
     console.log('Seeding successful!');
   })
-  .catch((err) => {
+  .catch(err => {
     console.log('Error from seeding: ', err);
   })
   .then(() => {
     db.close();
     return null;
-});
-*/
+  });

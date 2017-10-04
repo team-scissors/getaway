@@ -2,7 +2,7 @@
 const Sequelize = require('sequelize');
 const db = require('../db');
 
-const FlightPrice = db.define('flightPrice', {
+const FlightPrice = db.define('FlightPrice', {
   departAt: {
     type: Sequelize.DATEONLY,
     allowNull: false,
@@ -10,7 +10,7 @@ const FlightPrice = db.define('flightPrice', {
   price: {
     type: Sequelize.FLOAT,
     allowNull: false,
-  }
+  },
 });
 
 module.exports = FlightPrice;

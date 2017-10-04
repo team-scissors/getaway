@@ -11,6 +11,7 @@ import {
   Map,
   Login,
   Signup,
+  D3Test,
   UserHome,
 } from './components';
 import { me } from './store';
@@ -35,17 +36,17 @@ class App extends Component {
               {/* Routes placed here are available to all visitors */}
               <Route path="/rideshare" component={Map} />
               <Route path="/flights" component={Flights} />
-              {
-                isLoggedIn
-                ?<Switch>
+              {isLoggedIn ? (
+                <Switch>
                   {/* Routes placed here are only available after logging in */}
-                  <Route path='/home' component={UserHome} />
+                  <Route path="/home" component={UserHome} />
                 </Switch>
-                :<Switch>
-                  <Route path='/login' component={Login} />
-                  <Route path='/signup' component={Signup} />
+              ) : (
+                <Switch>
+                  <Route path="/login" component={Login} />
+                  <Route path="/signup" component={Signup} />
                 </Switch>
-              }
+              )}
             </Switch>
           </div>
         </div>
