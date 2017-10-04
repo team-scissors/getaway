@@ -1,12 +1,11 @@
-import React from 'react'
-import {connect} from 'react-redux'
+import React from 'react';
+import { connect } from 'react-redux';
 
 /**
  * COMPONENT
  */
 const ControlPanel = props => {
-
-  const {handleIncrement, handleDecrement} = props
+  const { handleIncrement, handleDecrement } = props;
 
   return (
     <div>
@@ -14,15 +13,15 @@ const ControlPanel = props => {
       <button onClick={handleIncrement}>Increment</button>
       <button onClick={handleDecrement}>Decrement</button>
     </div>
-  )
-}
+  );
+};
 
 /**
  * CONTAINER
  */
 const mapState = state => {
-  return { state }
-}
+  return { state };
+};
 
 const mapDispatch = dispatch => {
   return {
@@ -33,8 +32,8 @@ const mapDispatch = dispatch => {
     handleDecrement(evt) {
       evt.preventDefault();
       console.log(evt);
-    }
-  }
-}
+    },
+  };
+};
 
-export default connect(mapState, mapDispatch)(ControlPanel)
+export default connect(mapState, mapDispatch)(ControlPanel);

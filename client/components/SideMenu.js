@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Link, NavLink } from 'react-router-dom';
 import { logout } from '../store';
+import { ControlPanel } from '../components';
 
 class SideMenu extends Component {
   render() {
@@ -30,6 +31,9 @@ class SideMenu extends Component {
                   <NavLink to="/signup" activeClassName="is-active">
                     Sign up
                   </NavLink>
+                </li>
+                <li>
+                  <ControlPanel />
                 </li>
               </ul>
             }
