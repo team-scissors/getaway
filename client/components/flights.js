@@ -5,7 +5,12 @@ import { withRouter } from 'react-router-dom';
 import { gql, graphql } from 'react-apollo';
 
 import { fetchAirports } from '../store';
-import { getAirportsData, cardinals, ticketPrices } from './util_helper';
+import {
+  getAirportsData,
+  flightsFromAirportByAbbrv,
+  cardinals,
+  ticketPrices,
+ } from './util_helper';
 
 class Flights extends Component {
   constructor(props) {
@@ -16,7 +21,6 @@ class Flights extends Component {
 
   componentDidMount() {
     this.props.loadAirports();
-    // this.props.loadFlightPrices();
     this.renderFlightsD3();
   }
 
@@ -159,7 +163,7 @@ class Flights extends Component {
 const mapState = (state) => {
   return {
     airports: state.airports,
-    // flightPrices: state.flightPrices,
+    airportAbbrv: 'ROC',
   };
 };
 
@@ -168,23 +172,13 @@ const mapDispatch = (dispatch) => {
     loadAirports() {
       dispatch(fetchAirports());
     },
-    // loadFlightPrices() {
-    //   dispatch(fetchFlightPrices());
-    // },
   };
 };
 
-// REVIEW: discuss apollo stuff
-const ApolloFlights = graphql(gql`
-  query {
-    allTrips {
-      nodes {
-        id
-        name
-      }
-    }
-  }
-`)(Flights);
+// See ./util_helper/graphQLqueries.js for queries
+const ApolloFlights = graphql(flightsFromAirportByAbbrv, {
+  options: ({ airportAbbrv }) => ({ variables: {airportAbbrv}}),
+})(Flights);
 
 
 // The `withRouter` wrapper makes sure that updates are not blocked
