@@ -18,7 +18,6 @@ import {
 } from 'victory';
 import geolib from 'geolib';
 
-import { fetchAirports } from '../store';
 import {
   getAirportsData,
   flightsFromAirportByAbbrv,
@@ -37,12 +36,6 @@ const directions = {
   315: 'SE',
 };
 
-const sampleData = [
-  { x: 1, y: 2 },
-  { x: 2, y: 4 },
-  { x: 3, y: 6 },
-  { x: 4, y: 8 },
-];
 const chartStyle = {
   parent: { border: '1px solid #ccc', margin: '2%', maxWidth: '40%' },
 };
@@ -52,27 +45,26 @@ class Flights extends Component {
     super(props);
   }
 
-  componentDidMount() {
-    this.props.loadAirports();
-  }
+  componentDidMount() {}
 
   componentDidUpdate() {}
 
   render() {
-    const { airports } = this.props;
-    console.log('airports:', airports);
+    const { airports, airportAbbrv } = this.props;
 
-    const chicago = {
-      latitude: 41.881832,
-      longitude: -87.623177,
-    };
+    console.log('airports:', airports);
+    console.log('cur abbrv:', airportAbbrv);
 
     console.log(this.props);
 
     let airport_data;
-    if (!this.props || this.props.loading === false) {
+    if (this.props.loading === true) {
       airport_data = [];
     } else {
+      const curAirport = {
+        latitude: this.props.departFrom.latitude,
+        longitude: this.props.departFrom.longitude,
+      };
       airport_data = this.props.departFrom.flights.nodes
         .map(flight => {
           return {
@@ -81,7 +73,7 @@ class Flights extends Component {
             // Victory polar is counter-clockwise
             bearing:
               (90 -
-                geolib.getBearing(chicago, {
+                geolib.getBearing(curAirport, {
                   latitude: flight.arriveAt.latitude,
                   longitude: flight.arriveAt.longitude,
                 })) %
@@ -146,15 +138,12 @@ const mapState = state => {
   return {
     airports: state.airports,
     airportAbbrv: state.userInput.originAirportAbbrv,
+    // airportAbbrv: 'ORD',
   };
 };
 
 const mapDispatch = dispatch => {
-  return {
-    loadAirports() {
-      dispatch(fetchAirports());
-    },
-  };
+  return {};
 };
 
 // See ./util_helper/graphQLqueries.js for queries
