@@ -33,9 +33,8 @@ class App extends Component {
           <SideMenu />
           <div className="column main-content">
             <Switch>
-              <Route path="/rideshare" component={Map} />
               <Route path="/flights" component={Flights} />
-              <Route path="/d3test" component={D3Test} />
+              <Route path="/rideshare" component={Map} />
             </Switch>
           </div>
         </div>

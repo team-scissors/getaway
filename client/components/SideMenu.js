@@ -25,11 +25,6 @@ class SideMenu extends Component {
                 Uber Rides
               </NavLink>
             </li>
-            <li>
-              <NavLink to="/d3test" activeClassName="is-active">
-                D3 Testing
-              </NavLink>
-            </li>
           </ul>
           <p className="menu-label">Controls Go Here</p>
           <ul className="menu-list">

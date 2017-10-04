@@ -5,7 +5,6 @@
  */
 export { default as Main } from './Main';
 export { default as Map } from './Map';
-export { default as D3Test } from './D3Test';
 export { default as UserHome } from './UserHome';
 export { default as SideMenu } from './SideMenu';
 export { Login, Signup } from './AuthForm';
