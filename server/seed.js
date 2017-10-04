@@ -113,10 +113,10 @@ const fakeFlightPrices = [
   },
 ];
 
-const createFlightPrices = fakeFlightPrices =>
-  Promise.all(
-    fakeFlightPrices.map(flightPrice => FlightPrice.create(flightPrice)),
-  );
+// const createFlightPrices = fakeFlightPrices =>
+//   Promise.all(
+//     fakeFlightPrices.map(flightPrice => FlightPrice.create(flightPrice)),
+//   );
 
 /* ---------- Syncing database ---------- */
 const seed = () => {
