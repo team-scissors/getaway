@@ -11,6 +11,7 @@ import {
   Map,
   Login,
   Signup,
+  D3Test,
   UserHome,
 } from './components';
 import { me } from './store';
@@ -34,6 +35,7 @@ class App extends Component {
             <Switch>
               <Route path="/rideshare" component={Map} />
               <Route path="/flights" component={Flights} />
+              <Route path="/d3test" component={D3Test} />
             </Switch>
           </div>
         </div>
