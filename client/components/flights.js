@@ -175,16 +175,33 @@ const mapDispatch = (dispatch) => {
 };
 
 // REVIEW: discuss apollo stuff
-const ApolloFlights = graphql(gql`
+const getThisTripApollo = gql`
   query {
-    allTrips {
-      nodes {
+    trip: tripById(id: 2) {
+      departFrom: airportByDepartFrom {
         id
         name
+        longitude
+        latitude
+         arriveTo: flightPricesByFromId{
+          nodes {
+            airportByToId {
+              id
+              name
+              latitude
+              longitude
+            }
+          }
+          prices: nodes {
+            price
+          }
+        }
       }
     }
   }
-`)(Flights);
+`;
+
+const ApolloFlights = graphql(getThisTripApollo)(Flights);
 
 
 // The `withRouter` wrapper makes sure that updates are not blocked
