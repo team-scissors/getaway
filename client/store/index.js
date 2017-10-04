@@ -8,7 +8,6 @@ import createLogger from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
 import { ApolloClient, createNetworkInterface } from 'react-apollo';
 import user from './user';
-import airports from './airports';
 import flightPrices from './flight-prices';
 import userInput from './user-input';
 
@@ -23,7 +22,6 @@ export const client = new ApolloClient({
 
 const reducer = combineReducers({
   user,
-  // airports,
   userInput,
   apollo: client.reducer(),
 });
@@ -36,6 +34,5 @@ const store = createStore(reducer, middleware);
 
 export default store;
 export * from './user';
-// export * from './airports';
 export * from './flight-prices';
 export * from './user-input';

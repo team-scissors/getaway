@@ -68,6 +68,7 @@ class Flights extends Component {
       airport_data = this.props.departFrom.flights.nodes
         .map(flight => {
           return {
+            // abbrv: flight.arriveAt.abbrv,
             name: flight.arriveAt.name,
             price: +flight.price,
             country: flight.arriveAt.country,
@@ -82,7 +83,7 @@ class Flights extends Component {
           };
         })
         .filter(airport => {
-          return airport.price < 10000;
+          return airport.price < 1000;
         });
     }
 
@@ -91,6 +92,7 @@ class Flights extends Component {
 
     return (
       <VictoryChart
+        animate={{ duration: 2000, easing: 'bounce' }}
         polar
         width={500}
         height={500}
@@ -123,6 +125,7 @@ class Flights extends Component {
           style={{ data: { fill: '#c43a31' } }}
           labels={d =>
             `${d.name}, ${d.country} \n Price:$${Math.trunc(d.price)}`}
+          // labels={d => `${d.abbrv}`}
           labelPlacement="vertical"
           labelComponent={<VictoryTooltip />}
           x="bearing"
@@ -141,7 +144,6 @@ const mapState = state => {
   return {
     airports: state.airports,
     airportAbbrv: state.userInput.originAirportAbbrv,
-    // airportAbbrv: 'ORD',
   };
 };
 
