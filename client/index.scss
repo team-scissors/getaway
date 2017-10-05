@@ -27,6 +27,11 @@ html {
   flex-grow: 1;
 }
 
+.list-item {
+  display: flex;
+  justify-content: space-between;
+}
+
 .floating-button {
   position: fixed;
   top: 10px;

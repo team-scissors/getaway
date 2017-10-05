@@ -49,7 +49,7 @@ class App extends Component {
               )}
             </Switch>
           </div>
-          <div class="button is-primary floating-button">User</div>
+          <div className="button is-primary floating-button">User</div>
         </div>
       </Router>
     );

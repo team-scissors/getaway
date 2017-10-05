@@ -13,7 +13,7 @@ class SideMenu extends Component {
       <div className="column is-narrow sidenav">
         <aside className="menu menu-wrapper">
           <div className="sidenav-top-container">
-            <div class="tabs is-toggle is-centered">
+            <div className="tabs is-toggle is-centered">
               <ul>
                 <li
                   className={
@@ -21,7 +21,10 @@ class SideMenu extends Component {
                   }
                 >
                   <NavLink to="/flights" activeClassName="is-active">
-                    Flights
+                    <span className="icon is-small">
+                      <i className="fa fa-plane" />
+                    </span>
+                    <span>Flights</span>
                   </NavLink>
                 </li>
                 <li
@@ -30,7 +33,10 @@ class SideMenu extends Component {
                   }
                 >
                   <NavLink to="/rideshare" activeClassName="is-active">
-                    Rideshare
+                    <span className="icon is-small">
+                      <i className="fa fa-car" />
+                    </span>
+                    <span>Rideshare</span>
                   </NavLink>
                 </li>
                 <li>
@@ -41,16 +47,14 @@ class SideMenu extends Component {
                 </li>
               </ul>
             </div>
-            <p className="menu-label">Travel Options</p>
-            <ul className="menu-list">
-              <li />
-              {/* <li>
-              </li> */}
-            </ul>
-            <ControlPanel />
           </div>
           <div className="sidenav-mid-container">
-            {location.pathname === '/flights' && <FlightListPanel />}
+            {location.pathname === '/flights' && (
+              <div>
+                <ControlPanel />
+                <FlightListPanel />
+              </div>
+            )}
           </div>
         </aside>
       </div>

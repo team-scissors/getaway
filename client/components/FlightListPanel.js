@@ -23,14 +23,15 @@ class FlightListPanel extends Component {
 
     return (
       <nav className="panel flight-list">
-        {airportList.map(airport => {
+        {airportList.map(item => {
+          const airport = item.arriveAt;
           return (
-            <a className="panel-block" key={airport.arriveAt.id}>
-              <span className="panel-icon">
-                <i className="fa fa-plane" />
-              </span>
-              {`${airport.arriveAt.city}, ${airport.arriveAt.country}:  `}
-              {`$${Math.trunc(airport.price)}`}
+            <a className="panel-block list-item" key={airport.id}>
+              <div>
+                <strong>{`${airport.abbrv}`}</strong>
+                {` ${airport.city}, ${airport.country}  `}
+              </div>
+              <div>{`$${Math.trunc(item.price)}`}</div>
             </a>
           );
         })}

@@ -5,6 +5,7 @@ export const flightsFromAirportByAbbrv = gql`
     departFrom: airportByAbbrv(abbrv: $airportAbbrv) {
       id
       name
+      abbrv
       city
       country
       longitude
@@ -14,6 +15,7 @@ export const flightsFromAirportByAbbrv = gql`
           price
           arriveAt: airportByToId {
             id
+            abbrv
             name
             city
             country
