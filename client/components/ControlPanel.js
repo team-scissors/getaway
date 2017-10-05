@@ -7,6 +7,8 @@ import DayPicker from 'react-day-picker';
 import moment from 'moment';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 
+const DAY_FORMAT = 'MM/DD/YYYY';
+
 /**
  * COMPONENT
  */
@@ -15,7 +17,7 @@ class ControlPanel extends Component {
     super(props);
     this.state = {
       value: '',
-      selectedDay: new Date(),
+      selectedDay: undefined,
       isLoading: '',
     };
     console.log('this.props.setAirportInput:');
@@ -43,7 +45,7 @@ class ControlPanel extends Component {
     this.props.dispatchSetAirport(this.state.value.toUpperCase());
   }
 
-  handleDayClick = day => {
+  handleDayChange = day => {
     this.setState({
       selectedDay: day,
     });
@@ -51,7 +53,13 @@ class ControlPanel extends Component {
 
   render() {
     const { departFrom } = this.props;
-    console.log(departFrom);
+    const selectedDay = this.state.selectedDay;
+
+    console.log('selected day:', selectedDay);
+    const formattedDay = selectedDay
+      ? moment(selectedDay).format(DAY_FORMAT)
+      : '';
+
     return (
       <div>
         <nav className="panel">
@@ -75,6 +83,8 @@ class ControlPanel extends Component {
           </div>
           <div className="panel-block">
             <DayPickerInput
+              value={formattedDay}
+              onDayChange={this.handleDayChange}
               className="input is-small calendar"
               placeholder="Leaving On"
             />
@@ -84,9 +94,8 @@ class ControlPanel extends Component {
               <div className="card origin-card">
                 <div className="card-content">
                   <strong>Leaving From:</strong>
-                </div>
-                <div className="card-content">
-                  {`${departFrom.abbrv}, ${departFrom.city}`}
+                  <p>{`${departFrom.abbrv}, ${departFrom.city}`}</p>
+                  {formattedDay.length > 0 ? <p>on {`${formattedDay}`}</p> : ''}
                 </div>
               </div>
             )}
