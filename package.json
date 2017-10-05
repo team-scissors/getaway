@@ -54,6 +54,7 @@
     "socket.io": "^2.0.3",
     "typeface-roboto": "0.0.35",
     "underscore": "^1.8.3",
+    "unirest": "^0.5.1",
     "victory": "^0.23.0"
   },
   "devDependencies": {
