@@ -53,8 +53,8 @@ class Flights extends Component {
   render() {
     const { airports, airportAbbrv, selectDestinationAirport } = this.props;
 
-    console.log('airports:', airports);
-    console.log('cur abbrv:', airportAbbrv);
+    // console.log('airports:', airports);
+    // console.log('cur abbrv:', airportAbbrv);
 
     let airport_data;
     if (this.props.loading === true) {
@@ -67,10 +67,16 @@ class Flights extends Component {
       airport_data = this.props.departFrom.flights.nodes
         .map(flight => {
           return {
-            // abbrv: flight.arriveAt.abbrv,
+            city: flight.arriveAt.city,
             name: flight.arriveAt.name,
             price: +flight.price,
             country: flight.arriveAt.country,
+            latitude: flight.arriveAt.latitude,
+            longitude: flight.arriveAt.longitude,
+            distance: geolib.getDistance(curAirport, {
+              latitude: flight.arriveAt.latitude,
+              longitude: flight.arriveAt.longitude,
+            }),
             // Victory polar is counter-clockwise
             bearing:
               (90 -
@@ -86,9 +92,11 @@ class Flights extends Component {
         });
     }
 
-    console.log('airports data:', airport_data);
-    console.log(this.props);
+    // console.log('airports data:', airport_data);
+    // console.log(this.props);
 
+    const selectedDestination = this.props.selectedDestination;
+    console.log('selected dest:', selectedDestination);
     return (
       <VictoryChart
         animate={{ duration: 1000, easing: 'quadInOut' }}
@@ -121,62 +129,85 @@ class Flights extends Component {
           tickFormat={t => `$${t}`}
         />
         <VictoryScatter
+          animate={{
+            onEnter: {
+              duration: 200,
+              before: () => ({
+                fill: 'orange',
+              }),
+            },
+          }}
           style={{ data: { fill: 'tomato' } }}
           labels={d =>
-            `${d.name}, ${d.country} \n Price:$${Math.trunc(d.price)}`}
+            `${d.name} \n ${d.city}, ${d.country} \n Price:$${Math.trunc(
+              d.price,
+            )}`}
           // labels={d => `${d.abbrv}`}
           labelPlacement="vertical"
-          labelComponent={<VictoryTooltip />}
+          labelComponent={<VictoryTooltip dx={-2} dy={10} />}
           x="bearing"
           y="price"
           data={airport_data}
-          events={[{
-            target: 'data',
-            eventHandlers: {
-              onClick: (e) => {
-                console.log("Dot clicked");
-                return [
-                  {
-                    target: 'data',
-                    mutation: (props) => {
-                      const airportData = props.datum
-                      const selectedAirport = {
-                        name: airportData.name,
-                        price: airportData.price,
-                        country: airportData.country
-                      };
-
-                      selectDestinationAirport(selectedAirport);
-                    }
-                  }
-                ];
+          events={[
+            {
+              target: 'data',
+              eventHandlers: {
+                onClick: e => {
+                  return [
+                    {
+                      target: 'data',
+                      mutation: props => {
+                        const airportData = props.datum;
+                        const selectedAirport = {
+                          name: airportData.name,
+                          price: airportData.price,
+                          country: airportData.country,
+                          latitude: airportData.latitude,
+                          longitude: airportData.longitude,
+                        };
+                        selectDestinationAirport(selectedAirport);
+                      },
+                    },
+                  ];
+                },
+                onMouseOver: () => {
+                  return [
+                    {
+                      target: 'data',
+                      mutation: props => {
+                        return {
+                          style: Object.assign({}, props.style, {
+                            fill: '#00D1B2',
+                          }),
+                          size: 7,
+                        };
+                      },
+                    },
+                    {
+                      target: 'labels',
+                      mutation: () => ({ active: true }),
+                    },
+                  ];
+                },
+                onMouseOut: () => {
+                  return [
+                    {
+                      target: 'data',
+                      mutation: props => {
+                        return {
+                          size: 3,
+                        };
+                      },
+                    },
+                    {
+                      target: 'labels',
+                      mutation: () => ({ active: false }),
+                    },
+                  ];
+                },
               },
-              //mouse over increases size of the dot
-              // onMouseOver: () => {
-              //   console.log('dot mouse over');
-              //   return [{
-              //     target: 'data',
-              //     mutation: (props) => {
-              //       return {
-              //         size: 12,
-              //       };
-              //     }
-              //   }];
-              // },
-              //mouse out decreases size of the dot
-              // onMouseOut: () => {
-              //   console.log('dot mouse out');
-              //   return [{
-              //     target: 'data',
-              //     mutation: (props) => {
-              //       return {
-              //         size: 3,
-              //       };
-              //     }
-              //   }];
-              // },
-            }
-          }]}
+            },
+          ]}
         />
       </VictoryChart>
     );
@@ -189,13 +220,14 @@ class Flights extends Component {
 const mapState = state => {
   return {
     airports: state.airports,
+    selectedDestination: state.userInput.selectedDestinationAirport,
     airportAbbrv: state.userInput.originAirportAbbrv,
   };
 };
 
 const mapDispatch = dispatch => {
   return {
-    selectDestinationAirport(selectedAirport){
+    selectDestinationAirport(selectedAirport) {
       dispatch(getSelectedDestinationAirport(selectedAirport));
     },
   };

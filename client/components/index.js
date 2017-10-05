@@ -13,3 +13,5 @@ export { default as SideMenu } from './SideMenu';
 export { Login, Signup } from './AuthForm';
 export { default as Flights } from './Flights';
 export { default as ControlPanel } from './ControlPanel';
+export { default as UserPanel } from './UserPanel';
+export { default as FlightListPanel } from './FlightListPanel';

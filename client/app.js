@@ -29,7 +29,7 @@ class App extends Component {
 
     return (
       <Router history={history}>
-        <div className="columns  main-container">
+        <div className="columns main-container">
           <SideMenu />
           <div className="column main-content">
             <Switch>
@@ -49,6 +49,7 @@ class App extends Component {
               )}
             </Switch>
           </div>
+          <div class="button is-primary floating-button">User</div>
         </div>
       </Router>
     );

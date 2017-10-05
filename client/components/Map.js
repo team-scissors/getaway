@@ -39,6 +39,7 @@ class Map extends Component {
           },
           trackUserLocation: false,
         })),
+        'top-left',
       );
 
       this.GeoControl.on('geolocate', position => {

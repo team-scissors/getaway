@@ -44,9 +44,8 @@ class ControlPanel extends Component {
   render() {
     return (
       <nav className="panel">
-        <p className="panel-heading">Search Options</p>
         <div className="panel-block">
-          <p
+          <div
             className={`control is-small ${this.state
               .isLoading} has-icons-left`}
           >
@@ -54,14 +53,14 @@ class ControlPanel extends Component {
               <input
                 className="input is-small"
                 type="text"
-                placeholder="Enter Airport Code"
+                placeholder="Enter Origin Airport Code"
                 onChange={this.handleChange}
               />
               <span className="icon is-small is-left">
                 <i className="fa fa-search" />
               </span>
             </form>
-          </p>
+          </div>
         </div>
       </nav>
     );
