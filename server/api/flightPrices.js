@@ -1,4 +1,4 @@
-const router = require('express').Router();
+// const router = require('express').Router();
 const unirest = require('unirest');
 const topAirports = require('../../data/topAirports.json');
 
@@ -46,6 +46,6 @@ getFlightPrices(origin="BOS", departureDate="2017-10-20", maxPrice="1000")
     }) !== undefined;
   }))
   .then(topDestinations => {
-    console.log(topDestinations.length);
+    return topDestinations;
   })
   .catch(console.error);
