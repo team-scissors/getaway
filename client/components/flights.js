@@ -24,6 +24,7 @@ import {
   cardinals,
   ticketPrices,
 } from './util_helper';
+import { getSelectedDestinationAirport } from '../store';
 
 const directions = {
   0: 'E',
@@ -50,12 +51,10 @@ class Flights extends Component {
   componentDidUpdate() {}
 
   render() {
-    const { airports, airportAbbrv } = this.props;
+    const { airports, airportAbbrv, selectDestinationAirport } = this.props;
 
     console.log('airports:', airports);
     console.log('cur abbrv:', airportAbbrv);
-
-    console.log(this.props);
 
     let airport_data;
     if (this.props.loading === true) {
@@ -131,6 +130,53 @@ class Flights extends Component {
           x="bearing"
           y="price"
           data={airport_data}
+          events={[{
+            target: 'data',
+            eventHandlers: {
+              onClick: (e) => {
+                console.log("Dot clicked");
+                return [
+                  {
+                    target: 'data',
+                    mutation: (props) => {
+                      const airportData = props.datum
+                      const selectedAirport = {
+                        name: airportData.name,
+                        price: airportData.price,
+                        country: airportData.country
+                      };
+
+                      selectDestinationAirport(selectedAirport);
+                    }
+                  }
+                ];
+              },
+              //mouse over increases size of the dot
+              // onMouseOver: () => {
+              //   console.log('dot mouse over');
+              //   return [{
+              //     target: 'data',
+              //     mutation: (props) => {
+              //       return {
+              //         size: 12,
+              //       };
+              //     }
+              //   }];
+              // },
+              //mouse out decreases size of the dot
+              // onMouseOut: () => {
+              //   console.log('dot mouse out');
+              //   return [{
+              //     target: 'data',
+              //     mutation: (props) => {
+              //       return {
+              //         size: 3,
+              //       };
+              //     }
+              //   }];
+              // },
+            }
+          }]}
         />
       </VictoryChart>
     );
@@ -148,7 +194,11 @@ const mapState = state => {
 };
 
 const mapDispatch = dispatch => {
-  return {};
+  return {
+    selectDestinationAirport(selectedAirport){
+      dispatch(getSelectedDestinationAirport(selectedAirport));
+    },
+  };
 };
 
 // See ./util_helper/graphQLqueries.js for queries
