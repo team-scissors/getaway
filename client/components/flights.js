@@ -92,7 +92,7 @@ class Flights extends Component {
 
     return (
       <VictoryChart
-        animate={{ duration: 2000, easing: 'bounce' }}
+        animate={{ duration: 1000, easing: 'quadInOut' }}
         polar
         width={500}
         height={500}
@@ -107,7 +107,7 @@ class Flights extends Component {
           tickValues={_.keys(directions).map(k => +k)}
           tickFormat={_.values(directions)}
           style={{
-            // axis: { stroke: 'none' },
+            axis: { stroke: 'none' },
             grid: { stroke: '#888', strokeDasharray: '2, 2' },
           }}
         />
@@ -122,7 +122,7 @@ class Flights extends Component {
           tickFormat={t => `$${t}`}
         />
         <VictoryScatter
-          style={{ data: { fill: '#c43a31' } }}
+          style={{ data: { fill: 'tomato' } }}
           labels={d =>
             `${d.name}, ${d.country} \n Price:$${Math.trunc(d.price)}`}
           // labels={d => `${d.abbrv}`}
