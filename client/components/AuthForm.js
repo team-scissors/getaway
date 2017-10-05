@@ -10,37 +10,62 @@ const AuthForm = (props) => {
   const {name, displayName, handleSubmit, error} = props
 
   return (
-    <div className='card'>
-      <div className='content'>
-        <form onSubmit={handleSubmit} name={name}>
-          {
-            name === 'signup' &&
-            <div>
-              <div>
-                <label htmlFor='firstName'><small>First Name</small></label>
-                <input name='firstName' type='text' />
-              </div>
-              <div>
-                <label htmlFor='lastName'><small>Last Name</small></label>
-                <input name='lastName' type='text' />
-              </div>
+    <div>
+      <section className="hero is-fullheight is-dark is-bold">
+      <div className="hero-body">
+        <div className="container">
+          <div className="columns is-vcentered">
+            <div className="column is-4 is-offset-4">
+              <div className="box">
+              <form onSubmit={handleSubmit} name={name}>
+                {
+                  name === "signup" &&
+                  <div>
+                    <div>
+                      <h1 className="title">
+                        Register an Account
+                      </h1>
+                    </div>
+                    <div>
+                      <label className="label">First Name</label>
+                      <p className="control">
+                        <input className="input" name="firstName" type="text" placeholder="John"/>
+                      </p>
+                    </div>
+                    <div>
+                      <label className="label">Last Name</label>
+                      <p className="control">
+                        <input className="input" name="lastName" type="text" placeholder="Smith"/>
+                      </p>
+                    </div>
+                  </div>
+                }
+                  <label className="label">Email</label>
+                  <p className="control">
+                    <input className="input" name="email" type="text" placeholder="jsmith@example.org"/>
+                  </p>
+                  <hr/>
+                  <label className="label">Password</label>
+                  <p className="control">
+                    <input className="input" name="password" type="password" placeholder="●●●●●●●"/>
+                  </p>
+                  <hr/>
+                  <p className="control">
+                    <button className="button is-primary">Register</button>
+                    <button className="button is-default">Cancel</button>
+                  </p>
+                </form>
+                </div>
+                <p className="has-text-centered">
+                  <a href="login.html">Login</a>
+                  | 
+                  <a href="#">Need help?</a>
+                </p>
             </div>
-          }
-          <div>
-            <label htmlFor='email'><small>Email</small></label>
-            <input name='email' type='text' />
           </div>
-          <div>
-            <label htmlFor='password'><small>Password</small></label>
-            <input name='password' type='password' />
-          </div>
-          <div>
-            <button type='submit'>{displayName}</button>
-          </div>
-          {error && error.response && <div> {error.response.data} </div>}
-        </form>
-        <a href='/auth/google'>{displayName} with Google</a>
+        </div>
       </div>
+      </section>
     </div>
   )
 }
