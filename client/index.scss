@@ -1,4 +1,5 @@
 @import '~bulma';
+@import '~react-day-picker/lib/style';
 $pink: #ffb3b3;
 
 * {
@@ -16,6 +17,10 @@ html {
   height: 100vh;
 }
 
+.DayPickerInput-Overlay {
+  z-index: 99;
+}
+
 .menu-wrapper {
   height: 100vh;
   display: flex;
@@ -24,6 +29,10 @@ html {
 
 .sidenav-mid-container {
   overflow: scroll;
+  flex-grow: 1;
+}
+
+.origin-card {
   flex-grow: 1;
 }
 

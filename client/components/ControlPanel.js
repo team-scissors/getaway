@@ -3,6 +3,9 @@ import { connect } from 'react-redux';
 import { graphql } from 'react-apollo';
 import { setAirport } from '../store/user-input';
 import { airportByAbbrv } from './util_helper';
+import DayPicker from 'react-day-picker';
+import moment from 'moment';
+import DayPickerInput from 'react-day-picker/DayPickerInput';
 
 /**
  * COMPONENT
@@ -12,7 +15,7 @@ class ControlPanel extends Component {
     super(props);
     this.state = {
       value: '',
-      placeholder: 'Airport symbol?',
+      selectedDay: new Date(),
       isLoading: '',
     };
     console.log('this.props.setAirportInput:');
@@ -40,28 +43,56 @@ class ControlPanel extends Component {
     this.props.dispatchSetAirport(this.state.value.toUpperCase());
   }
 
+  handleDayClick = day => {
+    this.setState({
+      selectedDay: day,
+    });
+  };
+
   render() {
+    const { departFrom } = this.props;
+    console.log(departFrom);
     return (
-      <nav className="panel">
-        <div className="panel-block">
-          <div
-            className={`control is-small ${this.state
-              .isLoading} has-icons-left`}
-          >
-            <form onSubmit={this.handleSubmit}>
-              <input
-                className="input is-small"
-                type="text"
-                placeholder="Enter Origin Airport Code"
-                onChange={this.handleChange}
-              />
-              <span className="icon is-small is-left">
-                <i className="fa fa-search" />
-              </span>
-            </form>
+      <div>
+        <nav className="panel">
+          <div className="panel-block">
+            <div
+              className={`control is-small ${this.state
+                .isLoading} has-icons-left`}
+            >
+              <form onSubmit={this.handleSubmit}>
+                <input
+                  className="input is-small"
+                  type="text"
+                  placeholder="Enter Origin Airport Code"
+                  onChange={this.handleChange}
+                />
+                <span className="icon is-small is-left">
+                  <i className="fa fa-search" />
+                </span>
+              </form>
+            </div>
           </div>
-        </div>
-      </nav>
+          <div className="panel-block">
+            <DayPickerInput
+              className="input is-small calendar"
+              placeholder="Leaving On"
+            />
+          </div>
+          <div className="panel-block">
+            {departFrom && (
+              <div className="card origin-card">
+                <div className="card-content">
+                  <strong>Leaving From:</strong>
+                </div>
+                <div className="card-content">
+                  {`${departFrom.abbrv}, ${departFrom.city}`}
+                </div>
+              </div>
+            )}
+          </div>
+        </nav>
+      </div>
     );
   }
 }

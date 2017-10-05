@@ -33,6 +33,7 @@ export const airportByAbbrv = gql`
     departFrom: airportByAbbrv(abbrv: $airportAbbrv) {
       id
       name
+      abbrv
       city
       country
       longitude

@@ -15,6 +15,7 @@ class FlightListPanel extends Component {
   render() {
     const { departFrom } = this.props;
     const airportList = departFrom ? departFrom.flights.nodes.slice() : [];
+
     if (airportList.length > 0) {
       airportList.sort((a, b) => {
         return a.price - b.price;
@@ -22,20 +23,22 @@ class FlightListPanel extends Component {
     }
 
     return (
-      <nav className="panel flight-list">
-        {airportList.map(item => {
-          const airport = item.arriveAt;
-          return (
-            <a className="panel-block list-item" key={airport.id}>
-              <div>
-                <strong>{`${airport.abbrv}`}</strong>
-                {` ${airport.city}, ${airport.country}  `}
-              </div>
-              <div>{`$${Math.trunc(item.price)}`}</div>
-            </a>
-          );
-        })}
-      </nav>
+      <div>
+        <nav className="panel flight-list">
+          {airportList.map(item => {
+            const airport = item.arriveAt;
+            return (
+              <a className="panel-block list-item" key={airport.id}>
+                <div>
+                  <strong>{`${airport.abbrv}`}</strong>
+                  {` ${airport.city}, ${airport.country}  `}
+                </div>
+                <div>{`$${Math.trunc(item.price)}`}</div>
+              </a>
+            );
+          })}
+        </nav>
+      </div>
     );
   }
 }

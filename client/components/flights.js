@@ -53,9 +53,6 @@ class Flights extends Component {
   render() {
     const { airports, airportAbbrv, selectDestinationAirport } = this.props;
 
-    // console.log('airports:', airports);
-    // console.log('cur abbrv:', airportAbbrv);
-
     let airport_data;
     if (this.props.loading === true) {
       airport_data = [];
@@ -132,6 +129,12 @@ class Flights extends Component {
           animate={{
             onEnter: {
               duration: 200,
+              before: () => ({
+                fill: 'orange',
+              }),
+            },
+            onExit: {
+              duration: 500,
               before: () => ({
                 fill: 'orange',
               }),
