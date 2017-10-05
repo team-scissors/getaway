@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { graphql } from 'react-apollo';
-
 import { setAirport } from '../store/user-input';
 import { airportByAbbrv } from './util_helper';
 

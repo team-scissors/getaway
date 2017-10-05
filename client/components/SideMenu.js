@@ -48,13 +48,9 @@ class SideMenu extends Component {
               </ul>
             </div>
           </div>
+          <ControlPanel />
           <div className="sidenav-mid-container">
-            {location.pathname === '/flights' && (
-              <div>
-                <ControlPanel />
-                <FlightListPanel />
-              </div>
-            )}
+            {location.pathname === '/flights' && <FlightListPanel />}
           </div>
         </aside>
       </div>
