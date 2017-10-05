@@ -13,6 +13,8 @@ class ControlPanel extends Component {
     super(props);
     this.state = {
       value: '',
+      placeholder: 'Airport symbol?',
+      isLoading: '',
     };
     console.log('this.props.setAirportInput:');
     console.log(this.props.setAirportInput);
@@ -20,30 +22,48 @@ class ControlPanel extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      isLoading: nextProps.loading ? 'is-loading' : '',
+    });
+  }
+
   handleChange(evt) {
-    this.setState({ value: evt.target.value });
+    this.setState({ value: evt.target.value }, () => {});
   }
 
   handleSubmit(evt) {
     evt.preventDefault();
-    console.log(this.state.value);
-    this.props.dispatchSetAirport(this.state.value);
+    if (this.state.value.length < 3) {
+      this.setState({ placeholder: 'Invalid Code' }, () => {});
+      return;
+    }
+    this.props.dispatchSetAirport(this.state.value.toUpperCase());
   }
 
   render() {
     return (
-      <div className="field">
-        <form onSubmit={this.handleSubmit}>
-          <input
-            className="input"
-            type="text"
-            value={this.state.value}
-            onChange={this.handleChange}
-            placeholder="select origin airport"
-          />
-          <button className="button is-primary">Set Departing Airport</button>
-        </form>
-      </div>
+      <nav className="panel">
+        <p className="panel-heading">Search Options</p>
+        <div className="panel-block">
+          <p
+            className={`control is-small ${this.state
+              .isLoading} has-icons-left`}
+          >
+            <form onSubmit={this.handleSubmit}>
+              <input
+                className="input is-small"
+                type="text"
+                placeholder="Enter Airport Code"
+                onChange={this.handleChange}
+              />
+              <span className="icon is-small is-left">
+                <i className="fa fa-search" />
+              </span>
+            </form>
+          </p>
+        </div>
+      </nav>
     );
   }
 }
@@ -69,6 +89,7 @@ const mapDispatch = dispatch => {
 // See ./util_helper/graphQLqueries.js for queries
 const ApolloControlPanel = graphql(airportByAbbrv, {
   options: ({ abbrv }) => ({ variables: { airportAbbrv: abbrv } }),
+  props: ({ data: { loading, departFrom } }) => ({ loading, departFrom }),
 })(ControlPanel);
 
 export default connect(mapState, mapDispatch)(ApolloControlPanel);

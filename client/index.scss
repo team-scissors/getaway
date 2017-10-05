@@ -2,6 +2,10 @@
 @import './flightmap';
 $pink: #ffb3b3;
 
+* {
+  box-sizing: border-box;
+}
+
 body,
 html {
   // REVIEW: nice 100vh
@@ -38,4 +42,3 @@ html {
   box-shadow: -1px 0px 5px 0px rgba(50, 50, 50, 0.5);
   border: 1x solid teal;
 }
-

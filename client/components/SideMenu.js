@@ -14,29 +14,6 @@ class SideMenu extends Component {
     return (
       <div className="column is-narrow is-fullheight sidenav">
         <aside className="menu">
-          {
-              isLoggedIn
-              ?<ul className="menu-list">
-                <li>
-                  <a className="button is-white" onClick={ handleClick }>Logout</a>
-                </li>
-              </ul>
-              : <ul className="menu-list">
-                <li>
-                  <NavLink to="/login" activeClassName="is-active">
-                    Login
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink to="/signup" activeClassName="is-active">
-                    Sign up
-                  </NavLink>
-                </li>
-                <li>
-                  <ControlPanel />
-                </li>
-              </ul>
-            }
           <p className="menu-label">Travel Options</p>
           <ul className="menu-list">
             <li>
@@ -50,36 +27,32 @@ class SideMenu extends Component {
               </NavLink>
             </li>
           </ul>
-          <p className="menu-label">Controls Go Here</p>
+          <ControlPanel />
+        </aside>
+        <p className="menu-label">User</p>
+        {// console.log(this.state.value);
+        isLoggedIn ? (
           <ul className="menu-list">
             <li>
-              <a>Team Settings</a>
-            </li>
-            <li>
-              <a>Manage Your Team</a>
-              <ul>
-                <li>
-                  <a>Members</a>
-                </li>
-                <li>
-                  <a>Plugins</a>
-                </li>
-                <li>
-                  <a>Add a member</a>
-                </li>
-              </ul>
-            </li>
-            <li>
-              <a>Invitations</a>
-            </li>
-            <li>
-              <a>Cloud Storage Environment Settings</a>
-            </li>
-            <li>
-              <a>Authentication</a>
+              <a className="button is-white" onClick={handleClick}>
+                Logout
+              </a>
             </li>
           </ul>
-        </aside>
+        ) : (
+          <ul className="menu-list">
+            <li>
+              <NavLink to="/login" activeClassName="is-active">
+                Login
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/signup" activeClassName="is-active">
+                Sign up
+              </NavLink>
+            </li>
+          </ul>
+        )}
       </div>
     );
   }
