@@ -17,7 +17,6 @@ import {
   VictorySelectionContainer,
 } from 'victory';
 import geolib from 'geolib';
-
 import {
   getAirportsData,
   flightsFromAirportByAbbrv,
@@ -53,43 +52,45 @@ class Flights extends Component {
   render() {
     const { airports, airportAbbrv, selectDestinationAirport } = this.props;
 
-    // console.log('airports:', airports);
-    // console.log('cur abbrv:', airportAbbrv);
-
     let airport_data;
     if (this.props.loading === true) {
       airport_data = [];
     } else {
-      const curAirport = {
-        latitude: this.props.departFrom.latitude,
-        longitude: this.props.departFrom.longitude,
-      };
-      airport_data = this.props.departFrom.flights.nodes
-        .map(flight => {
-          return {
-            city: flight.arriveAt.city,
-            name: flight.arriveAt.name,
-            price: +flight.price,
-            country: flight.arriveAt.country,
-            latitude: flight.arriveAt.latitude,
-            longitude: flight.arriveAt.longitude,
-            distance: geolib.getDistance(curAirport, {
+      if (this.props.departFrom) {
+        const curAirport = {
+          latitude: this.props.departFrom.latitude,
+          longitude: this.props.departFrom.longitude,
+        };
+        airport_data = this.props.departFrom.flights.nodes
+          .map(flight => {
+            return {
+              city: flight.arriveAt.city,
+              abbrv: flight.arriveAt.abbrv,
+              name: flight.arriveAt.name,
+              price: +flight.price,
+              country: flight.arriveAt.country,
               latitude: flight.arriveAt.latitude,
               longitude: flight.arriveAt.longitude,
-            }),
-            // Victory polar is counter-clockwise
-            bearing:
-              (90 -
-                geolib.getBearing(curAirport, {
-                  latitude: flight.arriveAt.latitude,
-                  longitude: flight.arriveAt.longitude,
-                })) %
-              360,
-          };
-        })
-        .filter(airport => {
-          return airport.price < 1000;
-        });
+              distance: geolib.getDistance(curAirport, {
+                latitude: flight.arriveAt.latitude,
+                longitude: flight.arriveAt.longitude,
+              }),
+              // Victory polar is counter-clockwise
+              bearing:
+                (90 -
+                  geolib.getBearing(curAirport, {
+                    latitude: flight.arriveAt.latitude,
+                    longitude: flight.arriveAt.longitude,
+                  })) %
+                360,
+            };
+          })
+          .filter(airport => {
+            return airport.price < this.props.maxPrice;
+          });
+      } else {
+        airport_data = [];
+      }
     }
 
     // console.log('airports data:', airport_data);
@@ -99,7 +100,7 @@ class Flights extends Component {
     console.log('selected dest:', selectedDestination);
     return (
       <VictoryChart
-        animate={{ duration: 1000, easing: 'quadInOut' }}
+        animate={{ duration: 500, easing: 'quadInOut' }}
         polar
         width={500}
         height={500}
@@ -133,13 +134,21 @@ class Flights extends Component {
             onEnter: {
               duration: 200,
               before: () => ({
-                fill: 'orange',
+                fill: 'tomato',
+                fillOpacity: 0.3,
+              }),
+            },
+            onExit: {
+              duration: 500,
+              before: () => ({
+                fill: 'tomato',
+                fillOpacity: 0.3,
               }),
             },
           }}
           style={{ data: { fill: 'tomato' } }}
           labels={d =>
-            `${d.name} \n ${d.city}, ${d.country} \n Price:$${Math.trunc(
+            `${d.abbrv}\n ${d.name} \n ${d.city}, ${d.country} \n Price:$${Math.trunc(
               d.price,
             )}`}
           // labels={d => `${d.abbrv}`}
@@ -160,7 +169,9 @@ class Flights extends Component {
                         const airportData = props.datum;
                         const selectedAirport = {
                           name: airportData.name,
+                          abbrv: airportData.abbrv,
                           price: airportData.price,
+                          city: airportData.city,
                           country: airportData.country,
                           latitude: airportData.latitude,
                           longitude: airportData.longitude,
@@ -220,6 +231,7 @@ class Flights extends Component {
 const mapState = state => {
   return {
     airports: state.airports,
+    maxPrice: state.userInput.maxPrice,
     selectedDestination: state.userInput.selectedDestinationAirport,
     airportAbbrv: state.userInput.originAirportAbbrv,
   };

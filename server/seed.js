@@ -4,7 +4,10 @@ const db = require('./db');
 const { User, Airport, Trip, Flight } = require('./db/models');
 const topAirports = require('../data/topAirports.json');
 const geolib = require('geolib');
+const util = require('util');
 const Promise = require('bluebird');
+const Chance = require('chance');
+const chance = new Chance(1234);
 
 //iata_faa is the abbrv
 //airport = {"airport_id":"1","name":"Goroka","city":"Goroka","country":"Papua New Guinea","iata_faa":"GKA","iaco":"AYGA","latitude":"-6.081689","longitude":"145.391881","altitude":"5282","zone":"10","dst":"U"}
@@ -18,6 +21,17 @@ let dates = [];
 for (let i=0; i<numDates; i++) {
   dates.push(new Date(2018, 1, i+1));
 }
+
+let idx = 0;
+const getNextDate = () => {
+  const date = dates[idx];
+  idx = idx === dates.length-1 ? 0 : idx+1;
+  return date;
+};
+
+const generateNoise = distance => {
+  return distance / chance.random() / (1000 * 100);
+};
 
 /* ---------- Set up airports data ---------- */
 
@@ -98,7 +112,11 @@ const seed = () => {
 
     const createPrices = topCreatedAirports.map(fromAirport => {
       return Promise.all(
-        topCreatedAirports.map(toAirport => {
+        topCreatedAirports
+        // for each major airport, add flights to each every other major airport
+        // but exclude those that are too close to it. If too close, this will
+        // map to undefined
+        .map(toAirport => {
           const distance = geolib.getDistance(
             {
               latitude: fromAirport.latitude,
@@ -107,28 +125,30 @@ const seed = () => {
             {
               latitude: toAirport.latitude,
               longitude: toAirport.longitude,
-            },
+            }
           );
           const minDist = 241.402 * 1000; // Minimum distance for a flight to exist
           if (distance < minDist) return;
           return fromAirport.addToAirport(toAirport, {
             through: {
-              price: distance / 1000 * pricePerKm,
-              departAt: Date.now(),
+              price: (distance / 1000 * pricePerKm) + generateNoise(distance),
+              departAt: getNextDate(),
             },
           });
-        }),
+        })
+        // filter out those that are undefined
+        .filter(i => i)
       );
     });
-
-    const createTrips = fakeTrips.map(trip => {
-      return Trip.create(trip);
-    });
-
-    return Promise.all([...createPrices, ...createTrips]);
+    return Promise.all(createPrices);
   })
-  .spread( (prices, trips) => {
-    console.log(` -> seeded flights & trips`);
+  .then( prices => {
+    // console.log(util.inspect(prices, {
+    //   depth: 3,
+    //   showHidden: true,
+    //   colors: true,
+    //   maxArrayLength: 10,
+    // }));
     return Promise.resolve();
   })
 };
