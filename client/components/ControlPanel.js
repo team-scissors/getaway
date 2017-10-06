@@ -6,7 +6,6 @@ import {
   clearTrip,
   setMaxPrice,
   addFlightToTrip,
-  setDate,
 } from '../store/user-input';
 import { airportByAbbrv } from './util_helper';
 import DayPicker from 'react-day-picker';
@@ -30,7 +29,7 @@ class ControlPanel extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      maxPriceValue: 0,
+      maxPriceValue: '',
       originValue: '',
       selectedDay: undefined,
       originAirport: {},
@@ -85,20 +84,27 @@ class ControlPanel extends Component {
   };
 
   maxPriceChange = evt => {
-    this.setState({
-      maxPriceValue: evt.target.value,
-    });
+    this.setState(
+      {
+        maxPriceValue: evt.target.value,
+      },
+      () => {
+        this.props.dispatchSetMaxPrice(this.state.maxPriceValue);
+      },
+    );
   };
 
   handleDayChange = day => {
-    this.props.dispatchSetDate(day);
+    this.setState({
+      selectedDay: day,
+    });
   };
 
   render() {
-    const { departFrom, selectedDestination, departureDate } = this.props;
+    const { departFrom, selectedDestination } = this.props;
     const selectedDay = this.state.selectedDay;
 
-    const formattedDay = departureDate
+    const formattedDay = selectedDay
       ? moment(selectedDay).format(DAY_FORMAT)
       : '';
 
@@ -146,7 +152,7 @@ class ControlPanel extends Component {
                     <input
                       className="input is-small"
                       type="text"
-                      placeholder="Maximum Price"
+                      placeholder={`Maximum Price`}
                       value={this.state.maxPriceValue}
                       onChange={this.maxPriceChange}
                     />
@@ -207,7 +213,6 @@ const mapState = state => {
     selectedDestination: state.userInput.selectedDestinationAirport,
     abbrv: state.userInput.originAirportAbbrv,
     maxPrice: state.userInput.maxPrice,
-    departureDate: state.userInput.departureDate,
   };
 };
 
@@ -220,13 +225,10 @@ const mapDispatch = dispatch => {
       dispatch(setMaxPrice(maxPrice));
     },
     dispatchAddFlightToTrip(flight) {
-      dispatch(addFlightToTrip(flight));
+      dispatch(setMaxPrice(flight));
     },
     dispatchClearTrip() {
       dispatch(clearTrip());
-    },
-    dispatchSetDate(date) {
-      dispatch(setDate(date));
     },
   };
 };
