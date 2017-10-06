@@ -13,6 +13,7 @@ Trip.belongsToMany(Airport, {through: 'tripArrivals'});
 // Each trip has one departing airport and many possible arrival airports.
 // The possible destinations are stored in the airports column as an array.
 Trip.belongsTo(Airport, { foreignKey: 'departFrom' });
+Trip.hasMany(FlightPrice);
 
 // FlightPrice stores the price between two airports, from and to.
 // Note that the price from one airport to another varies depending on the
