@@ -137,7 +137,7 @@ class ControlPanel extends Component {
             {departFrom && (
               <div className="card origin-card">
                 <div className="card-content">
-                  Listing flights under ${this.props.maxPrice}
+                  {/* Listing flights under ${this.props.maxPrice} */}
                   <p />
                   <strong>From:</strong>
                   {` ${departFrom.abbrv}, ${departFrom.city}`}
@@ -151,7 +151,7 @@ class ControlPanel extends Component {
                   {selectedDestination.abbrv && formattedDay.length > 0 ? (
                     <p>
                       on
-                      <strong>{`${formattedDay}`} for </strong>
+                      <strong>{` ${formattedDay}`} for </strong>
                       {
                         <strong>
                           {`$${Math.trunc(selectedDestination.price)}`}
