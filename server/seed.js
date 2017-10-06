@@ -6,6 +6,8 @@ const topAirports = require('../data/topAirports.json');
 const geolib = require('geolib');
 const util = require('util');
 const Promise = require('bluebird');
+const Chance = require('chance');
+const chance = new Chance(1234);
 
 //iata_faa is the abbrv
 //airport = {"airport_id":"1","name":"Goroka","city":"Goroka","country":"Papua New Guinea","iata_faa":"GKA","iaco":"AYGA","latitude":"-6.081689","longitude":"145.391881","altitude":"5282","zone":"10","dst":"U"}
@@ -20,6 +22,13 @@ for (let i=0; i<numDates; i++) {
   dates.push(new Date(2018, 1, i+1));
 }
 
+let idx = 0;
+const getNextDate = () => {
+  const date = dates[idx];
+  idx = idx === dates.length-1 ? 0 : idx+1;
+  return date;
+}
+
 /* ---------- Set up airports data ---------- */
 
 const createAirports = airports =>
@@ -32,8 +41,8 @@ const createAirports = airports =>
         country: airport.country,
         longitude: airport.longitude,
         latitude: airport.latitude,
-      }),
-    ),
+      })
+    )
   );
 
 /* ---------- Set up users ---------- */
@@ -118,7 +127,7 @@ const seed = () => {
           return fromAirport.addToAirport(toAirport, {
             through: {
               price: distance / 1000 * pricePerKm,
-              departAt: Date.now(),
+              departAt: getNextDate(),
             },
           });
         })
