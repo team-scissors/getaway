@@ -49,10 +49,14 @@ class FlightListPanel extends Component {
                 ${active ? 'is-active' : ''} list-item`}
                 key={airport.id}
                 onClick={this.handleDestClick}
+                style={active ? { background: '#00d1b2', color: '#fff' } : {}}
                 ref={airport.abbrv}
                 data-abbrv={airport.abbrv}
               >
-                <span className="panel-icon">
+                <span
+                  className="panel-icon"
+                  style={active ? { color: '#fff' } : {}}
+                >
                   <i className="fa fa-plane" />
                 </span>
                 <div>
