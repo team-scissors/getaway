@@ -155,8 +155,7 @@ const seed = () => {
     return Promise.all([...createPrices, ...createTrips]);
   })
   .spread( (prices, trips) => {
-    console.log('prices:');
-    console.log(prices);
+    return Promise.resolve();
   })
 };
 
