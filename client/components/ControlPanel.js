@@ -52,7 +52,7 @@ class ControlPanel extends Component {
       date: this.state.selectedDay,
       price: this.props.selectedDestination.price,
     };
-    // console.log('flight: ', flight);
+    console.log('flight: ', flight);
     this.props.dispatchAddFlightToTrip(flight);
   };
 
@@ -225,7 +225,7 @@ const mapDispatch = dispatch => {
       dispatch(setMaxPrice(maxPrice));
     },
     dispatchAddFlightToTrip(flight) {
-      dispatch(setMaxPrice(flight));
+      dispatch(addFlightToTrip(flight));
     },
     dispatchClearTrip() {
       dispatch(clearTrip());
