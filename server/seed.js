@@ -1,7 +1,7 @@
 const moment = require('moment');
 const airports = require('../data/nonDuplicate_airports.json');
 const db = require('./db');
-const { User, Airport, Trip, FlightPrice } = require('./db/models');
+const { User, Airport, Trip, Flight } = require('./db/models');
 const topAirports = require('../data/topAirports.json');
 const geolib = require('geolib');
 const Promise = require('bluebird');
@@ -81,7 +81,7 @@ const createTrips = trips => Promise.all(trips.map(trip => Trip.create(trip)));
 
 /* ---------- Set up flight-prices ---------- */
 
-const fakeFlightPrices = [
+const fakeFlights = [
   {
     departAt: moment()
       .add(2, 'months')

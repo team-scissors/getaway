@@ -2,7 +2,7 @@
 const Sequelize = require('sequelize');
 const db = require('../db');
 
-const FlightPrice = db.define('FlightPrice', {
+const Flight = db.define('Flight', {
   id: {
     type: Sequelize.INTEGER,
     primaryKey: true,
@@ -18,4 +18,4 @@ const FlightPrice = db.define('FlightPrice', {
   },
 });
 
-module.exports = FlightPrice;
+module.exports = Flight;
