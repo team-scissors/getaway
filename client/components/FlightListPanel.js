@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { graphql } from 'react-apollo';
 import { setAirport } from '../store/user-input';
+import { getSelectedDestinationAirport } from '../store';
 import scrollIntoView from 'scroll-into-view';
 import { flightsFromAirportByAbbrv } from './util_helper';
 
@@ -14,7 +15,12 @@ class FlightListPanel extends Component {
   }
 
   handleDestClick = e => {
-    console.log(e.currentTarget.dataset.abbrv);
+    const abbrv = e.currentTarget.dataset.abbrv;
+    const flightList = this.props.departFrom.flights.nodes.slice();
+    const flight = flightList.find(f => {
+      return f.arriveAt.abbrv === abbrv;
+    });
+    this.props.selectDestinationAirport(flight.arriveAt);
   };
 
   handleShow = abbrv => {
@@ -88,7 +94,11 @@ const mapState = state => {
 };
 
 const mapDispatch = dispatch => {
-  return {};
+  return {
+    selectDestinationAirport(selectedAirport) {
+      dispatch(getSelectedDestinationAirport(selectedAirport));
+    },
+  };
 };
 
 const ApolloFlightListPanel = graphql(flightsFromAirportByAbbrv, {
