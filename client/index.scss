@@ -1,5 +1,7 @@
 @import '~bulma';
+@import '~react-day-picker/lib/style';
 $pink: #ffb3b3;
+$teal: #00d1b2;
 
 * {
   box-sizing: border-box;
@@ -12,8 +14,16 @@ html {
   box-sizing: border-box;
 }
 
+body {
+  overflow: hidden;
+}
+
 #app {
   height: 100vh;
+}
+
+.DayPickerInput-Overlay {
+  z-index: 99;
 }
 
 .menu-wrapper {
@@ -24,6 +34,10 @@ html {
 
 .sidenav-mid-container {
   overflow: scroll;
+  flex-grow: 1;
+}
+
+.origin-card {
   flex-grow: 1;
 }
 
@@ -53,11 +67,22 @@ html {
   height: 100vh;
 }
 
+.trip-menu {
+  // box-sizing: content-box;
+  padding-right: 0;
+  padding: 20px;
+  width: 400px;
+  height: 100vh;
+  background: #fefefe;
+  box-shadow: -1px 0px 5px 0px rgba(50, 50, 50, 0.5);
+  border: 1x solid teal;
+}
+
 .sidenav {
   // box-sizing: content-box;
   padding-right: 0;
   padding: 20px;
-  min-width: 250px;
+  width: 400px;
   height: 100vh;
   background: #fefefe;
   box-shadow: -1px 0px 5px 0px rgba(50, 50, 50, 0.5);

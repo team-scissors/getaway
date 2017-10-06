@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Router } from 'react-router';
+import { Router, Redirect } from 'react-router';
 import { Route, Switch } from 'react-router-dom';
+import { graphql } from 'react-apollo';
 import PropTypes from 'prop-types';
 import history from './history';
+import { flightsFromAirportByAbbrv } from './components/util_helper';
 import {
   Main,
   Flights,
@@ -13,6 +15,7 @@ import {
   Signup,
   D3Test,
   UserHome,
+  TripMenu,
 } from './components';
 import { me } from './store';
 
@@ -34,7 +37,8 @@ class App extends Component {
           <div className="column main-content">
             <Switch>
               {/* Routes placed here are available to all visitors */}
-              <Route path="/rideshare" component={Map} />
+              <Route exact path="/" render={() => <Redirect to="/flights" />} />
+              <Route path="/map" component={Map} />
               <Route path="/flights" component={Flights} />
               {isLoggedIn ? (
                 <Switch>
@@ -49,7 +53,8 @@ class App extends Component {
               )}
             </Switch>
           </div>
-          <div className="button is-primary floating-button">User</div>
+          <TripMenu />
+          {/* <div className="button is-primary floating-button">User</div> */}
         </div>
       </Router>
     );
@@ -64,6 +69,7 @@ const mapState = state => {
     // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
     // Otherwise, state.user will be an empty object, and state.user.id will be falsey
     isLoggedIn: !!state.user.id,
+    airportAbbrv: state.userInput.originAirportAbbrv,
   };
 };
 
@@ -75,7 +81,12 @@ const mapDispatch = dispatch => {
   };
 };
 
-export default connect(mapState, mapDispatch)(App);
+const ApolloApp = graphql(flightsFromAirportByAbbrv, {
+  options: ({ airportAbbrv }) => ({ variables: { airportAbbrv } }),
+  props: ({ data: { loading, departFrom } }) => ({ loading, departFrom }),
+})(App);
+
+export default connect(mapState, mapDispatch)(ApolloApp);
 
 /**
  * PROP TYPES
