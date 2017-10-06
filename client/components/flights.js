@@ -17,7 +17,6 @@ import {
   VictorySelectionContainer,
 } from 'victory';
 import geolib from 'geolib';
-
 import {
   getAirportsData,
   flightsFromAirportByAbbrv,
@@ -57,37 +56,41 @@ class Flights extends Component {
     if (this.props.loading === true) {
       airport_data = [];
     } else {
-      const curAirport = {
-        latitude: this.props.departFrom.latitude,
-        longitude: this.props.departFrom.longitude,
-      };
-      airport_data = this.props.departFrom.flights.nodes
-        .map(flight => {
-          return {
-            city: flight.arriveAt.city,
-            abbrv: flight.arriveAt.abbrv,
-            name: flight.arriveAt.name,
-            price: +flight.price,
-            country: flight.arriveAt.country,
-            latitude: flight.arriveAt.latitude,
-            longitude: flight.arriveAt.longitude,
-            distance: geolib.getDistance(curAirport, {
+      if (this.props.departFrom) {
+        const curAirport = {
+          latitude: this.props.departFrom.latitude,
+          longitude: this.props.departFrom.longitude,
+        };
+        airport_data = this.props.departFrom.flights.nodes
+          .map(flight => {
+            return {
+              city: flight.arriveAt.city,
+              abbrv: flight.arriveAt.abbrv,
+              name: flight.arriveAt.name,
+              price: +flight.price,
+              country: flight.arriveAt.country,
               latitude: flight.arriveAt.latitude,
               longitude: flight.arriveAt.longitude,
-            }),
-            // Victory polar is counter-clockwise
-            bearing:
-              (90 -
-                geolib.getBearing(curAirport, {
-                  latitude: flight.arriveAt.latitude,
-                  longitude: flight.arriveAt.longitude,
-                })) %
-              360,
-          };
-        })
-        .filter(airport => {
-          return airport.price < this.props.maxPrice;
-        });
+              distance: geolib.getDistance(curAirport, {
+                latitude: flight.arriveAt.latitude,
+                longitude: flight.arriveAt.longitude,
+              }),
+              // Victory polar is counter-clockwise
+              bearing:
+                (90 -
+                  geolib.getBearing(curAirport, {
+                    latitude: flight.arriveAt.latitude,
+                    longitude: flight.arriveAt.longitude,
+                  })) %
+                360,
+            };
+          })
+          .filter(airport => {
+            return airport.price < this.props.maxPrice;
+          });
+      } else {
+        airport_data = [];
+      }
     }
 
     // console.log('airports data:', airport_data);

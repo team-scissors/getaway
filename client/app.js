@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Router, Redirect } from 'react-router';
 import { Route, Switch } from 'react-router-dom';
+import { graphql } from 'react-apollo';
 import PropTypes from 'prop-types';
 import history from './history';
+import { flightsFromAirportByAbbrv } from './components/util_helper';
 import {
   Main,
   Flights,
@@ -67,6 +69,7 @@ const mapState = state => {
     // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
     // Otherwise, state.user will be an empty object, and state.user.id will be falsey
     isLoggedIn: !!state.user.id,
+    airportAbbrv: state.userInput.originAirportAbbrv,
   };
 };
 
@@ -78,7 +81,12 @@ const mapDispatch = dispatch => {
   };
 };
 
-export default connect(mapState, mapDispatch)(App);
+const ApolloApp = graphql(flightsFromAirportByAbbrv, {
+  options: ({ airportAbbrv }) => ({ variables: { airportAbbrv } }),
+  props: ({ data: { loading, departFrom } }) => ({ loading, departFrom }),
+})(App);
+
+export default connect(mapState, mapDispatch)(ApolloApp);
 
 /**
  * PROP TYPES
