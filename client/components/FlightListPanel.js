@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { graphql } from 'react-apollo';
 import { setAirport } from '../store/user-input';
+import scrollIntoView from 'scroll-into-view';
 import { flightsFromAirportByAbbrv } from './util_helper';
 
 /**
@@ -17,7 +18,7 @@ class FlightListPanel extends Component {
   };
 
   handleShow = abbrv => {
-    this.refs[abbrv].scrollIntoView({ block: 'center', behavior: 'smooth' });
+    scrollIntoView(this.refs[abbrv]);
   };
 
   render() {
