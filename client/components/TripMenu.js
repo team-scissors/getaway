@@ -14,11 +14,16 @@ class TripMenu extends Component {
       <div className="column is-narrow trip-menu">
         <aside className="menu menu-wrapper">
           <div className="sidenav-top-container">
-            <div className="tabs is-toggle is-fullwidth">
-              <ul>
-                <li>Trip List Goes Here</li>
-              </ul>
-            </div>
+            <ul>
+              {trip.length > 0 &&
+                trip.map((flight, idx) => {
+                  return (
+                    <li key={idx}>
+                      {flight.origin.name} to {flight.dest.name}
+                    </li>
+                  );
+                })}
+            </ul>
           </div>
         </aside>
       </div>
