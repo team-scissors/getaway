@@ -2,9 +2,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Link, NavLink } from 'react-router-dom';
 import { logout } from '../store';
+import { clearTrip } from '../store/user-input';
 import { ControlPanel, FlightListPanel } from '../components';
 
 class TripMenu extends Component {
+  handleClearTrip = () => {
+    this.props.dispatchClearTrip();
+  };
+
   render() {
     const { children, handleClick, isLoggedIn } = this.props;
     const { match, location, history, trip } = this.props;
@@ -25,6 +30,11 @@ class TripMenu extends Component {
                 })}
             </ul>
           </div>
+          {trip.length > 0 && (
+            <a className="button is-info" onClick={this.handleClearTrip}>
+              Clear Trip
+            </a>
+          )}
         </aside>
       </div>
     );
@@ -42,6 +52,9 @@ const mapDispatch = dispatch => {
   return {
     handleClick() {
       dispatch(logout());
+    },
+    dispatchClearTrip() {
+      dispatch(clearTrip());
     },
   };
 };
