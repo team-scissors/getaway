@@ -7,6 +7,7 @@ const CLEAR_TRIP = 'CLEAR_TRIP';
 const SET_MAX_PRICE = 'SET_MAX_PRICE';
 const ADD_FLIGHT_TO_TRIP = 'ADD_FLIGHT_TO_TRIP';
 const SET_SELECTED_DESTINATION_AIRPORT = 'SET_SELECTED_DESTINATION_AIRPORT';
+const SET_DATE = 'SET_DATE';
 /**
  * INITIAL STATE
  */
@@ -15,7 +16,7 @@ const initialState = {
   originAirportAbbrv: 'ORD',
   originAirport: {},
   selectedDestinationAirport: {},
-  departureDate: '',
+  departureDate: new Date(),
   maxPrice: 1000,
 };
 
@@ -25,6 +26,10 @@ const initialState = {
 
 export const addFlightToTrip = flight => {
   return { type: ADD_FLIGHT_TO_TRIP, flight };
+};
+
+export const setDate = date => {
+  return { type: SET_DATE, date };
 };
 
 export const clearTrip = () => {
@@ -52,6 +57,11 @@ export const getSelectedDestinationAirport = selectedAirport => {
  */
 export default function(state = initialState, action) {
   switch (action.type) {
+    case SET_DATE:
+      return {
+        ...state,
+        departureDate: action.date,
+      };
     case CLEAR_TRIP:
       return {
         ...state,

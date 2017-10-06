@@ -6,6 +6,7 @@ import {
   clearTrip,
   setMaxPrice,
   addFlightToTrip,
+  setDate,
 } from '../store/user-input';
 import { airportByAbbrv } from './util_helper';
 import DayPicker from 'react-day-picker';
@@ -90,16 +91,14 @@ class ControlPanel extends Component {
   };
 
   handleDayChange = day => {
-    this.setState({
-      selectedDay: day,
-    });
+    this.props.dispatchSetDate(day);
   };
 
   render() {
-    const { departFrom, selectedDestination } = this.props;
+    const { departFrom, selectedDestination, departureDate } = this.props;
     const selectedDay = this.state.selectedDay;
 
-    const formattedDay = selectedDay
+    const formattedDay = departureDate
       ? moment(selectedDay).format(DAY_FORMAT)
       : '';
 
@@ -208,6 +207,7 @@ const mapState = state => {
     selectedDestination: state.userInput.selectedDestinationAirport,
     abbrv: state.userInput.originAirportAbbrv,
     maxPrice: state.userInput.maxPrice,
+    departureDate: state.userInput.departureDate,
   };
 };
 
@@ -224,6 +224,9 @@ const mapDispatch = dispatch => {
     },
     dispatchClearTrip() {
       dispatch(clearTrip());
+    },
+    dispatchSetDate(date) {
+      dispatch(setDate(date));
     },
   };
 };
