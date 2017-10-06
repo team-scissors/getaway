@@ -1,16 +1,37 @@
 const moment = require('moment');
 const airports = require('../data/nonDuplicate_airports.json');
 const db = require('./db');
-const { User, Airport, Trip, FlightPrice } = require('./db/models');
+const { User, Airport, Trip, Flight } = require('./db/models');
 const topAirports = require('../data/topAirports.json');
 const geolib = require('geolib');
+const util = require('util');
 const Promise = require('bluebird');
+const Chance = require('chance');
+const chance = new Chance(1234);
 
 //iata_faa is the abbrv
 //airport = {"airport_id":"1","name":"Goroka","city":"Goroka","country":"Papua New Guinea","iata_faa":"GKA","iaco":"AYGA","latitude":"-6.081689","longitude":"145.391881","altitude":"5282","zone":"10","dst":"U"}
 //dataBase columns: name, abbrv, longitude, latitude,
 
 const pricePerKm = 0.18;
+
+// Initialize an array of 14 dates.
+const numDates = 14;
+let dates = [];
+for (let i=0; i<numDates; i++) {
+  dates.push(new Date(2018, 1, i+1));
+}
+
+let idx = 0;
+const getNextDate = () => {
+  const date = dates[idx];
+  idx = idx === dates.length-1 ? 0 : idx+1;
+  return date;
+};
+
+const generateNoise = distance => {
+  return distance / chance.random() / (1000 * 100);
+};
 
 /* ---------- Set up airports data ---------- */
 
@@ -24,8 +45,8 @@ const createAirports = airports =>
         country: airport.country,
         longitude: airport.longitude,
         latitude: airport.latitude,
-      }),
-    ),
+      })
+    )
   );
 
 /* ---------- Set up users ---------- */
@@ -58,65 +79,19 @@ const createUsers = users => Promise.all(users.map(user => User.create(user)));
 const fakeTrips = [
   {
     name: 'aaah! i need to run from the law!',
-    departFrom: 5275,
-    departAt: moment()
-      .add(1, 'days')
-      .format(),
     userId: 1,
   },
   {
     name: 'looking for a nice getaway',
-    departFrom: 45,
-    departAt: moment()
-      .add(21, 'days')
-      .format(),
     userId: 2,
   },
   {
     name: 'where even is papau new guinea?!1?',
-    departFrom: 51,
-    departAt: moment()
-      .add(3, 'months')
-      .format(),
     userId: 3,
   },
 ];
 
 const createTrips = trips => Promise.all(trips.map(trip => Trip.create(trip)));
-
-/* ---------- Set up flight-prices ---------- */
-
-const fakeFlightPrices = [
-  {
-    departAt: moment()
-      .add(2, 'months')
-      .format(),
-    fromId: 2585,
-    toId: 1,
-    price: 1860,
-  },
-  {
-    departAt: moment()
-      .add(4, 'months')
-      .format(),
-    fromId: 51,
-    toId: 3,
-    price: 810,
-  },
-  {
-    departAt: moment()
-      .add(6, 'days')
-      .format(),
-    fromId: 45,
-    toId: 220,
-    price: 1048,
-  },
-];
-
-// const createFlightPrices = fakeFlightPrices =>
-//   Promise.all(
-//     fakeFlightPrices.map(flightPrice => FlightPrice.create(flightPrice)),
-//   );
 
 /* ---------- Syncing database ---------- */
 const seed = () => {
@@ -124,6 +99,7 @@ const seed = () => {
     createAirports(airports),
     createUsers(fakeUsers),
   ]).spread((airports, users) => {
+    console.log(` -> seeded airports & users`);
     const topCreatedAirports = airports.filter(airport => {
       return (
         topAirports.find(searchAirport => {
@@ -135,7 +111,11 @@ const seed = () => {
 
     const createPrices = topCreatedAirports.map(fromAirport => {
       return Promise.all(
-        topCreatedAirports.map(toAirport => {
+        topCreatedAirports
+        // for each major airport, add flights to each every other major airport
+        // but exclude those that are too close to it. If too close, this will
+        // map to undefined
+        .map(toAirport => {
           const distance = geolib.getDistance(
             {
               latitude: fromAirport.latitude,
@@ -144,29 +124,32 @@ const seed = () => {
             {
               latitude: toAirport.latitude,
               longitude: toAirport.longitude,
-            },
+            }
           );
           const minDist = 241.402 * 1000; // Minimum distance for a flight to exist
           if (distance < minDist) return;
           return fromAirport.addToAirport(toAirport, {
             through: {
-              price: distance / 1000 * pricePerKm,
-              departAt: Date.now(),
+              price: (distance / 1000 * pricePerKm) + generateNoise(distance),
+              departAt: getNextDate(),
             },
           });
-        }),
+        })
+        // filter out those that are undefined
+        .filter(i => i)
       );
-      // topCreatedAirports.map(toAirport => {
-      //   fromAirport.addTo(toAirport, { as: 'from', through: FlightPrice });
-      // });
     });
-
-    const createTrips = fakeTrips.map(trip => {
-      return Trip.create(trip);
-    });
-
-    return Promise.all([...createPrices, ...createTrips]);
-  });
+    return Promise.all(createPrices);
+  })
+  .then( prices => {
+    // console.log(util.inspect(prices, {
+    //   depth: 3,
+    //   showHidden: true,
+    //   colors: true,
+    //   maxArrayLength: 10,
+    // }));
+    return Promise.resolve();
+  })
 };
 
 db
