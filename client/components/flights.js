@@ -61,33 +61,32 @@ class Flights extends Component {
         latitude: this.props.departFrom.latitude,
         longitude: this.props.departFrom.longitude,
       };
-      airport_data = this.props.departFrom.flights.nodes
-        .map(flight => {
-          return {
-            city: flight.arriveAt.city,
-            abbrv: flight.arriveAt.abbrv,
-            name: flight.arriveAt.name,
-            price: +flight.price,
-            country: flight.arriveAt.country,
+      airport_data = this.props.departFrom.flights.nodes.map(flight => {
+        return {
+          city: flight.arriveAt.city,
+          abbrv: flight.arriveAt.abbrv,
+          name: flight.arriveAt.name,
+          price: +flight.price,
+          country: flight.arriveAt.country,
+          latitude: flight.arriveAt.latitude,
+          longitude: flight.arriveAt.longitude,
+          distance: geolib.getDistance(curAirport, {
             latitude: flight.arriveAt.latitude,
             longitude: flight.arriveAt.longitude,
-            distance: geolib.getDistance(curAirport, {
-              latitude: flight.arriveAt.latitude,
-              longitude: flight.arriveAt.longitude,
-            }),
-            // Victory polar is counter-clockwise
-            bearing:
-              (90 -
-                geolib.getBearing(curAirport, {
-                  latitude: flight.arriveAt.latitude,
-                  longitude: flight.arriveAt.longitude,
-                })) %
-              360,
-          };
-        })
-        .filter(airport => {
-          return airport.price < 1000;
-        });
+          }),
+          // Victory polar is counter-clockwise
+          bearing:
+            (90 -
+              geolib.getBearing(curAirport, {
+                latitude: flight.arriveAt.latitude,
+                longitude: flight.arriveAt.longitude,
+              })) %
+            360,
+        };
+      });
+      // .filter(airport => {
+      //   return airport.price < 10000;
+      // });
     }
 
     // console.log('airports data:', airport_data);
@@ -97,7 +96,7 @@ class Flights extends Component {
     console.log('selected dest:', selectedDestination);
     return (
       <VictoryChart
-        animate={{ duration: 1000, easing: 'quadInOut' }}
+        animate={{ duration: 500, easing: 'quadInOut' }}
         polar
         width={500}
         height={500}

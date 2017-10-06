@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { graphql } from 'react-apollo';
-import { setAirport } from '../store/user-input';
+import { setAirport, setMaxPrice } from '../store/user-input';
 import { airportByAbbrv } from './util_helper';
 import DayPicker from 'react-day-picker';
 import moment from 'moment';
@@ -24,6 +24,7 @@ class ControlPanel extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      maxPriceValue: 0,
       originValue: '',
       selectedDay: undefined,
       isLoading: '',
@@ -51,6 +52,20 @@ class ControlPanel extends Component {
     this.props.dispatchSetAirport(this.state.originValue.toUpperCase());
   };
 
+  handleMaxPriceSubmit = evt => {
+    evt.preventDefault();
+    if (this.state.maxPriceValue <= 0) {
+      return;
+    }
+    this.props.dispatchSetMaxPrice(this.state.maxPriceValue);
+  };
+
+  maxPriceChange = evt => {
+    this.setState({
+      maxPriceValue: evt.target.value,
+    });
+  };
+
   handleDayChange = day => {
     this.setState({
       selectedDay: day,
@@ -70,19 +85,19 @@ class ControlPanel extends Component {
         <nav className="panel">
           <div className="panel-block">
             <div
-              className={`control is-small ${this.state
+              className={`control is-medium ${this.state
                 .isLoading} has-icons-left`}
             >
               <form onSubmit={this.handleOriginSubmit}>
                 <div className="control">
                   <input
-                    className="input is-small"
+                    className="input is-medium"
                     type="text"
                     placeholder="Enter Origin Airport Code"
                     value={this.state.originValue}
                     onChange={this.handleOriginChange}
                   />
-                  <span className="icon is-small is-left">
+                  <span className="icon is-medium is-left">
                     <i className="fa fa-search" />
                   </span>
                 </div>
@@ -100,55 +115,55 @@ class ControlPanel extends Component {
                   dayPickerProps={dayPickerProps}
                 />
               </div>
-              <div class="field has-addons">
-                <div class="control">
-                  <a class="button is-static is-small">$</a>
+              <div className="field has-addons">
+                <div className="control">
+                  <a className="button is-static is-small">$</a>
                 </div>
                 <div className="control">
-                  <input
-                    className="input is-small"
-                    type="text"
-                    placeholder="Maximum Price"
-                    value={this.state.value}
-                    onChange={this.handleChange}
-                  />
+                  <form onSubmit={this.handleMaxPriceSubmit}>
+                    <input
+                      className="input is-small"
+                      type="text"
+                      placeholder="Maximum Price"
+                      value={this.state.maxPriceValue}
+                      onChange={this.maxPriceChange}
+                    />
+                  </form>
                 </div>
               </div>
             </div>
           </div>
           <div className="panel-block">
-            <div className="columns panel-columns">
-              <div className="column">
-                {departFrom && (
-                  <div className="card origin-card">
-                    <div className="card-content">
-                      <strong>From:</strong>
-                      {` ${departFrom.abbrv}, ${departFrom.city}`}
-                      {selectedDestination.abbrv && (
-                        <div>
-                          <strong>To:</strong>
-                          {` ${selectedDestination.abbrv},
+            {departFrom && (
+              <div className="card origin-card">
+                <div className="card-content">
+                  Listing flights under ${this.props.maxPrice}
+                  <p />
+                  <strong>From:</strong>
+                  {` ${departFrom.abbrv}, ${departFrom.city}`}
+                  {selectedDestination.abbrv && (
+                    <div>
+                      <strong>To:</strong>
+                      {` ${selectedDestination.abbrv},
                              ${selectedDestination.city}`}
-                        </div>
-                      )}
-                      {selectedDestination.abbrv && formattedDay.length > 0 ? (
-                        <p>
-                          on
-                          <strong>{`${formattedDay}`} for </strong>
-                          {
-                            <strong>
-                              {`$${Math.trunc(selectedDestination.price)}`}
-                            </strong>
-                          }
-                        </p>
-                      ) : (
-                        ''
-                      )}
                     </div>
-                  </div>
-                )}
+                  )}
+                  {selectedDestination.abbrv && formattedDay.length > 0 ? (
+                    <p>
+                      on
+                      <strong>{`${formattedDay}`} for </strong>
+                      {
+                        <strong>
+                          {`$${Math.trunc(selectedDestination.price)}`}
+                        </strong>
+                      }
+                    </p>
+                  ) : (
+                    ''
+                  )}
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </nav>
       </div>
@@ -163,6 +178,7 @@ const mapState = state => {
   return {
     selectedDestination: state.userInput.selectedDestinationAirport,
     abbrv: state.userInput.originAirportAbbrv,
+    maxPrice: state.userInput.maxPrice,
   };
 };
 
@@ -170,6 +186,9 @@ const mapDispatch = dispatch => {
   return {
     dispatchSetAirport(input) {
       dispatch(setAirport(input));
+    },
+    dispatchSetMaxPrice(maxPrice) {
+      dispatch(setMaxPrice(maxPrice));
     },
   };
 };
