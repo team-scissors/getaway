@@ -85,6 +85,7 @@ const seed = () => {
     createAirports(airports),
     createUsers(fakeUsers),
   ]).spread((airports, users) => {
+    console.log(` -> seeded airports & users`);
     const topCreatedAirports = airports.filter(airport => {
       return (
         topAirports.find(searchAirport => {
@@ -126,6 +127,7 @@ const seed = () => {
     return Promise.all([...createPrices, ...createTrips]);
   })
   .spread( (prices, trips) => {
+    console.log(` -> seeded flights & trips`);
     return Promise.resolve();
   })
 };
