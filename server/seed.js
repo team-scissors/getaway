@@ -1,7 +1,7 @@
 const moment = require('moment');
 const airports = require('../data/nonDuplicate_airports.json');
 const db = require('./db');
-const { User, Airport, Trip, FlightPrice } = require('./db/models');
+const { User, Airport, Trip, Flight } = require('./db/models');
 const topAirports = require('../data/topAirports.json');
 const geolib = require('geolib');
 const Promise = require('bluebird');
@@ -11,6 +11,13 @@ const Promise = require('bluebird');
 //dataBase columns: name, abbrv, longitude, latitude,
 
 const pricePerKm = 0.18;
+
+// Initialize an array of 14 dates.
+const numDates = 14;
+let dates = [];
+for (let i=0; i<numDates; i++) {
+  dates.push(new Date(2018, 1, i+1));
+}
 
 /* ---------- Set up airports data ---------- */
 
@@ -58,26 +65,14 @@ const createUsers = users => Promise.all(users.map(user => User.create(user)));
 const fakeTrips = [
   {
     name: 'aaah! i need to run from the law!',
-    departFrom: 5275,
-    departAt: moment()
-      .add(1, 'days')
-      .format(),
     userId: 1,
   },
   {
     name: 'looking for a nice getaway',
-    departFrom: 45,
-    departAt: moment()
-      .add(21, 'days')
-      .format(),
     userId: 2,
   },
   {
     name: 'where even is papau new guinea?!1?',
-    departFrom: 51,
-    departAt: moment()
-      .add(3, 'months')
-      .format(),
     userId: 3,
   },
 ];
@@ -86,7 +81,7 @@ const createTrips = trips => Promise.all(trips.map(trip => Trip.create(trip)));
 
 /* ---------- Set up flight-prices ---------- */
 
-const fakeFlightPrices = [
+const fakeFlights = [
   {
     departAt: moment()
       .add(2, 'months')
@@ -112,11 +107,6 @@ const fakeFlightPrices = [
     price: 1048,
   },
 ];
-
-// const createFlightPrices = fakeFlightPrices =>
-//   Promise.all(
-//     fakeFlightPrices.map(flightPrice => FlightPrice.create(flightPrice)),
-//   );
 
 /* ---------- Syncing database ---------- */
 const seed = () => {
@@ -156,9 +146,6 @@ const seed = () => {
           });
         }),
       );
-      // topCreatedAirports.map(toAirport => {
-      //   fromAirport.addTo(toAirport, { as: 'from', through: FlightPrice });
-      // });
     });
 
     const createTrips = fakeTrips.map(trip => {
@@ -166,7 +153,10 @@ const seed = () => {
     });
 
     return Promise.all([...createPrices, ...createTrips]);
-  });
+  })
+  .spread( (prices, trips) => {
+    return Promise.resolve();
+  })
 };
 
 db

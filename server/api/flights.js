@@ -5,7 +5,7 @@ const topAirports = require('../../data/topAirports.json');
 /*Use Amadeus API to fetch flight ticket prices
 e.g) origin=BOS&departure_date=2015-09-06--2015-09-26&duration=7--9&max_price=500
 
-expected Output: 
+expected Output:
 
 { origin: 'BOS',
   currency: 'USD',
@@ -24,10 +24,10 @@ expected Output:
 }
 */
 
-const getFlightPrices = (origin, departureDate, maxPrice, apiKey="pryQGXaCG5zkd5P3yAGEQbWX9uMawvpT") => {
+const getFlights = (origin, departureDate, maxPrice, apiKey="pryQGXaCG5zkd5P3yAGEQbWX9uMawvpT") => {
   return new Promise((resolve, reject) => {
     unirest.get(`http://api.sandbox.amadeus.com/v1.2/flights/inspiration-search?origin=${origin}&departure_date=${departureDate}&max_price=${maxPrice}&apikey=${apiKey}`)
-      .header("Accept", "application/json") 
+      .header("Accept", "application/json")
       .end(result => {
         if (result.status === 200) resolve(result.body);
         else reject(`Failed to fetch flight prices from: ${origin}`);
@@ -36,7 +36,7 @@ const getFlightPrices = (origin, departureDate, maxPrice, apiKey="pryQGXaCG5zkd5
 };
 
 //Fetches flights with destinations that are in the top 100 airport list
-getFlightPrices(origin="BOS", departureDate="2017-10-20", maxPrice="1000")
+getFlights(origin="BOS", departureDate="2017-10-20", maxPrice="1000")
   .then(bigObject => {
     return bigObject.results
   })
