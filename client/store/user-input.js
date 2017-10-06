@@ -13,7 +13,7 @@ const initialState = {
   originAirport: {},
   selectedDestinationAirport: {},
   departureDate: '',
-  maxPrice: 5000,
+  maxPrice: 1000,
 };
 
 /**

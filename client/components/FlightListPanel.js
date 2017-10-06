@@ -14,11 +14,14 @@ class FlightListPanel extends Component {
 
   render() {
     const { departFrom } = this.props;
-    const airportList = departFrom ? departFrom.flights.nodes.slice() : [];
+    let airportList = departFrom ? departFrom.flights.nodes.slice() : [];
 
     if (airportList.length > 0) {
       airportList.sort((a, b) => {
         return a.price - b.price;
+      });
+      airportList = airportList.filter(airport => {
+        return airport.price < this.props.maxPrice;
       });
     }
 
@@ -50,6 +53,7 @@ const mapState = state => {
   return {
     selectedDestination: state.userInput.selectedDestinationAirport,
     airportAbbrv: state.userInput.originAirportAbbrv,
+    maxPrice: state.userInput.maxPrice,
   };
 };
 
