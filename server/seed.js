@@ -79,35 +79,6 @@ const fakeTrips = [
 
 const createTrips = trips => Promise.all(trips.map(trip => Trip.create(trip)));
 
-/* ---------- Set up flight-prices ---------- */
-
-const fakeFlights = [
-  {
-    departAt: moment()
-      .add(2, 'months')
-      .format(),
-    fromId: 2585,
-    toId: 1,
-    price: 1860,
-  },
-  {
-    departAt: moment()
-      .add(4, 'months')
-      .format(),
-    fromId: 51,
-    toId: 3,
-    price: 810,
-  },
-  {
-    departAt: moment()
-      .add(6, 'days')
-      .format(),
-    fromId: 45,
-    toId: 220,
-    price: 1048,
-  },
-];
-
 /* ---------- Syncing database ---------- */
 const seed = () => {
   return Promise.all([
