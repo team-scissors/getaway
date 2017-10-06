@@ -3,6 +3,7 @@ const {Flight} = require('../db/models')
 module.exports = router
 
 router.get('/', (req, res, next) => {
+  //find flights by departure date and max price
   if(req.query.departureDate && req.query.maxPrice ){
     Flight.findAll({
       where: {
@@ -15,6 +16,7 @@ router.get('/', (req, res, next) => {
       .then(flights => res.json(flights))
       .catch(next);
   }
+  //find flights by departure date
   else if(req.query.departureDate){
     Flight.findAll({
       where: {
