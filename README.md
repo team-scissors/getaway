@@ -1,2 +1,2 @@
 # getaway
-How far can you go on a budget of ________ ?
+A travel-recommendation app that helps users find places to travel to within their given budgets!
