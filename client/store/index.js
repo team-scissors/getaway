@@ -14,7 +14,7 @@ import userInput from './user-input';
 // At this time, the GraphQL URI route is hard-coded. This won't work in production.
 // TODO: Instead of hard-coding it, find the production URI and set the client to that.
 const networkInterface = createNetworkInterface({
-  uri: 'http://localhost:8080/graphql',
+  uri: '/graphql',
 });
 export const client = new ApolloClient({
   networkInterface,
