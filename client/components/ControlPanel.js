@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { graphql } from 'react-apollo';
-import { setAirport, setMaxPrice } from '../store/user-input';
+import {
+  setAirport,
+  clearTrip,
+  setMaxPrice,
+  addFlightToTrip,
+} from '../store/user-input';
 import { airportByAbbrv } from './util_helper';
 import DayPicker from 'react-day-picker';
 import moment from 'moment';
@@ -27,6 +32,7 @@ class ControlPanel extends Component {
       maxPriceValue: 0,
       originValue: '',
       selectedDay: undefined,
+      originAirport: {},
       isLoading: '',
     };
     console.log('this.props.setAirportInput:');
@@ -38,6 +44,21 @@ class ControlPanel extends Component {
       isLoading: nextProps.loading ? 'is-loading' : '',
     });
   }
+
+  handleAddTrip = evt => {
+    const flight = {
+      origin: { ...this.props.departFrom },
+      dest: { ...this.props.selectedDestination },
+      date: this.state.selectedDay,
+      price: this.props.selectedDestination.price,
+    };
+    // console.log('flight: ', flight);
+    this.props.dispatchAddFlightToTrip(flight);
+  };
+
+  handleClearTrip = evt => {
+    this.props.dispatchClearTrip();
+  };
 
   handleOriginChange = evt => {
     this.setState({ originValue: evt.target.value }, () => {});
@@ -159,6 +180,12 @@ class ControlPanel extends Component {
                           {` $${Math.trunc(selectedDestination.price)}`}
                         </strong>
                       }
+                      <a
+                        className="button is-primary"
+                        onClick={this.handleAddTrip}
+                      >
+                        Add To Trip
+                      </a>
                     </p>
                   ) : (
                     ''
@@ -191,6 +218,12 @@ const mapDispatch = dispatch => {
     },
     dispatchSetMaxPrice(maxPrice) {
       dispatch(setMaxPrice(maxPrice));
+    },
+    dispatchAddFlightToTrip(flight) {
+      dispatch(addFlightToTrip(flight));
+    },
+    dispatchClearTrip() {
+      dispatch(clearTrip());
     },
   };
 };

@@ -63,11 +63,22 @@ html {
   height: 100vh;
 }
 
+.trip-menu {
+  // box-sizing: content-box;
+  padding-right: 0;
+  padding: 20px;
+  min-width: 400px;
+  height: 100vh;
+  background: #fefefe;
+  box-shadow: -1px 0px 5px 0px rgba(50, 50, 50, 0.5);
+  border: 1x solid teal;
+}
+
 .sidenav {
   // box-sizing: content-box;
   padding-right: 0;
   padding: 20px;
-  min-width: 250px;
+  max-width: 400px;
   height: 100vh;
   background: #fefefe;
   box-shadow: -1px 0px 5px 0px rgba(50, 50, 50, 0.5);

@@ -13,6 +13,7 @@ import {
   Signup,
   D3Test,
   UserHome,
+  TripMenu,
 } from './components';
 import { me } from './store';
 
@@ -50,7 +51,8 @@ class App extends Component {
               )}
             </Switch>
           </div>
-          <div className="button is-primary floating-button">User</div>
+          <TripMenu />
+          {/* <div className="button is-primary floating-button">User</div> */}
         </div>
       </Router>
     );

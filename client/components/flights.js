@@ -131,19 +131,21 @@ class Flights extends Component {
             onEnter: {
               duration: 200,
               before: () => ({
-                fill: 'orange',
+                fill: 'tomato',
+                fillOpacity: 0.3,
               }),
             },
             onExit: {
               duration: 500,
               before: () => ({
-                fill: 'orange',
+                fill: 'tomato',
+                fillOpacity: 0.3,
               }),
             },
           }}
           style={{ data: { fill: 'tomato' } }}
           labels={d =>
-            `${d.name} \n ${d.city}, ${d.country} \n Price:$${Math.trunc(
+            `${d.abbrv}\n ${d.name} \n ${d.city}, ${d.country} \n Price:$${Math.trunc(
               d.price,
             )}`}
           // labels={d => `${d.abbrv}`}
