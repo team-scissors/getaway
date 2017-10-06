@@ -4,6 +4,7 @@ const db = require('./db');
 const { User, Airport, Trip, Flight } = require('./db/models');
 const topAirports = require('../data/topAirports.json');
 const geolib = require('geolib');
+const util = require('util');
 const Promise = require('bluebird');
 
 //iata_faa is the abbrv
@@ -126,9 +127,19 @@ const seed = () => {
 
     return Promise.all([...createPrices, ...createTrips]);
   })
-  .spread( (prices, trips) => {
+  .spread( (flightsAndTrips) => {
+    console.log('flightsAndTrips: ');
+    console.log(util.inspect(flightsAndTrips, {
+      depth: 4,
+      showHidden: true,
+      colors: true,
+      maxArrayLength: 6,
+    }));
     console.log(` -> seeded flights & trips`);
-    return Promise.resolve();
+  })
+  .then(associated => {
+    console.log(' -> trips associated with flights');
+    // console.log(associated);
   })
 };
 
