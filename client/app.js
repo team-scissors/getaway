@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Router } from 'react-router';
+import { Router, Redirect } from 'react-router';
 import { Route, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import history from './history';
@@ -34,6 +34,7 @@ class App extends Component {
           <div className="column main-content">
             <Switch>
               {/* Routes placed here are available to all visitors */}
+              <Route exact path="/" render={() => <Redirect to="/flights" />} />
               <Route path="/rideshare" component={Map} />
               <Route path="/flights" component={Flights} />
               {isLoggedIn ? (
