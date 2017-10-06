@@ -98,7 +98,11 @@ const seed = () => {
 
     const createPrices = topCreatedAirports.map(fromAirport => {
       return Promise.all(
-        topCreatedAirports.map(toAirport => {
+        topCreatedAirports
+        // for each major airport, add flights to each every other major airport
+        // but exclude those that are too close to it. If too close, this will
+        // map to undefined
+        .map(toAirport => {
           const distance = geolib.getDistance(
             {
               latitude: fromAirport.latitude,
@@ -117,29 +121,21 @@ const seed = () => {
               departAt: Date.now(),
             },
           });
-        }),
+        })
+        // filter out those that are undefined
+        .filter(i => i)
       );
     });
-
-    const createTrips = fakeTrips.map(trip => {
-      return Trip.create(trip);
-    });
-
-    return Promise.all([...createPrices, ...createTrips]);
+    return Promise.all(createPrices);
   })
-  .spread( (flightsAndTrips) => {
-    console.log('flightsAndTrips: ');
-    console.log(util.inspect(flightsAndTrips, {
-      depth: 4,
+  .then( prices => {
+    console.log(util.inspect(prices, {
+      depth: 3,
       showHidden: true,
       colors: true,
-      maxArrayLength: 6,
+      maxArrayLength: 10,
     }));
-    console.log(` -> seeded flights & trips`);
-  })
-  .then(associated => {
-    console.log(' -> trips associated with flights');
-    // console.log(associated);
+    return Promise.resolve();
   })
 };
 
