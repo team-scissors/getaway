@@ -12,6 +12,12 @@ const Promise = require('bluebird');
 
 const pricePerKm = 0.18;
 
+let dates = [];
+const numDates = 13;
+for (let i=0; i<numDates; i++) {
+  dates.push(new Date(2018, 1, i+1));
+}
+
 /* ---------- Set up airports data ---------- */
 
 const createAirports = airports =>
@@ -58,26 +64,14 @@ const createUsers = users => Promise.all(users.map(user => User.create(user)));
 const fakeTrips = [
   {
     name: 'aaah! i need to run from the law!',
-    departFrom: 5275,
-    departAt: moment()
-      .add(1, 'days')
-      .format(),
     userId: 1,
   },
   {
     name: 'looking for a nice getaway',
-    departFrom: 45,
-    departAt: moment()
-      .add(21, 'days')
-      .format(),
     userId: 2,
   },
   {
     name: 'where even is papau new guinea?!1?',
-    departFrom: 51,
-    departAt: moment()
-      .add(3, 'months')
-      .format(),
     userId: 3,
   },
 ];
@@ -112,11 +106,6 @@ const fakeFlightPrices = [
     price: 1048,
   },
 ];
-
-// const createFlightPrices = fakeFlightPrices =>
-//   Promise.all(
-//     fakeFlightPrices.map(flightPrice => FlightPrice.create(flightPrice)),
-//   );
 
 /* ---------- Syncing database ---------- */
 const seed = () => {

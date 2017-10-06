@@ -7,12 +7,9 @@ const FlightPrice = require('./flight-price');
 // Each trip is connected to a variety of airports as 'arrivals'.
 // Use getAirports() and addAirport() to access these from a trip.
 User.hasMany(Trip);
-Trip.belongsTo(User);
-Trip.belongsToMany(Airport, {through: 'tripArrivals'});
 
-// Each trip has one departing airport and many possible arrival airports.
-// The possible destinations are stored in the airports column as an array.
-Trip.belongsTo(Airport, { foreignKey: 'departFrom' });
+// Each trip is has a collection of flightPrices.
+Trip.belongsTo(User);
 Trip.hasMany(FlightPrice);
 
 // FlightPrice stores the price between two airports, from and to.
