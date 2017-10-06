@@ -1,7 +1,7 @@
 const moment = require('moment');
 const airports = require('../data/nonDuplicate_airports.json');
 const db = require('./db');
-const { User, Airport, Trip, FlightPrice } = require('./db/models');
+const { User, Airport, Trip, Flight } = require('./db/models');
 const topAirports = require('../data/topAirports.json');
 const geolib = require('geolib');
 const Promise = require('bluebird');
@@ -11,6 +11,13 @@ const Promise = require('bluebird');
 //dataBase columns: name, abbrv, longitude, latitude,
 
 const pricePerKm = 0.18;
+
+// Initialize an array of 14 dates.
+const numDates = 14;
+let dates = [];
+for (let i=0; i<numDates; i++) {
+  dates.push(new Date(2018, 1, i+1));
+}
 
 /* ---------- Set up airports data ---------- */
 
@@ -58,65 +65,19 @@ const createUsers = users => Promise.all(users.map(user => User.create(user)));
 const fakeTrips = [
   {
     name: 'aaah! i need to run from the law!',
-    departFrom: 5275,
-    departAt: moment()
-      .add(1, 'days')
-      .format(),
     userId: 1,
   },
   {
     name: 'looking for a nice getaway',
-    departFrom: 45,
-    departAt: moment()
-      .add(21, 'days')
-      .format(),
     userId: 2,
   },
   {
     name: 'where even is papau new guinea?!1?',
-    departFrom: 51,
-    departAt: moment()
-      .add(3, 'months')
-      .format(),
     userId: 3,
   },
 ];
 
 const createTrips = trips => Promise.all(trips.map(trip => Trip.create(trip)));
-
-/* ---------- Set up flight-prices ---------- */
-
-const fakeFlightPrices = [
-  {
-    departAt: moment()
-      .add(2, 'months')
-      .format(),
-    fromId: 2585,
-    toId: 1,
-    price: 1860,
-  },
-  {
-    departAt: moment()
-      .add(4, 'months')
-      .format(),
-    fromId: 51,
-    toId: 3,
-    price: 810,
-  },
-  {
-    departAt: moment()
-      .add(6, 'days')
-      .format(),
-    fromId: 45,
-    toId: 220,
-    price: 1048,
-  },
-];
-
-// const createFlightPrices = fakeFlightPrices =>
-//   Promise.all(
-//     fakeFlightPrices.map(flightPrice => FlightPrice.create(flightPrice)),
-//   );
 
 /* ---------- Syncing database ---------- */
 const seed = () => {
@@ -124,6 +85,7 @@ const seed = () => {
     createAirports(airports),
     createUsers(fakeUsers),
   ]).spread((airports, users) => {
+    console.log(` -> seeded airports & users`);
     const topCreatedAirports = airports.filter(airport => {
       return (
         topAirports.find(searchAirport => {
@@ -156,9 +118,6 @@ const seed = () => {
           });
         }),
       );
-      // topCreatedAirports.map(toAirport => {
-      //   fromAirport.addTo(toAirport, { as: 'from', through: FlightPrice });
-      // });
     });
 
     const createTrips = fakeTrips.map(trip => {
@@ -166,7 +125,11 @@ const seed = () => {
     });
 
     return Promise.all([...createPrices, ...createTrips]);
-  });
+  })
+  .spread( (prices, trips) => {
+    console.log(` -> seeded flights & trips`);
+    return Promise.resolve();
+  })
 };
 
 db
