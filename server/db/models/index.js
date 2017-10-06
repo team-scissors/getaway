@@ -10,7 +10,13 @@ User.hasMany(Trip);
 
 // Each trip is has a collection of flightPrices.
 Trip.belongsTo(User);
-Trip.hasMany(FlightPrice);
+Trip.belongsToMany(FlightPrice, {
+  through: 'tripFlights',
+  // foreignKey: 'tripId',
+});
+FlightPrice.belongsToMany(Trip, {
+  through: 'tripFlights',
+});
 
 // FlightPrice stores the price between two airports, from and to.
 // Note that the price from one airport to another varies depending on the

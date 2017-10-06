@@ -146,9 +146,6 @@ const seed = () => {
           });
         }),
       );
-      // topCreatedAirports.map(toAirport => {
-      //   fromAirport.addTo(toAirport, { as: 'from', through: FlightPrice });
-      // });
     });
 
     const createTrips = fakeTrips.map(trip => {
@@ -156,7 +153,11 @@ const seed = () => {
     });
 
     return Promise.all([...createPrices, ...createTrips]);
-  });
+  })
+  .spread( (prices, trips) => {
+    console.log('prices:');
+    console.log(prices);
+  })
 };
 
 db
