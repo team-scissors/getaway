@@ -30,10 +30,7 @@ const getNextDate = () => {
 };
 
 const generateNoise = distance => {
-  // console.log('distance:', distance);
-  const noise = distance / chance.random() / (1000 * 100);
-  console.log(noise);
-  return noise;
+  return distance / chance.random() / (1000 * 100);
 };
 
 /* ---------- Set up airports data ---------- */
