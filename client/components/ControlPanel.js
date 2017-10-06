@@ -60,6 +60,15 @@ class ControlPanel extends Component {
       ? moment(selectedDay).format(DAY_FORMAT)
       : '';
 
+    const dayPickerProps = {
+      disabledDays: {
+        before: new Date(),
+      },
+      modifiers: {
+        monday: { daysOfWeek: [1] },
+      },
+    };
+
     return (
       <div>
         <nav className="panel">
@@ -87,6 +96,7 @@ class ControlPanel extends Component {
               onDayChange={this.handleDayChange}
               className="input is-small calendar"
               placeholder="Leaving On"
+              dayPickerProps={dayPickerProps}
             />
           </div>
           <div className="panel-block">
