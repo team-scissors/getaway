@@ -27,7 +27,14 @@ const getNextDate = () => {
   const date = dates[idx];
   idx = idx === dates.length-1 ? 0 : idx+1;
   return date;
-}
+};
+
+const generateNoise = distance => {
+  // console.log('distance:', distance);
+  const noise = distance / chance.random() / (1000 * 100);
+  console.log(noise);
+  return noise;
+};
 
 /* ---------- Set up airports data ---------- */
 
@@ -120,13 +127,13 @@ const seed = () => {
             {
               latitude: toAirport.latitude,
               longitude: toAirport.longitude,
-            },
+            }
           );
           const minDist = 241.402 * 1000; // Minimum distance for a flight to exist
           if (distance < minDist) return;
           return fromAirport.addToAirport(toAirport, {
             through: {
-              price: distance / 1000 * pricePerKm,
+              price: (distance / 1000 * pricePerKm) + generateNoise(distance),
               departAt: getNextDate(),
             },
           });
@@ -138,12 +145,12 @@ const seed = () => {
     return Promise.all(createPrices);
   })
   .then( prices => {
-    console.log(util.inspect(prices, {
-      depth: 3,
-      showHidden: true,
-      colors: true,
-      maxArrayLength: 10,
-    }));
+    // console.log(util.inspect(prices, {
+    //   depth: 3,
+    //   showHidden: true,
+    //   colors: true,
+    //   maxArrayLength: 10,
+    // }));
     return Promise.resolve();
   })
 };
