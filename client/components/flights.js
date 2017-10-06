@@ -65,6 +65,7 @@ class Flights extends Component {
         .map(flight => {
           return {
             city: flight.arriveAt.city,
+            abbrv: flight.arriveAt.abbrv,
             name: flight.arriveAt.name,
             price: +flight.price,
             country: flight.arriveAt.country,
@@ -163,7 +164,9 @@ class Flights extends Component {
                         const airportData = props.datum;
                         const selectedAirport = {
                           name: airportData.name,
+                          abbrv: airportData.abbrv,
                           price: airportData.price,
+                          city: airportData.city,
                           country: airportData.country,
                           latitude: airportData.latitude,
                           longitude: airportData.longitude,

@@ -22,9 +22,9 @@ class SideMenu extends Component {
                 >
                   <NavLink to="/flights" activeClassName="is-active">
                     <span className="icon is-small">
-                      <i className="fa fa-plane" />
+                      <i className="fa fa-dot-circle-o" />
                     </span>
-                    <span>Flights</span>
+                    <span>Explore</span>
                   </NavLink>
                 </li>
                 <li
@@ -34,9 +34,9 @@ class SideMenu extends Component {
                 >
                   <NavLink to="/rideshare" activeClassName="is-active">
                     <span className="icon is-small">
-                      <i className="fa fa-car" />
+                      <i className="fa fa-map" />
                     </span>
-                    <span>Rideshare</span>
+                    <span>Map</span>
                   </NavLink>
                 </li>
                 <li>

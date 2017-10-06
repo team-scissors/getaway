@@ -8,6 +8,14 @@ import moment from 'moment';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 
 const DAY_FORMAT = 'MM/DD/YYYY';
+const dayPickerProps = {
+  disabledDays: {
+    before: new Date(),
+  },
+  modifiers: {
+    monday: { daysOfWeek: [1] },
+  },
+};
 
 /**
  * COMPONENT
@@ -16,14 +24,12 @@ class ControlPanel extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: '',
+      originValue: '',
       selectedDay: undefined,
       isLoading: '',
     };
     console.log('this.props.setAirportInput:');
     console.log(this.props.setAirportInput);
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -32,18 +38,18 @@ class ControlPanel extends Component {
     });
   }
 
-  handleChange(evt) {
-    this.setState({ value: evt.target.value }, () => {});
-  }
+  handleOriginChange = evt => {
+    this.setState({ originValue: evt.target.value }, () => {});
+  };
 
-  handleSubmit(evt) {
+  handleOriginSubmit = evt => {
     evt.preventDefault();
-    if (this.state.value.length < 3) {
+    if (this.state.originValue.length < 3) {
       this.setState({ placeholder: 'Invalid Code' }, () => {});
       return;
     }
-    this.props.dispatchSetAirport(this.state.value.toUpperCase());
-  }
+    this.props.dispatchSetAirport(this.state.originValue.toUpperCase());
+  };
 
   handleDayChange = day => {
     this.setState({
@@ -52,22 +58,12 @@ class ControlPanel extends Component {
   };
 
   render() {
-    const { departFrom } = this.props;
+    const { departFrom, selectedDestination } = this.props;
     const selectedDay = this.state.selectedDay;
 
-    console.log('selected day:', selectedDay);
     const formattedDay = selectedDay
       ? moment(selectedDay).format(DAY_FORMAT)
       : '';
-
-    const dayPickerProps = {
-      disabledDays: {
-        before: new Date(),
-      },
-      modifiers: {
-        monday: { daysOfWeek: [1] },
-      },
-    };
 
     return (
       <div>
@@ -77,38 +73,82 @@ class ControlPanel extends Component {
               className={`control is-small ${this.state
                 .isLoading} has-icons-left`}
             >
-              <form onSubmit={this.handleSubmit}>
-                <input
-                  className="input is-small"
-                  type="text"
-                  placeholder="Enter Origin Airport Code"
-                  onChange={this.handleChange}
-                />
-                <span className="icon is-small is-left">
-                  <i className="fa fa-search" />
-                </span>
+              <form onSubmit={this.handleOriginSubmit}>
+                <div className="control">
+                  <input
+                    className="input is-small"
+                    type="text"
+                    placeholder="Enter Origin Airport Code"
+                    value={this.state.originValue}
+                    onChange={this.handleOriginChange}
+                  />
+                  <span className="icon is-small is-left">
+                    <i className="fa fa-search" />
+                  </span>
+                </div>
               </form>
             </div>
           </div>
           <div className="panel-block">
-            <DayPickerInput
-              value={formattedDay}
-              onDayChange={this.handleDayChange}
-              className="input is-small calendar"
-              placeholder="Leaving On"
-              dayPickerProps={dayPickerProps}
-            />
-          </div>
-          <div className="panel-block">
-            {departFrom && (
-              <div className="card origin-card">
-                <div className="card-content">
-                  <strong>Leaving From:</strong>
-                  <p>{`${departFrom.abbrv}, ${departFrom.city}`}</p>
-                  {formattedDay.length > 0 ? <p>on {`${formattedDay}`}</p> : ''}
+            <div className="field is-grouped">
+              <div className="control">
+                <DayPickerInput
+                  value={formattedDay}
+                  onDayChange={this.handleDayChange}
+                  className="input is-small calendar"
+                  placeholder="Leaving On Day..."
+                  dayPickerProps={dayPickerProps}
+                />
+              </div>
+              <div class="field has-addons">
+                <div class="control">
+                  <a class="button is-static is-small">$</a>
+                </div>
+                <div className="control">
+                  <input
+                    className="input is-small"
+                    type="text"
+                    placeholder="Maximum Price"
+                    value={this.state.value}
+                    onChange={this.handleChange}
+                  />
                 </div>
               </div>
-            )}
+            </div>
+          </div>
+          <div className="panel-block">
+            <div className="columns panel-columns">
+              <div className="column">
+                {departFrom && (
+                  <div className="card origin-card">
+                    <div className="card-content">
+                      <strong>From:</strong>
+                      {` ${departFrom.abbrv}, ${departFrom.city}`}
+                      {selectedDestination.abbrv && (
+                        <div>
+                          <strong>To:</strong>
+                          {` ${selectedDestination.abbrv},
+                             ${selectedDestination.city}`}
+                        </div>
+                      )}
+                      {selectedDestination.abbrv && formattedDay.length > 0 ? (
+                        <p>
+                          on
+                          <strong>{`${formattedDay}`} for </strong>
+                          {
+                            <strong>
+                              {`$${Math.trunc(selectedDestination.price)}`}
+                            </strong>
+                          }
+                        </p>
+                      ) : (
+                        ''
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
         </nav>
       </div>
@@ -121,7 +161,7 @@ class ControlPanel extends Component {
  */
 const mapState = state => {
   return {
-    // abbrv: 'ORD',
+    selectedDestination: state.userInput.selectedDestinationAirport,
     abbrv: state.userInput.originAirportAbbrv,
   };
 };
