@@ -12,8 +12,9 @@ const Promise = require('bluebird');
 
 const pricePerKm = 0.18;
 
+// Initialize an array of 14 dates.
+const numDates = 14;
 let dates = [];
-const numDates = 13;
 for (let i=0; i<numDates; i++) {
   dates.push(new Date(2018, 1, i+1));
 }
