@@ -12,8 +12,16 @@ class FlightListPanel extends Component {
     super(props);
   }
 
+  handleDestClick = e => {
+    console.log(e.currentTarget.dataset.abbrv);
+  };
+
+  handleShow = abbrv => {
+    this.refs[abbrv].scrollIntoView({ block: 'center', behavior: 'smooth' });
+  };
+
   render() {
-    const { departFrom } = this.props;
+    const { departFrom, selectedDestination } = this.props;
     let airportList = departFrom ? departFrom.flights.nodes.slice() : [];
 
     if (airportList.length > 0) {
@@ -25,18 +33,35 @@ class FlightListPanel extends Component {
       });
     }
 
+    if (selectedDestination.abbrv) {
+      this.handleShow(selectedDestination.abbrv);
+    }
+
     return (
       <div>
         <nav className="panel flight-list">
           {airportList.map(item => {
             const airport = item.arriveAt;
+            const active = selectedDestination.abbrv === airport.abbrv;
             return (
-              <a className="panel-block list-item" key={airport.id}>
+              <a
+                className={`panel-block 
+                ${active ? 'is-active' : ''} list-item`}
+                key={airport.id}
+                onClick={this.handleDestClick}
+                ref={airport.abbrv}
+                data-abbrv={airport.abbrv}
+              >
+                <span className="panel-icon">
+                  <i className="fa fa-plane" />
+                </span>
                 <div>
                   <strong>{`${airport.abbrv}`}</strong>
                   {` ${airport.city}, ${airport.country}  `}
                 </div>
-                <div>{`$${Math.trunc(item.price)}`}</div>
+                <div style={{ marginLeft: 'auto' }}>
+                  {`$${Math.trunc(item.price)}`}
+                </div>
               </a>
             );
           })}

@@ -13,7 +13,7 @@ class SideMenu extends Component {
       <div className="column is-narrow sidenav">
         <aside className="menu menu-wrapper">
           <div className="sidenav-top-container">
-            <div className="tabs is-toggle is-centered">
+            <div className="tabs is-toggle is-fullwidth">
               <ul>
                 <li
                   className={
@@ -27,20 +27,13 @@ class SideMenu extends Component {
                     <span>Explore</span>
                   </NavLink>
                 </li>
-                <li
-                  className={
-                    location.pathname === '/rideshare' ? 'is-active' : ''
-                  }
-                >
-                  <NavLink to="/rideshare" activeClassName="is-active">
+                <li className={location.pathname === '/map' ? 'is-active' : ''}>
+                  <NavLink to="/map" activeClassName="is-active">
                     <span className="icon is-small">
                       <i className="fa fa-map" />
                     </span>
                     <span>Map</span>
                   </NavLink>
-                </li>
-                <li>
-                  <a>Roadtrip</a>
                 </li>
                 <li>
                   <a>My Trips</a>

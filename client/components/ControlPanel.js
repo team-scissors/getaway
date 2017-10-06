@@ -49,7 +49,9 @@ class ControlPanel extends Component {
       this.setState({ placeholder: 'Invalid Code' }, () => {});
       return;
     }
-    this.props.dispatchSetAirport(this.state.originValue.toUpperCase());
+    this.setState({ originValue: this.state.originValue.toUpperCase() }, () => {
+      this.props.dispatchSetAirport(this.state.originValue);
+    });
   };
 
   handleMaxPriceSubmit = evt => {
@@ -151,10 +153,10 @@ class ControlPanel extends Component {
                   {selectedDestination.abbrv && formattedDay.length > 0 ? (
                     <p>
                       on
-                      <strong>{` ${formattedDay}`} for </strong>
+                      <strong>{` ${formattedDay}`} </strong> for
                       {
                         <strong>
-                          {`$${Math.trunc(selectedDestination.price)}`}
+                          {` $${Math.trunc(selectedDestination.price)}`}
                         </strong>
                       }
                     </p>
