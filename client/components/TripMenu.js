@@ -40,37 +40,43 @@ class TripMenu extends Component {
     return (
       <div className="column is-narrow trip-menu">
         <aside className="menu menu-wrapper">
-          <div className="box">
-            {!loading && (
-              <span>
-                <strong>{origin.abbrv}</strong>, {origin.city}{' '}
-                <i className="fa fa-arrow-right" aria-hidden="true" />{' '}
-              </span>
-            )}
-            {currentFlight.dest && (
-              <span>
-                <strong>{currentFlight.dest.abbrv}</strong>,{' '}
-                {currentFlight.dest.city}{' '}
-              </span>
-            )}
+          <div className="card">
+            <header className="card-header">
+              <p className="card-header-title">Current Flight</p>
+            </header>
+            <div className="card-content">
+              <div className="content">
+                {!loading && (
+                  <span>
+                    <strong>{origin.abbrv}</strong>, {origin.city}{' '}
+                  </span>
+                )}
+                {currentFlight.dest && (
+                  <span>
+                    <i
+                      className="fa fa-chevron-right"
+                      aria-hidden="true"
+                    />{' '}
+                    <strong>{currentFlight.dest.abbrv}</strong>,{' '}
+                    {currentFlight.dest.city}{' '}
+                  </span>
+                )}
+                <p>
+                  {currentFlight.dest && (
+                    <span>
+                      on <strong>{currentFlight.departAt}</strong> @{' '}
+                      <strong>${Math.trunc(currentFlight.price)} </strong>
+                    </span>
+                  )}
+                </p>
+              </div>
+            </div>
+            <footer className="card-footer">
+              <a href="#" className="card-footer-item">
+                Add To Trip
+              </a>
+            </footer>
           </div>
-          <div className="sidenav-top-container">
-            <ul>
-              {trip.length > 0 &&
-                trip.map((flight, idx) => {
-                  return (
-                    <li key={idx}>
-                      {flight.origin.name} to {flight.dest.name}
-                    </li>
-                  );
-                })}
-            </ul>
-          </div>
-          {trip.length > 0 && (
-            <a className="button is-info" onClick={this.handleClearTrip}>
-              Clear Trip
-            </a>
-          )}
         </aside>
       </div>
     );
@@ -90,6 +96,9 @@ const mapDispatch = dispatch => {
   return {
     handleClick() {
       dispatch(logout());
+    },
+    dispatchAddFlightToTrip(flight) {
+      dispatch(addFlightToTrip(flight));
     },
     dispatchClearTrip() {
       dispatch(clearTrip());
