@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import { logout } from '../store';
 import mapboxgl from 'mapbox-gl';
-import gridTestData from '/Users/theshuo/Documents/Fullstack/getaway/gridtest.json';
+// import gridTestData from '/Users/theshuo/Documents/Fullstack/getaway/gridtest.json';
 // import isoTestData from '/Users/theshuo/Documents/Fullstack/getaway/isobands.json';
 
 /**
