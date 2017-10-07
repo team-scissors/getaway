@@ -42,3 +42,28 @@ export const airportByAbbrv = gql`
     }
   }
 `;
+
+/*
+Query arguments should look something like this:
+{
+  "input": {
+    "trip": {
+      "name": "yet another trip",
+      "createdAt": "2017-10-07",
+      "updatedAt": "2017-10-07",
+      "userId": 1
+    }
+  }
+}
+*/
+export const createTrip = gql`
+  mutation createTrip($input:CreateTripInput!) {
+    createTrip(input: $input){
+      trip {
+        id
+        name
+        userId
+      }
+    }
+  }
+`;
