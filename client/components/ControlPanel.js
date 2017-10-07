@@ -210,7 +210,7 @@ class ControlPanel extends Component {
  */
 const mapState = state => {
   return {
-    selectedDestination: state.userInput.selectedDestinationAirport,
+    selectedDestination: state.userInput.currentFlight,
     abbrv: state.userInput.originAirportAbbrv,
     maxPrice: state.userInput.maxPrice,
   };

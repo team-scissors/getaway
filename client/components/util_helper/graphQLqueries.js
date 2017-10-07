@@ -2,7 +2,7 @@ import { gql } from 'react-apollo';
 
 export const flightsFromAirportByAbbrv = gql`
   query flightsFromAirportByAbbrv($airportAbbrv: String!) {
-    departFrom: airportByAbbrv(abbrv: $airportAbbrv) {
+    origin: airportByAbbrv(abbrv: $airportAbbrv) {
       id
       name
       abbrv
@@ -13,7 +13,8 @@ export const flightsFromAirportByAbbrv = gql`
       flights: flightsByFromId {
         nodes {
           price
-          arriveAt: airportByToId {
+          departAt
+          dest: airportByToId {
             id
             abbrv
             name

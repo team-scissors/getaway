@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { graphql } from 'react-apollo';
 import { setAirport } from '../store/user-input';
-import { getSelectedDestinationAirport } from '../store';
+import { setCurrentFlight } from '../store';
 import scrollIntoView from 'scroll-into-view';
 import { flightsFromAirportByAbbrv } from './util_helper';
 
@@ -16,11 +16,11 @@ class FlightListPanel extends Component {
 
   handleDestClick = e => {
     const abbrv = e.currentTarget.dataset.abbrv;
-    const flightList = this.props.departFrom.flights.nodes.slice();
+    const flightList = this.props.origin.flights.nodes.slice();
     const flight = flightList.find(f => {
-      return f.arriveAt.abbrv === abbrv;
+      return f.dest.abbrv === abbrv;
     });
-    this.props.selectDestinationAirport(flight.arriveAt);
+    this.props.dispatchSetCurrentFlight(flight);
   };
 
   handleShow = abbrv => {
@@ -28,28 +28,31 @@ class FlightListPanel extends Component {
   };
 
   render() {
-    const { departFrom, selectedDestination } = this.props;
-    let airportList = departFrom ? departFrom.flights.nodes.slice() : [];
+    console.log('flightlistpanel props', this.props);
+    const { origin, currentFlight } = this.props;
+    let flightList = origin ? origin.flights.nodes.slice() : [];
 
-    if (airportList.length > 0) {
-      airportList.sort((a, b) => {
+    if (flightList.length > 0) {
+      flightList.sort((a, b) => {
         return a.price - b.price;
       });
-      airportList = airportList.filter(airport => {
+      flightList = flightList.filter(airport => {
         return airport.price < this.props.maxPrice;
       });
     }
 
-    if (selectedDestination.abbrv) {
-      this.handleShow(selectedDestination.abbrv);
+    if (currentFlight.dest) {
+      this.handleShow(currentFlight.dest.abbrv);
     }
 
     return (
       <div>
         <nav className="panel flight-list">
-          {airportList.map(item => {
-            const airport = item.arriveAt;
-            const active = selectedDestination.abbrv === airport.abbrv;
+          {flightList.map(flight => {
+            const airport = flight.dest;
+            const active = currentFlight.dest
+              ? currentFlight.dest.abbrv === airport.abbrv
+              : false;
             return (
               <a
                 className={`panel-block 
@@ -71,7 +74,7 @@ class FlightListPanel extends Component {
                   {` ${airport.city}, ${airport.country}  `}
                 </div>
                 <div style={{ marginLeft: 'auto' }}>
-                  {`$${Math.trunc(item.price)}`}
+                  {`$${Math.trunc(flight.price)}`}
                 </div>
               </a>
             );
@@ -87,7 +90,7 @@ class FlightListPanel extends Component {
  */
 const mapState = state => {
   return {
-    selectedDestination: state.userInput.selectedDestinationAirport,
+    currentFlight: state.userInput.currentFlight,
     airportAbbrv: state.userInput.originAirportAbbrv,
     maxPrice: state.userInput.maxPrice,
   };
@@ -95,21 +98,15 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
-    selectDestinationAirport(selectedAirport) {
-      dispatch(getSelectedDestinationAirport(selectedAirport));
+    dispatchSetCurrentFlight(selectedAirport) {
+      dispatch(setCurrentFlight(selectedAirport));
     },
   };
 };
 
 const ApolloFlightListPanel = graphql(flightsFromAirportByAbbrv, {
   options: ({ airportAbbrv }) => ({ variables: { airportAbbrv } }),
-  props: ({ data: { loading, departFrom } }) => ({ loading, departFrom }),
+  props: ({ data: { loading, origin } }) => ({ loading, origin }),
 })(FlightListPanel);
-
-// // See ./util_helper/graphQLqueries.js for queries
-// const ApolloFlightListPanel = graphql(airportByAbbrv, {
-//   options: ({ abbrv }) => ({ variables: { airportAbbrv: abbrv } }),
-//   props: ({ data: { loading, departFrom } }) => ({ loading, departFrom }),
-// })(FlightListPanel);
 
 export default connect(mapState, mapDispatch)(ApolloFlightListPanel);
