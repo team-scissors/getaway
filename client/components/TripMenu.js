@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter, Link, NavLink } from 'react-router-dom';
 import { graphql } from 'react-apollo';
 import { logout } from '../store';
+import * as _ from 'underscore';
 import {
   setAirport,
   clearTrip,
@@ -17,6 +18,14 @@ import { ControlPanel, FlightListPanel } from '../components';
 class TripMenu extends Component {
   handleClearTrip = () => {
     this.props.dispatchClearTrip();
+  };
+
+  handleAddFlightToTrip = () => {
+    const flight = {
+      ...this.props.currentFlight,
+      origin: _.omit(this.props.origin, 'flights'),
+    };
+    this.props.dispatchAddFlightToTrip(flight);
   };
 
   render() {
@@ -72,7 +81,11 @@ class TripMenu extends Component {
               </div>
             </div>
             <footer className="card-footer">
-              <a href="#" className="card-footer-item">
+              <a
+                href="#"
+                className="card-footer-item"
+                onClick={this.handleAddFlightToTrip}
+              >
                 Add To Trip
               </a>
             </footer>
