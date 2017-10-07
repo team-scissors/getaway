@@ -21,11 +21,14 @@ class TripMenu extends Component {
   };
 
   handleAddFlightToTrip = () => {
-    const flight = {
-      ...this.props.currentFlight,
-      origin: _.omit(this.props.origin, 'flights'),
-    };
-    this.props.dispatchAddFlightToTrip(flight);
+    if (this.props.currentFlight.dest) {
+      const flight = {
+        ...this.props.currentFlight,
+        origin: _.omit(this.props.origin, 'flights'),
+      };
+      this.props.dispatchSetAirport(flight.dest.abbrv);
+      this.props.dispatchAddFlightToTrip(flight);
+    }
   };
 
   render() {
@@ -90,6 +93,16 @@ class TripMenu extends Component {
               </a>
             </footer>
           </div>
+          <nav className="panel">
+            {trip.length > 0 &&
+              trip.map((flight, idx) => {
+                return (
+                  <a className="panel-block" key={idx}>
+                    {flight.origin.abbrv} to {flight.dest.abbrv}
+                  </a>
+                );
+              })}
+          </nav>
         </aside>
       </div>
     );
@@ -115,6 +128,9 @@ const mapDispatch = dispatch => {
     },
     dispatchClearTrip() {
       dispatch(clearTrip());
+    },
+    dispatchSetAirport(abbrv) {
+      dispatch(setAirport(abbrv));
     },
   };
 };

@@ -36,7 +36,6 @@ class ControlPanel extends Component {
       originAirport: {},
       isLoading: '',
     };
-    console.log(this.props.setAirportInput);
   }
 
   componentWillReceiveProps(nextProps) {
