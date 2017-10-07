@@ -1,8 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Link, NavLink } from 'react-router-dom';
+import { graphql } from 'react-apollo';
 import { logout } from '../store';
-import { clearTrip } from '../store/user-input';
+import {
+  setAirport,
+  clearTrip,
+  setMaxPrice,
+  addFlightToTrip,
+  setDate,
+} from '../store/user-input';
+import { flightsFromAirportByAbbrv } from './util_helper';
+import moment from 'moment';
 import { ControlPanel, FlightListPanel } from '../components';
 
 class TripMenu extends Component {
@@ -11,13 +20,27 @@ class TripMenu extends Component {
   };
 
   render() {
-    const { children, handleClick, isLoggedIn } = this.props;
-    const { match, location, history, trip } = this.props;
+    const {
+      children,
+      origin,
+      currentFlight,
+      handleClick,
+      isLoggedIn,
+      match,
+      loading,
+      trip,
+    } = this.props;
 
     console.log('trip', trip);
+    console.log('currentFlight', currentFlight);
+    console.log('origin', origin);
+
+    console.log('loading', loading, 'origin', origin);
+
     return (
       <div className="column is-narrow trip-menu">
         <aside className="menu menu-wrapper">
+          <div className="box">{!loading && `From ${origin.abbrv}`}</div>
           <div className="sidenav-top-container">
             <ul>
               {trip.length > 0 &&
@@ -44,6 +67,8 @@ class TripMenu extends Component {
 const mapState = state => {
   return {
     trip: state.userInput.currentTrip,
+    currentFlight: state.userInput.currentFlight,
+    airportAbbrv: state.userInput.originAirportAbbrv,
     isLoggedIn: !!state.user.id,
   };
 };
@@ -59,4 +84,9 @@ const mapDispatch = dispatch => {
   };
 };
 
-export default withRouter(connect(mapState, mapDispatch)(TripMenu));
+const ApolloTripMenu = graphql(flightsFromAirportByAbbrv, {
+  options: ({ airportAbbrv }) => ({ variables: { airportAbbrv } }),
+  props: ({ data: { loading, origin } }) => ({ loading, origin }),
+})(TripMenu);
+
+export default withRouter(connect(mapState, mapDispatch)(ApolloTripMenu));

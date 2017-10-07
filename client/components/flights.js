@@ -89,7 +89,6 @@ class Flights extends Component {
     // console.log(this.props);
 
     const selectedDestination = this.props.selectedDestination;
-    console.log('selected dest:', selectedDestination);
     return (
       <VictoryChart
         animate={{ duration: 500, easing: 'quadInOut' }}

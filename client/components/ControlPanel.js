@@ -36,7 +36,6 @@ class ControlPanel extends Component {
       originAirport: {},
       isLoading: '',
     };
-    console.log('this.props.setAirportInput:');
     console.log(this.props.setAirportInput);
   }
 
@@ -53,7 +52,6 @@ class ControlPanel extends Component {
       date: this.state.selectedDay,
       price: this.props.selectedDestination.price,
     };
-    console.log('flight: ', flight);
     this.props.dispatchAddFlightToTrip(flight);
   };
 
@@ -103,9 +101,14 @@ class ControlPanel extends Component {
   };
 
   render() {
-    const { departureDate, departFrom, currentFlight, origin } = this.props;
+    const {
+      departureDate,
+      airportAbbrv,
+      departFrom,
+      currentFlight,
+      origin,
+    } = this.props;
 
-    console.log('origin:', origin);
     const formattedDay = departureDate
       ? moment(departureDate).format(DAY_FORMAT)
       : '';
@@ -119,17 +122,20 @@ class ControlPanel extends Component {
                 .isLoading} has-icons-left`}
             >
               <form onSubmit={this.handleOriginSubmit}>
-                <div className="control">
-                  <input
-                    className="input is-medium"
-                    type="text"
-                    placeholder="Enter Origin Airport Code"
-                    value={this.state.originValue}
-                    onChange={this.handleOriginChange}
-                  />
-                  <span className="icon is-medium is-left">
-                    <i className="fa fa-search" />
-                  </span>
+                <div className="field">
+                  <label className="label is-small">Origin</label>
+                  <div className="control has-icons-left">
+                    <input
+                      className="input is-medium"
+                      type="text"
+                      placeholder={airportAbbrv}
+                      value={this.state.originValue}
+                      onChange={this.handleOriginChange}
+                    />
+                    <span className="icon is-medium is-left">
+                      <i className="fa fa-search" />
+                    </span>
+                  </div>
                 </div>
               </form>
             </div>
@@ -201,7 +207,7 @@ const mapDispatch = dispatch => {
   };
 };
 
-// See ./util_helper/graphQLqueries.js for queries
+// See ./utijl_helper/graphQLqueries.js for queries
 const ApolloControlPanel = graphql(flightsFromAirportByAbbrv, {
   options: ({ airportAbbrv }) => ({ variables: { airportAbbrv } }),
   props: ({ data: { loading, origin } }) => ({ loading, origin }),
