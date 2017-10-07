@@ -28,7 +28,6 @@ class FlightListPanel extends Component {
   };
 
   render() {
-    console.log('flightlistpanel props', this.props);
     const { origin, currentFlight } = this.props;
     let flightList = origin ? origin.flights.nodes.slice() : [];
 
