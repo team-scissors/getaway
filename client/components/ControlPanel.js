@@ -6,8 +6,9 @@ import {
   clearTrip,
   setMaxPrice,
   addFlightToTrip,
+  setDate,
 } from '../store/user-input';
-import { airportByAbbrv } from './util_helper';
+import { flightsFromAirportByAbbrv } from './util_helper';
 import DayPicker from 'react-day-picker';
 import moment from 'moment';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
@@ -94,18 +95,19 @@ class ControlPanel extends Component {
     );
   };
 
-  handleDayChange = day => {
-    this.setState({
-      selectedDay: day,
-    });
+  handleDayChange = date => {
+    // this.setState({
+    //   selectedDay: day,
+    // });
+    this.props.dispatchSetDate(date);
   };
 
   render() {
-    const { departFrom, selectedDestination } = this.props;
-    const selectedDay = this.state.selectedDay;
+    const { departureDate, departFrom, currentFlight, origin } = this.props;
 
-    const formattedDay = selectedDay
-      ? moment(selectedDay).format(DAY_FORMAT)
+    console.log('origin:', origin);
+    const formattedDay = departureDate
+      ? moment(departureDate).format(DAY_FORMAT)
       : '';
 
     return (
@@ -139,7 +141,7 @@ class ControlPanel extends Component {
                   value={formattedDay}
                   onDayChange={this.handleDayChange}
                   className="input is-small calendar"
-                  placeholder="Leaving On Day..."
+                  placeholder="Departure Date"
                   dayPickerProps={dayPickerProps}
                 />
               </div>
@@ -161,44 +163,6 @@ class ControlPanel extends Component {
               </div>
             </div>
           </div>
-          <div className="panel-block">
-            {departFrom && (
-              <div className="card origin-card">
-                <div className="card-content">
-                  {/* Listing flights under ${this.props.maxPrice} */}
-                  <p />
-                  <strong>From:</strong>
-                  {` ${departFrom.abbrv}, ${departFrom.city}`}
-                  {selectedDestination.abbrv && (
-                    <div>
-                      <strong>To:</strong>
-                      {` ${selectedDestination.abbrv},
-                             ${selectedDestination.city}`}
-                    </div>
-                  )}
-                  {selectedDestination.abbrv && formattedDay.length > 0 ? (
-                    <p>
-                      on
-                      <strong>{` ${formattedDay}`} </strong> for
-                      {
-                        <strong>
-                          {` $${Math.trunc(selectedDestination.price)}`}
-                        </strong>
-                      }
-                      <a
-                        className="button is-primary"
-                        onClick={this.handleAddTrip}
-                      >
-                        Add To Trip
-                      </a>
-                    </p>
-                  ) : (
-                    ''
-                  )}
-                </div>
-              </div>
-            )}
-          </div>
         </nav>
       </div>
     );
@@ -210,9 +174,10 @@ class ControlPanel extends Component {
  */
 const mapState = state => {
   return {
-    selectedDestination: state.userInput.currentFlight,
-    abbrv: state.userInput.originAirportAbbrv,
+    currentFlight: state.userInput.currentFlight,
+    airportAbbrv: state.userInput.originAirportAbbrv,
     maxPrice: state.userInput.maxPrice,
+    departureDate: state.userInput.departureDate,
   };
 };
 
@@ -227,6 +192,9 @@ const mapDispatch = dispatch => {
     dispatchAddFlightToTrip(flight) {
       dispatch(addFlightToTrip(flight));
     },
+    dispatchSetDate(date) {
+      dispatch(setDate(date));
+    },
     dispatchClearTrip() {
       dispatch(clearTrip());
     },
@@ -234,10 +202,9 @@ const mapDispatch = dispatch => {
 };
 
 // See ./util_helper/graphQLqueries.js for queries
-const ApolloControlPanel = graphql(airportByAbbrv, {
-  options: ({ abbrv }) => ({ variables: { airportAbbrv: abbrv } }),
-  props: ({ data: { loading, departFrom } }) => ({ loading, departFrom }),
+const ApolloControlPanel = graphql(flightsFromAirportByAbbrv, {
+  options: ({ airportAbbrv }) => ({ variables: { airportAbbrv } }),
+  props: ({ data: { loading, origin } }) => ({ loading, origin }),
 })(ControlPanel);
 
 export default connect(mapState, mapDispatch)(ApolloControlPanel);
-// export default connect(mapState, mapDispatch)(ControlPanel);
