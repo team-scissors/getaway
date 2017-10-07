@@ -40,7 +40,20 @@ class TripMenu extends Component {
     return (
       <div className="column is-narrow trip-menu">
         <aside className="menu menu-wrapper">
-          <div className="box">{!loading && `From ${origin.abbrv}`}</div>
+          <div className="box">
+            {!loading && (
+              <span>
+                <strong>{origin.abbrv}</strong>, {origin.city}{' '}
+                <i className="fa fa-arrow-right" aria-hidden="true" />{' '}
+              </span>
+            )}
+            {currentFlight.dest && (
+              <span>
+                <strong>{currentFlight.dest.abbrv}</strong>,{' '}
+                {currentFlight.dest.city}{' '}
+              </span>
+            )}
+          </div>
           <div className="sidenav-top-container">
             <ul>
               {trip.length > 0 &&
