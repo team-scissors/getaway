@@ -13,10 +13,20 @@ router.get('/', (req, res, next) => {
       .then(airports => res.json(airports))
       .catch(next);
   }
+  // find airports by continent
+  else if(req.query.continent){
+    Airport.findAll({
+      where: {
+        continent: req.query.continent,
+      }
+    })
+      .then(airports => res.json(airports))
+      .catch(next);
+  }
   //find all airports
   else{
     Airport.findAll()
       .then(airports => res.json(airports))
       .catch(next);
   }
-})
+});
