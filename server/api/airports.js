@@ -29,4 +29,4 @@ router.get('/', (req, res, next) => {
       .then(airports => res.json(airports))
       .catch(next);
   }
-})
+});
