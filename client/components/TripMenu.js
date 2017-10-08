@@ -56,7 +56,7 @@ class TripMenu extends Component {
             <header className="card-header">
               <p className="card-header-title">Current Flight</p>
             </header>
-            <div className="card-content">
+            <div className="card-content current-flight-info">
               <div className="content">
                 {!loading ? (
                   <span>
