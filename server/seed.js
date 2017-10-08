@@ -104,6 +104,7 @@ const seed = () => {
     const topCreatedAirports = airports.filter(airport => {
       return (
         topAirports.find(searchAirport => {
+          //console.log('while seeding', searchAirport.iata_faa === airport.abbrv);
           return searchAirport.iata_faa === airport.abbrv;
         }) !== undefined
       );
