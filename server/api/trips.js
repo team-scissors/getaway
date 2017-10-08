@@ -9,7 +9,7 @@ const {
 module.exports = router;
 
 // get trips by userId
-router.get('/:userId', (req, res, next) => {
+router.get('/user/:userId', (req, res, next) => {
   Trip.findAll({
     include: [Flight],
     where: {
@@ -17,6 +17,15 @@ router.get('/:userId', (req, res, next) => {
     }
   })
   .then(trips => res.send(trips))
+  .catch(next);
+});
+
+// get a trip by its id
+router.get('/:tripId', (req, res, next) => {
+  Trip.findById(req.params.tripId, {
+    include: [Flight]
+  })
+  .then(trip => res.send(trip))
   .catch(next);
 });
 
@@ -32,7 +41,7 @@ router.put('/:tripId/:flightId', (req, res, next) => {
   .catch(next);
 });
 
-// Create a new trip
+// Create a new trip.
 router.post('/', (req, res, next) => {
   const body = req.body;
   Trip.create(body)
