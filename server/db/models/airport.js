@@ -21,6 +21,9 @@ const Airport = db.define('airport', {
   continent: {
     type: Sequelize.STRING,
   },
+  averageTemperature: {
+    type: Sequelize.STRING,
+  },
   longitude: {
     type: Sequelize.FLOAT,
     allowNull: false,
