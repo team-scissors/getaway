@@ -12,6 +12,7 @@ export const flightsFromAirportByAbbrv = gql`
       latitude
       flights: flightsByFromId {
         nodes {
+          id
           price
           departAt
           dest: airportByToId {

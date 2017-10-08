@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter, Link, NavLink } from 'react-router-dom';
 import { graphql } from 'react-apollo';
 import { logout } from '../store';
+import * as _ from 'underscore';
 import {
   setAirport,
   clearTrip,
@@ -17,6 +18,17 @@ import { ControlPanel, FlightListPanel } from '../components';
 class TripMenu extends Component {
   handleClearTrip = () => {
     this.props.dispatchClearTrip();
+  };
+
+  handleAddFlightToTrip = () => {
+    if (this.props.currentFlight.dest) {
+      const flight = {
+        ...this.props.currentFlight,
+        origin: _.omit(this.props.origin, 'flights'),
+      };
+      this.props.dispatchSetAirport(flight.dest.abbrv);
+      this.props.dispatchAddFlightToTrip(flight);
+    }
   };
 
   render() {
@@ -40,23 +52,101 @@ class TripMenu extends Component {
     return (
       <div className="column is-narrow trip-menu">
         <aside className="menu menu-wrapper">
-          <div className="box">{!loading && `From ${origin.abbrv}`}</div>
-          <div className="sidenav-top-container">
-            <ul>
-              {trip.length > 0 &&
-                trip.map((flight, idx) => {
+          <div className="card">
+            <header className="card-header">
+              <p className="card-header-title">Current Flight</p>
+            </header>
+            <div className="card-content current-flight-info">
+              <div className="content">
+                {!loading ? (
+                  <span>
+                    From: <strong>{origin.abbrv}</strong>, {origin.city}{' '}
+                  </span>
+                ) : (
+                  <span className="icon is-huge">
+                    <i className="fa fa-refresh fa-spin" />
+                  </span>
+                )}
+                {currentFlight.dest && (
+                  <span>
+                    <i
+                      className="fa fa-chevron-right"
+                      aria-hidden="true"
+                    />{' '}
+                    <strong>{currentFlight.dest.abbrv}</strong>,{' '}
+                    {currentFlight.dest.city}{' '}
+                  </span>
+                )}
+                <p>
+                  {currentFlight.dest && (
+                    <span>
+                      on <strong>{currentFlight.departAt}</strong> @{' '}
+                      <strong>${Math.trunc(currentFlight.price)} </strong>
+                    </span>
+                  )}
+                </p>
+              </div>
+            </div>
+            <footer className="card-footer">
+              <a
+                href="#"
+                className="card-footer-item"
+                onClick={this.handleAddFlightToTrip}
+              >
+                Add To Trip
+              </a>
+              <a
+                href="#"
+                className="card-footer-item"
+                onClick={this.handleClearTrip}
+              >
+                Clear Trip
+              </a>
+            </footer>
+          </div>
+          {trip.length > 0 ? (
+            <div className="card trip-list">
+              <nav className="panel">
+                {' '}
+                {trip.map((flight, idx) => {
                   return (
-                    <li key={idx}>
-                      {flight.origin.name} to {flight.dest.name}
-                    </li>
+                    <a className="panel-block" key={idx}>
+                      <nav className="level flight-list-item">
+                        <div className="level-item has-text-centered">
+                          <div>
+                            <p className="heading">From</p>
+                            <p className="title is-6">{flight.origin.abbrv}</p>
+                          </div>
+                        </div>
+                        <div className="level-item has-text-centered">
+                          <div>
+                            <p className="heading">To</p>
+                            <p className="title is-6">{flight.dest.abbrv}</p>
+                          </div>
+                        </div>
+                        <div className="level-item has-text-centered">
+                          <div>
+                            <p className="heading">Date</p>
+                            <p className="title is-6">{flight.departAt}</p>
+                          </div>
+                        </div>
+                        <div className="level-item has-text-centered">
+                          <div>
+                            <p className="heading">Price</p>
+                            <p className="title is-6">
+                              ${Math.trunc(flight.price)}
+                            </p>
+                          </div>
+                        </div>
+                      </nav>
+                      {/* {flight.origin.abbrv} to {flight.dest.abbrv} */}
+                    </a>
                   );
                 })}
-            </ul>
-          </div>
-          {trip.length > 0 && (
-            <a className="button is-info" onClick={this.handleClearTrip}>
-              Clear Trip
-            </a>
+              </nav>
+            </div>
+          ) : (
+            ''
           )}
         </aside>
       </div>
@@ -78,8 +168,14 @@ const mapDispatch = dispatch => {
     handleClick() {
       dispatch(logout());
     },
+    dispatchAddFlightToTrip(flight) {
+      dispatch(addFlightToTrip(flight));
+    },
     dispatchClearTrip() {
       dispatch(clearTrip());
+    },
+    dispatchSetAirport(abbrv) {
+      dispatch(setAirport(abbrv));
     },
   };
 };

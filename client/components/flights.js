@@ -159,7 +159,7 @@ class Flights extends Component {
                         const a = props.datum;
                         const selectedFlight = {
                           price: a.price,
-                          date: a.departAt,
+                          departAt: a.departAt,
                           dest: {
                             name: a.name,
                             abbrv: a.abbrv,

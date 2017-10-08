@@ -80,6 +80,7 @@ export default function(state = initialState, action) {
     case SET_AIRPORT:
       return {
         ...state,
+        currentFlight: {},
         originAirportAbbrv: action.abbrv,
       };
     case CLEAR_AIRPORT_INPUT:

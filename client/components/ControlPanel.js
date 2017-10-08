@@ -36,7 +36,6 @@ class ControlPanel extends Component {
       originAirport: {},
       isLoading: '',
     };
-    console.log(this.props.setAirportInput);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -66,7 +65,6 @@ class ControlPanel extends Component {
   handleOriginSubmit = evt => {
     evt.preventDefault();
     if (this.state.originValue.length < 3) {
-      this.setState({ placeholder: 'Invalid Code' }, () => {});
       return;
     }
     this.setState({ originValue: this.state.originValue.toUpperCase() }, () => {
@@ -123,7 +121,7 @@ class ControlPanel extends Component {
             >
               <form onSubmit={this.handleOriginSubmit}>
                 <div className="field">
-                  <label className="label is-small">Origin</label>
+                  <label className="label is-small">Origin Aiport</label>
                   <div className="control has-icons-left">
                     <input
                       className="input is-medium"
