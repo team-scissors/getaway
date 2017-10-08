@@ -107,10 +107,18 @@ class Map extends Component {
     });
   }
 
-  componentWillReceiveNewProps(newProps) {
-    this.setState({
-      tripGeoJSON: buildTripGeoJSON(this.newProps.trip),
-    });
+  componentWillReceiveProps(nextProps) {
+    console.log('nextprops:', nextProps);
+    this.setState(
+      {
+        tripGeoJSON: buildTripGeoJSON(nextProps.trip),
+      },
+      () => {
+        if (this.map.getSource('trip')) {
+          this.map.getSource('trip').setData(this.state.tripGeoJSON);
+        }
+      },
+    );
   }
 
   componentWillUnmount() {
