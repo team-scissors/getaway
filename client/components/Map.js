@@ -59,7 +59,7 @@ class Map extends Component {
       style: 'mapbox://styles/mapbox/light-v9',
       // style: 'mapbox://styles/theshuo/cj82h754i9kgz2so12kkyyzon',
       center: [-87.623177, 41.881832], // Chicago
-      zoom: 14,
+      zoom: 3,
     });
 
     this.state = {
