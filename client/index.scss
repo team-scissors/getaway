@@ -43,6 +43,10 @@ body {
   flex-grow: 1;
 }
 
+.flight-list-item {
+  width: 100%;
+}
+
 .list-item {
   display: flex;
   justify-content: space-between;

@@ -58,9 +58,13 @@ class TripMenu extends Component {
             </header>
             <div className="card-content">
               <div className="content">
-                {!loading && (
+                {!loading ? (
                   <span>
-                    <strong>{origin.abbrv}</strong>, {origin.city}{' '}
+                    From: <strong>{origin.abbrv}</strong>, {origin.city}{' '}
+                  </span>
+                ) : (
+                  <span className="icon is-huge">
+                    <i className="fa fa-refresh fa-spin" />
                   </span>
                 )}
                 {currentFlight.dest && (
@@ -107,7 +111,35 @@ class TripMenu extends Component {
                 {trip.map((flight, idx) => {
                   return (
                     <a className="panel-block" key={idx}>
-                      {flight.origin.abbrv} to {flight.dest.abbrv}
+                      <nav class="level flight-list-item">
+                        <div className="level-item has-text-centered">
+                          <div>
+                            <p className="heading">From</p>
+                            <p className="title is-6">{flight.origin.abbrv}</p>
+                          </div>
+                        </div>
+                        <div className="level-item has-text-centered">
+                          <div>
+                            <p className="heading">To</p>
+                            <p className="title is-6">{flight.dest.abbrv}</p>
+                          </div>
+                        </div>
+                        <div className="level-item has-text-centered">
+                          <div>
+                            <p className="heading">Date</p>
+                            <p className="title is-6">{flight.departAt}</p>
+                          </div>
+                        </div>
+                        <div className="level-item has-text-centered">
+                          <div>
+                            <p className="heading">Price</p>
+                            <p className="title is-6">
+                              ${Math.trunc(flight.price)}
+                            </p>
+                          </div>
+                        </div>
+                      </nav>
+                      {/* {flight.origin.abbrv} to {flight.dest.abbrv} */}
                     </a>
                   );
                 })}
