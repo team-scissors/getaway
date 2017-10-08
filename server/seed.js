@@ -1,5 +1,5 @@
 const moment = require('moment');
-const airports = require('../data/airportsFilteredByContinent');
+const airports = require('../data/filteredAirports');
 const db = require('./db');
 const { User, Airport, Trip, Flight } = require('./db/models');
 const topAirports = require('../data/topAirports.json');
@@ -46,6 +46,7 @@ const createAirports = airports =>
         longitude: airport.longitude,
         latitude: airport.latitude,
         continent: airport.continent,
+        averageTemperature: airport.temperatureInFahrenheit,
       }),
     ),
   );

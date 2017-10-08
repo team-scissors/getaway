@@ -1,6 +1,4 @@
-const rawAirports = require('./nonDuplicate_airports.json');
-
-const countriesByContinent = [
+[
     {"country" : "Aruba", "continent" : "North America"},
     {"country" : "Afghanistan", "continent" : "Asia"},
     {"country" : "Angola", "continent" : "Africa"},
@@ -242,18 +240,3 @@ const countriesByContinent = [
     {"country" : "Zambia", "continent" : "Africa"},
     {"country" : "Zimbabwe", "continent" : "Africa"}
 ]
-
-const airportsByContinent = rawAirports.map(rawArpt => {
-  let foundCountry = countriesByContinent.find(obj => {
-    return obj.country === rawArpt.country;
-  });
-
-  if(foundCountry){
-    return {...rawArpt, continent: foundCountry.continent}
-  }
-
-  return null;
-}).filter(arpt => arpt !== null);
-
-
-module.exports = airportsByContinent;
