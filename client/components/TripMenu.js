@@ -111,7 +111,7 @@ class TripMenu extends Component {
                 {trip.map((flight, idx) => {
                   return (
                     <a className="panel-block" key={idx}>
-                      <nav class="level flight-list-item">
+                      <nav className="level flight-list-item">
                         <div className="level-item has-text-centered">
                           <div>
                             <p className="heading">From</p>
