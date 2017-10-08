@@ -4,7 +4,6 @@ const Promise = require('bluebird');
 const {
   Trip,
   Flight,
-  User,
 } = require('../db/models');
 module.exports = router;
 
@@ -36,6 +35,18 @@ router.put('/:tripId/:flightId', (req, res, next) => {
   Promise.all([trip, flight])
   .spread( (trip, flight) => {
     trip.addFlight(flight);
+  })
+  .then(trip => res.send(trip))
+  .catch(next);
+});
+
+// Removes a flight from a trip
+router.delete('/:tripId/:flightId', (req, res, next) => {
+  const trip = Trip.findById(req.params.tripId);
+  const flight = Flight.findById(req.params.flightId);
+  Promise.all([trip, flight])
+  .spread( (trip, flight) => {
+    trip.removeFlight(flight);
   })
   .then(trip => res.send(trip))
   .catch(next);
