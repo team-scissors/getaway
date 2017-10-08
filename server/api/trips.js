@@ -7,6 +7,15 @@ const {
 } = require('../db/models');
 module.exports = router;
 
+// get all trips
+router.get('/', (req, res, next) => {
+  Trip.findAll({
+    include: [Flight]
+  })
+  .then(trips => res.send(trips))
+  .catch(next);
+});
+
 // get trips by userId
 router.get('/user/:userId', (req, res, next) => {
   Trip.findAll({
@@ -49,6 +58,18 @@ router.delete('/:tripId/:flightId', (req, res, next) => {
     trip.removeFlight(flight);
   })
   .then(trip => res.send(trip))
+  .catch(next);
+});
+
+// Delete a trip
+router.delete('/:tripId', (req, res, next) => {
+  Trip.findById(req.params.tripId)
+  .then( trip => {
+    trip.destroy();
+  })
+  .then( success => {
+    res.send(success);
+  })
   .catch(next);
 });
 
