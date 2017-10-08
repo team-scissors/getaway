@@ -100,18 +100,22 @@ class TripMenu extends Component {
               </a>
             </footer>
           </div>
-          <div className="card">
-            <nav className="panel">
-              {trip.length > 0 &&
-                trip.map((flight, idx) => {
+          {trip.length > 0 ? (
+            <div className="card trip-list">
+              <nav className="panel">
+                {' '}
+                {trip.map((flight, idx) => {
                   return (
                     <a className="panel-block" key={idx}>
                       {flight.origin.abbrv} to {flight.dest.abbrv}
                     </a>
                   );
                 })}
-            </nav>
-          </div>
+              </nav>
+            </div>
+          ) : (
+            ''
+          )}
         </aside>
       </div>
     );
