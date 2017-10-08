@@ -11,13 +11,26 @@ import {
   addFlightToTrip,
   setDate,
 } from '../store/user-input';
+import {
+  createTrip,
+} from '../store/trips';
 import { flightsFromAirportByAbbrv } from './util_helper';
 import moment from 'moment';
 import { ControlPanel, FlightListPanel } from '../components';
 
 class TripMenu extends Component {
+
   handleClearTrip = () => {
     this.props.dispatchClearTrip();
+  };
+
+  handleSaveTrip = () => {
+    console.log('this.props');
+    console.log(this.props);
+    // Currently, trip is in the client store as an array of flights.
+    // We should make it an object with name, userId, and an array of flights
+    // instead so that we can just hand it over to the thunk as is. TODO
+    this.props.dispatchSaveTrip(this.props.trip);
   };
 
   handleAddFlightToTrip = () => {
@@ -146,7 +159,7 @@ class TripMenu extends Component {
                 <a
                   href="#"
                   className="card-footer-item button is-primary"
-                  onClick={this.handleClearTrip}
+                  onClick={this.handleSaveTrip}
                 >
                   Save Trip
                 </a>
@@ -183,6 +196,13 @@ const mapDispatch = dispatch => {
     },
     dispatchSetAirport(abbrv) {
       dispatch(setAirport(abbrv));
+    },
+    dispatchSaveTrip: flights => {
+      const fakeTrip = {
+        name: 'my new trip',
+        userId: 1,
+      }
+      dispatch(createTrip(fakeTrip))
     },
   };
 };

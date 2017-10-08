@@ -44,6 +44,7 @@ export const fetchTrips = userId => {
 export const createTrip = newTrip => {
   return dispatch => {
     return axios.post(`/api/trips/`, newTrip)
+    .then(res => res.data)
     .then(trip => {
       dispatch(addTripToTrips(trip));
     })
