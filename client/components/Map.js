@@ -34,20 +34,18 @@ const buildTripGeoJSON = trip => {
 
   console.log('features:', tripGeoJSON.features);
 
-  tripGeoJSON.features.forEach(feature => {
-    var lineDistance = turf.lineDistance(feature, 'kilometers');
+  // tripGeoJSON.features.forEach(feature => {
+  //   var lineDistance = turf.lineDistance(feature, 'kilometers');
+  //   var arc = [];
+  //   // Draw an arc between the `origin` & `destination` of the two points
+  //   for (var i = 0; i < lineDistance; i++) {
+  //     var segment = turf.along(feature, i / 1000 * lineDistance, 'kilometers');
+  //     arc.push(segment.geometry.coordinates);
+  //   }
 
-    var arc = [];
-
-    // Draw an arc between the `origin` & `destination` of the two points
-    for (var i = 0; i < lineDistance; i++) {
-      var segment = turf.along(feature, i / 1000 * lineDistance, 'kilometers');
-      arc.push(segment.geometry.coordinates);
-    }
-
-    // Update the route with calculated arc coordinates
-    feature.geometry.coordinates = arc;
-  });
+  //   // Update the route with calculated arc coordinates
+  //   feature.geometry.coordinates = arc;
+  // });
   return tripGeoJSON;
 };
 
