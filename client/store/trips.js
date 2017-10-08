@@ -51,6 +51,16 @@ export const createTrip = newTrip => {
   };
 };
 
+export const updateTripNewFlight = (tripId, flightId) => {
+  return dispatch => {
+    return axios.put(`/api/trips/${tripId}/${flightId}`)
+    .then(res => {
+      // Do something with the store here. TODO: make an action creator
+    })
+    .catch(err => console.log(err));
+  };
+};
+
 /**
  * REDUCER
  */

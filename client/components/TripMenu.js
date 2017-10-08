@@ -43,11 +43,11 @@ class TripMenu extends Component {
       trip,
     } = this.props;
 
-    console.log('trip', trip);
-    console.log('currentFlight', currentFlight);
-    console.log('origin', origin);
-
-    console.log('loading', loading, 'origin', origin);
+    // console.log('trip', trip);
+    // console.log('currentFlight', currentFlight);
+    // console.log('origin', origin);
+    //
+    // console.log('loading', loading, 'origin', origin);
 
     return (
       <div className="column is-narrow trip-menu">
