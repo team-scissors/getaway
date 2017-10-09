@@ -11,8 +11,8 @@ const AuthForm = (props) => {
 
   return (
     <div>
-      <div class="card">
-        <div class="card-content">
+      <div className="card">
+        <div className="card-content">
           <form onSubmit={handleSubmit} name={name}>
             {
               name === "signup" &&
