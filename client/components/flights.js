@@ -62,13 +62,14 @@ class CompassCenter extends React.Component {
     const { origin, airportAbbrv } = this.props;
     const circleStyle = {
       stroke: primary,
-      strokeWidth: 2,
+      strokeWidth: 1,
       fill: 'none',
     };
     const textStyle = {
       stroke: primary,
       strokeWidth: 2,
-      fill: 'none',
+      fill: primary,
+      letterSpacing: '.2rem',
     };
     return (
       <g>
