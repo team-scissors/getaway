@@ -67,13 +67,15 @@ class Map extends Component {
         data: this.state.tripGeoJSON,
       });
 
+      this.map.setPitch(45);
+
       this.map.addLayer({
         id: 'trip',
         source: 'trip',
         type: 'line',
         paint: {
-          'line-width': 2,
-          'line-color': primary,
+          'line-width': 3,
+          'line-color': 'tomato',
         },
       });
 

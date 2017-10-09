@@ -96,20 +96,28 @@ class TripMenu extends Component {
               </div>
             </div>
             <footer className="card-footer">
-              <a
-                href="#"
-                className="card-footer-item"
-                onClick={this.handleAddFlightToTrip}
-              >
-                Add To Trip
-              </a>
-              <a
-                href="#"
-                className="card-footer-item"
-                onClick={this.handleClearTrip}
-              >
-                Clear Trip
-              </a>
+              <p className="card-footer-item">
+                <a
+                  className="button is-success is-outlined"
+                  onClick={this.handleAddFlightToTrip}
+                >
+                  <span className="icon is-small">
+                    <i className="fa fa-plus" />
+                  </span>
+                  <span>Add To Trip</span>
+                </a>
+              </p>
+              <p className="card-footer-item">
+                <a
+                  onClick={this.handleClearTrip}
+                  className="button is-danger is-outlined"
+                >
+                  <span>Clear Trip</span>
+                  <span className="icon is-small">
+                    <i className="fa fa-times" />
+                  </span>
+                </a>
+              </p>
             </footer>
           </div>
           {trip.length > 0 ? (
