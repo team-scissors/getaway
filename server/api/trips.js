@@ -109,8 +109,16 @@ router.delete('/:tripId', (req, res, next) => {
 });
 
 // Create a new trip.
+/* req.body should look like
+{
+  "name": "some name",
+  userId: 1
+}
+*/
 router.post('/', (req, res, next) => {
   const body = req.body;
+  console.log('body:');
+  console.log(body);
   Trip.create(body)
   .then(newTrip => res.send(newTrip))
   .catch(next);

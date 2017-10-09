@@ -33,12 +33,18 @@ class TripMenu extends Component {
     }
   };
 
-  handleSaveTrip = evt => {
+  handleCreateTrip = evt => {
     evt.preventDefault();
     const userId = this.props.userId;
     const currentTripName = this.props.currentTripName;
+    const flightIds = this.props.trip.map(flight => {
+      return flight.id;
+    })
     if (userId && currentTripName) {
-      this.props.dispatchSaveTrip(userId, currentTripName);
+      this.props.dispatchCreateTrip({
+        userId: userId,
+        name: currentTripName
+      }, flightIds: flightIds);
     } else {
       // Something is wrong. TODO
     }
@@ -83,7 +89,7 @@ class TripMenu extends Component {
           <UserPanel />
           <div className="card">
             <div className="card-content">
-              <form onSubmit={this.handleSaveTrip}>
+              <form onSubmit={this.handleCreateTrip}>
                 <div className="field">
                   {/* <label className="label is-medium">Trip</label> */}
                   <div className="control">
@@ -108,7 +114,7 @@ class TripMenu extends Component {
               <p className="card-footer-item">
                 <a
                   className="button is-success is-outlined"
-                  onClick={this.handleSaveTrip}
+                  onClick={this.handleCreateTrip}
                 >
                   <span className="icon is-small">
                     <i className="fa fa-check" />
@@ -207,8 +213,8 @@ const mapDispatch = dispatch => {
     dispatchSetTripName(name) {
       dispatch(setTripName(name));
     },
-    dispatchSaveTrip: (userId, name) => {
-      dispatch(createTrip({ userId, name }));
+    dispatchCreateTrip: (newTrip, flightIds) => {
+      dispatch(createTrip(newTrip, flightIds ));
     },
   };
 };

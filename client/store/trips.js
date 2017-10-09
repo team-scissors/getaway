@@ -36,18 +36,23 @@ export const fetchTrips = userId => {
     return axios.get(`/api/trips/user/${userId}`)
     .then(res => res.data)
     .then(trips => {
+      console.log('trips:');
+      console.log(trips);
       dispatch(getTrips(trips));
     })
     .catch(err => console.log(err));
   };
 };
 
-export const createTrip = newTrip => {
+export const createTrip = (newTrip, flightIds) => {
   return dispatch => {
     return axios.post(`/api/trips/`, newTrip)
     .then(res => res.data)
     .then(trip => {
-      dispatch(addTripToTrips(trip));
+      return axios.post(`/api/trips/${trip.id}`, flightIds);
+    })
+    .then(() => {
+      dispatch(fetchTrips(newTrip.userId));
     })
     .catch(err => console.log(err));
   };
