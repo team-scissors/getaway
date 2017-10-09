@@ -9,9 +9,7 @@ module.exports = router;
 
 // get all trips
 router.get('/', (req, res, next) => {
-  Trip.findAll({
-    include: [Flight]
-  })
+  Trip.findAll()
   .then(trips => res.send(trips))
   .catch(next);
 });
@@ -34,6 +32,15 @@ router.get('/:tripId', (req, res, next) => {
     include: [Flight]
   })
   .then(trip => res.send(trip))
+  .catch(next);
+});
+
+// get a trip's flights
+router.get('/:tripId/flights', (req, res, next) => {
+  Trip.findById(req.params.tripId, {
+    include: [Flight]
+  })
+  .then(trip => res.send(trip.Flights))
   .catch(next);
 });
 
