@@ -93,6 +93,17 @@ class Flights extends Component {
             360,
         };
       });
+    airport_data.push({
+      ..._.omit(origin, 'flights'),
+      price: 0,
+      departAt: '',
+      distance: 0,
+      bearing: 0,
+    });
+    console.log(
+      'last el of airportdata:',
+      airport_data[airport_data.length - 1],
+    );
     return airport_data;
   };
 
@@ -143,7 +154,7 @@ class Flights extends Component {
         scale={{ y: 'linear' }}
       >
         <VictoryPolarAxis // Bearing directions
-          labelPlacement="parallel"
+          labelPlacement="perpendicular"
           tickValues={_.keys(directions).map(k => +k)}
           tickFormat={_.values(directions)}
           style={{
@@ -188,10 +199,15 @@ class Flights extends Component {
               }),
             },
           }}
-          size={d => (d.abbrv === destAbbrv ? 7 : 3)}
+          size={d => {
+            return d.abbrv === destAbbrv ? 7 : 3;
+          }}
           style={{
             data: {
               fill: d => {
+                if (d.abbrv === airportAbbrv) {
+                  return 'black';
+                }
                 const color =
                   d.abbrv === destAbbrv
                     ? primary
@@ -250,16 +266,21 @@ class Flights extends Component {
                     {
                       target: 'data',
                       mutation: props => {
-                        return {
-                          style: Object.assign({}, props.style, {
-                            fill: primary,
-                          }),
-                        };
+                        if (props.datum.abbrv !== airportAbbrv) {
+                          return {
+                            style: Object.assign({}, props.style, {
+                              fill: primary,
+                            }),
+                          };
+                        }
                       },
                     },
                     {
                       target: 'labels',
-                      mutation: () => ({ active: true }),
+                      mutation: props => {
+                        if (props.datum.abbrv !== airportAbbrv)
+                          return { active: true };
+                      },
                     },
                   ];
                 },
