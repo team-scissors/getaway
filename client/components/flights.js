@@ -36,6 +36,8 @@ const directions = {
   315: 'SE',
 };
 
+const primary = '#00D1B2';
+
 class Flights extends Component {
   constructor(props) {
     super(props);
@@ -89,8 +91,11 @@ class Flights extends Component {
 
   componentWillReceiveProps(nextProps) {
     const { selectedDestination, origin, maxPrice } = nextProps;
-    if (origin) {
-      this.setState({ airportData: this.createAirportData(origin, maxPrice) });
+    if (this.props.selectedDestination !== selectedDestination)
+      console.log('diff dests!');
+    if (origin != this.props.origin || maxPrice != this.props.maxPrice) {
+      const airportData = this.createAirportData(origin, maxPrice);
+      this.setState({ airportData: airportData });
     }
   }
 
@@ -102,12 +107,10 @@ class Flights extends Component {
       dispatchSetCurrentFlight,
     } = this.props;
 
-    const airport_data = this.state.airportData;
-    console.log('airportdata:', airport_data);
-    console.log('flight: sel dest:', selectedDestination);
-
-    // console.log('airports data:', airport_data);
-    // console.log(this.props);
+    console.log('sel dest:', selectedDestination);
+    const destAbbrv = selectedDestination.dest
+      ? selectedDestination.dest.abbrv
+      : '';
 
     return (
       <VictoryChart
@@ -157,7 +160,12 @@ class Flights extends Component {
               }),
             },
           }}
-          style={{ data: { fill: 'tomato' } }}
+          style={{
+            data: {
+              fill: d => (d.abbrv === destAbbrv ? primary : 'tomato'),
+              size: d => (d.abbrv === destAbbrv ? 7 : 3),
+            },
+          }}
           labels={d =>
             `${d.abbrv}\n ${d.name} \n ${d.city}, ${d.country} \n Price:$${Math.trunc(
               d.price,
@@ -201,7 +209,7 @@ class Flights extends Component {
                       mutation: props => {
                         return {
                           style: Object.assign({}, props.style, {
-                            fill: '#00D1B2',
+                            fill: primary,
                           }),
                           size: 7,
                         };
