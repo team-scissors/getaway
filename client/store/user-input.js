@@ -6,7 +6,7 @@ const CLEAR_AIRPORT_INPUT = 'CLEAR_AIRPORT_INPUT';
 const CLEAR_TRIP = 'CLEAR_TRIP';
 const SET_MAX_PRICE = 'SET_MAX_PRICE';
 const ADD_FLIGHT_TO_TRIP = 'ADD_FLIGHT_TO_TRIP';
-const SET_SELECTED_DESTINATION_AIRPORT = 'SET_SELECTED_DESTINATION_AIRPORT';
+const SET_CURRENT_FLIGHT = 'SET_CURRENT_FLIGHT';
 const SET_DATE = 'SET_DATE';
 /**
  * INITIAL STATE
@@ -15,9 +15,9 @@ const initialState = {
   currentTrip: [],
   originAirportAbbrv: 'ORD',
   originAirport: {},
-  selectedDestinationAirport: {},
-  departureDate: new Date(),
-  maxPrice: 10000,
+  currentFlight: {},
+  departureDate: new Date(2018, 1, 1),
+  maxPrice: 500,
 };
 
 /**
@@ -48,8 +48,8 @@ export const clearInputAirport = () => {
   return { type: CLEAR_AIRPORT_INPUT };
 };
 
-export const getSelectedDestinationAirport = selectedAirport => {
-  return { type: SET_SELECTED_DESTINATION_AIRPORT, selectedAirport };
+export const setCurrentFlight = selectedAirport => {
+  return { type: SET_CURRENT_FLIGHT, selectedAirport };
 };
 
 /**
@@ -80,12 +80,13 @@ export default function(state = initialState, action) {
     case SET_AIRPORT:
       return {
         ...state,
+        currentFlight: {},
         originAirportAbbrv: action.abbrv,
       };
     case CLEAR_AIRPORT_INPUT:
       return initialState;
-    case SET_SELECTED_DESTINATION_AIRPORT:
-      return { ...state, selectedDestinationAirport: action.selectedAirport };
+    case SET_CURRENT_FLIGHT:
+      return { ...state, currentFlight: action.selectedAirport };
     default:
       return state;
   }

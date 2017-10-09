@@ -4,8 +4,6 @@ import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import { logout } from '../store';
 import mapboxgl from 'mapbox-gl';
-// import gridTestData from '/Users/theshuo/Documents/Fullstack/getaway/gridtest.json';
-// import isoTestData from '/Users/theshuo/Documents/Fullstack/getaway/isobands.json';
 
 /**
  * COMPONENT
@@ -16,6 +14,30 @@ import mapboxgl from 'mapbox-gl';
 mapboxgl.accessToken =
   'pk.eyJ1IjoidGhlc2h1byIsImEiOiJjajgyNXZhY2oyaWc4MzJzMG82dWM3Zm9mIn0._fGWYG5J5f0NwYRbVnByeQ';
 
+const primary = '#00D1B2';
+const buildTripGeoJSON = trip => {
+  const tripGeoJSON = {
+    type: 'FeatureCollection',
+    features: [],
+  };
+
+  trip.forEach(flight => {
+    const origin = [flight.origin.longitude, flight.origin.latitude];
+    const destination = [flight.dest.longitude, flight.dest.latitude];
+    tripGeoJSON.features.push({
+      type: 'Feature',
+      geometry: {
+        type: 'LineString',
+        coordinates: [origin, destination],
+      },
+    });
+  });
+
+  // console.log('features:', tripGeoJSON.features);
+
+  return tripGeoJSON;
+};
+
 // REVIEW: what happens when we have props?
 class Map extends Component {
   componentDidMount() {
@@ -23,14 +45,40 @@ class Map extends Component {
       container: this.mapContainer,
       style: 'mapbox://styles/mapbox/light-v9',
       // style: 'mapbox://styles/theshuo/cj82h754i9kgz2so12kkyyzon',
-      // initial position in [lon, lat] format
       center: [-87.623177, 41.881832], // Chicago
-      // initial zoom
-      zoom: 14,
+      zoom: 3,
+    });
+
+    this.state = {
+      tripGeoJSON: {
+        type: 'FeatureCollection',
+        features: [],
+      },
+    };
+
+    this.setState({
+      tripGeoJSON: buildTripGeoJSON(this.props.trip),
     });
 
     this.map.on('load', () => {
       const nav = new mapboxgl.NavigationControl();
+      this.map.addSource('trip', {
+        type: 'geojson',
+        data: this.state.tripGeoJSON,
+      });
+
+      this.map.setPitch(45);
+
+      this.map.addLayer({
+        id: 'trip',
+        source: 'trip',
+        type: 'line',
+        paint: {
+          'line-width': 3,
+          'line-color': 'tomato',
+        },
+      });
+
       this.map.addControl(nav, 'top-left');
       this.map.addControl(
         (this.GeoControl = new mapboxgl.GeolocateControl({
@@ -45,28 +93,25 @@ class Map extends Component {
       this.GeoControl.on('geolocate', position => {
         console.log(position);
       });
-
-      this.map.addLayer({
-        id: 'isoPrices',
-        type: 'fill',
-        source: {
-          type: 'geojson',
-          // data: isoTestData,
-        },
-        paint: {
-          'fill-color': {
-            property: 'price',
-            type: 'categorical',
-            stops: [
-              ['0-25', '#F2F12D'],
-              ['25-50', '#EED322'],
-              ['50-75', '#E6B71E'],
-            ],
-          },
-          'fill-opacity': 0.5,
-        },
-      });
     });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState(
+      {
+        tripGeoJSON: buildTripGeoJSON(nextProps.trip),
+      },
+      () => {
+        if (this.state.tripGeoJSON.features.length > 0) {
+          const bbox = turf.bbox(this.state.tripGeoJSON);
+          console.log('bbox:', bbox);
+          this.map.fitBounds(bbox);
+        }
+        if (this.map.getSource('trip')) {
+          this.map.getSource('trip').setData(this.state.tripGeoJSON);
+        }
+      },
+    );
   }
 
   componentWillUnmount() {
@@ -74,6 +119,8 @@ class Map extends Component {
   }
 
   render() {
+    const { trip } = this.props;
+    // console.log('map tripGeojson:', tripGeoJSON);
     const style = {
       position: 'absolute',
       top: 0,
@@ -90,6 +137,7 @@ class Map extends Component {
  */
 const mapState = state => ({
   isLoggedIn: !!state.user.id,
+  trip: state.userInput.currentTrip,
 });
 
 const mapDispatch = dispatch => ({
