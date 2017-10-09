@@ -8,10 +8,12 @@ const SET_MAX_PRICE = 'SET_MAX_PRICE';
 const ADD_FLIGHT_TO_TRIP = 'ADD_FLIGHT_TO_TRIP';
 const SET_CURRENT_FLIGHT = 'SET_CURRENT_FLIGHT';
 const SET_DATE = 'SET_DATE';
+const SET_MAP = 'SET_MAP';
 /**
  * INITIAL STATE
  */
 const initialState = {
+  map: {},
   currentTrip: [],
   originAirportAbbrv: 'ORD',
   originAirport: {},
@@ -26,6 +28,10 @@ const initialState = {
 
 export const addFlightToTrip = flight => {
   return { type: ADD_FLIGHT_TO_TRIP, flight };
+};
+
+export const setMap = map => {
+  return { type: SET_MAP, map };
 };
 
 export const setDate = date => {
@@ -57,6 +63,11 @@ export const setCurrentFlight = selectedAirport => {
  */
 export default function(state = initialState, action) {
   switch (action.type) {
+    case SET_MAP:
+      return {
+        ...state,
+        map: action.map,
+      };
     case SET_DATE:
       return {
         ...state,

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import { logout } from '../store';
 import mapboxgl from 'mapbox-gl';
+import { setMap } from '../store/user-input';
 
 /**
  * COMPONENT
@@ -75,6 +76,8 @@ class Map extends Component {
       center: [-87.623177, 41.881832], // Chicago
       zoom: 3,
     });
+
+    this.props.dispatchSetMap(this.map);
 
     this.state = {
       tripGeoJSON: {
@@ -193,6 +196,9 @@ const mapState = state => ({
 const mapDispatch = dispatch => ({
   handleClick() {
     dispatch(logout());
+  },
+  dispatchSetMap(map) {
+    dispatch(setMap(map));
   },
 });
 

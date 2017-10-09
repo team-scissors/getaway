@@ -42,7 +42,11 @@ class TripMenu extends Component {
   };
 
   handleFlyTo = airport => {
+    const { map } = this.props;
     console.log('want to fly to: ', airport);
+    map.flyTo({
+      center: [airport.longitude, airport.latitude],
+    });
   };
 
   render() {
@@ -182,6 +186,7 @@ const mapState = state => {
     currentFlight: state.userInput.currentFlight,
     airportAbbrv: state.userInput.originAirportAbbrv,
     isLoggedIn: !!state.user.id,
+    map: state.userInput.map,
   };
 };
 
