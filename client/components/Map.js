@@ -14,6 +14,7 @@ import mapboxgl from 'mapbox-gl';
 mapboxgl.accessToken =
   'pk.eyJ1IjoidGhlc2h1byIsImEiOiJjajgyNXZhY2oyaWc4MzJzMG82dWM3Zm9mIn0._fGWYG5J5f0NwYRbVnByeQ';
 
+const primary = '#00D1B2';
 const buildTripGeoJSON = trip => {
   const tripGeoJSON = {
     type: 'FeatureCollection',
@@ -84,7 +85,7 @@ class Map extends Component {
         type: 'line',
         paint: {
           'line-width': 2,
-          'line-color': '#007cbf',
+          'line-color': primary,
         },
       });
 
