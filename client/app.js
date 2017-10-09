@@ -39,7 +39,12 @@ class App extends Component {
             <div>
               <TopNavFlight />
             </div>
-            <div>
+            <div
+              style={{
+                height: '100%',
+                position: 'inherit',
+              }}
+            >
               <Switch>
                 {/* Routes placed here are available to all visitors */}
                 <Route
