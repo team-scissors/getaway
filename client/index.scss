@@ -66,6 +66,12 @@ body {
   right: 10px;
 }
 
+.top-nav {
+  // border-bottom: solid 1px #eee;
+  // box-shadow: 0px 0px 5px 0px rgba(50, 50, 50, 0.5);
+  box-shadow: 0 4px 2px -2px rgba(50, 50, 50, 0.1);
+}
+
 .main-container {
   margin: 0;
   padding: 0;
@@ -75,9 +81,13 @@ body {
 
 .main-content {
   padding-left: 0;
+  padding-right: 0;
+  padding-top: 0;
   position: relative;
   box-sizing: content-box;
   background: transparent;
+  display: flex;
+  flex-direction: column;
   // height: 100vh;
 }
 
@@ -88,7 +98,7 @@ body {
   width: 400px;
   height: 100vh;
   background: #fefefe;
-  box-shadow: -1px 0px 5px 0px rgba(50, 50, 50, 0.5);
+  box-shadow: -1px 0px 5px 0px rgba(50, 50, 50, 0.1);
   border: 1x solid teal;
 }
 
