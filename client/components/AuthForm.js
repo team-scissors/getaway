@@ -48,7 +48,6 @@ const AuthForm = (props) => {
                 <input className="input" name="password" type="password" placeholder="●●●●●●●" />
               </p>
             </div>
-            <div className="is-divider"></div>
             <div>
               <button className="button is-primary" type='submit'>{displayName}</button>
             </div>
