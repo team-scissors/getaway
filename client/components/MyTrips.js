@@ -11,16 +11,16 @@ class MyTrips extends Component {
     if (userId) dispatchFetchTrips(userId);
   }
 
-  handleTripClick = () => {};
+  handleLoadTrip = evt => {
+    console.log(evt.target.value);
+  };
 
   render() {
     const { myTrips, currentTripName } = this.props;
-    console.log('myTrips');
-    console.log(myTrips);
     const tripsList =
       myTrips &&
       myTrips.map(trip => {
-        return <li>{trip.name}</li>;
+        return <li key={trip.id}>{trip.name}</li>;
       });
     return (
       <div>
@@ -30,10 +30,12 @@ class MyTrips extends Component {
               const active = trip.name === currentTripName;
               return (
                 <a
+                  onClick={this.handleLoadTrip}
                   className={`panel-block
                 ${active ? 'is-active' : ''} list-item`}
                   key={trip.id}
                   onClick={this.handleTripClick}
+                  value={trip.id}
                   style={active ? { background: '#00d1b2', color: '#fff' } : {}}
                 >
                   <div>
