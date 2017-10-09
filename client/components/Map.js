@@ -30,6 +30,10 @@ const buildAirportsGeoJSON = trip => {
         type: 'Point',
         coordinates: [trip[0].origin.longitude, trip[0].origin.latitude],
       },
+      properties: {
+        city: trip[0].origin.city,
+        country: trip[0].origin.country,
+      },
     });
 
   trip.forEach(flight => {
@@ -39,6 +43,10 @@ const buildAirportsGeoJSON = trip => {
       geometry: {
         type: 'Point',
         coordinates: destination,
+      },
+      properties: {
+        city: flight.dest.city,
+        country: flight.dest.country,
       },
     });
   });
@@ -119,14 +127,27 @@ class Map extends Component {
         },
       });
       this.map.addLayer({
-        id: 'trip',
-        source: 'trip',
-        type: 'line',
-        paint: {
-          'line-width': 3,
-          'line-color': 'tomato',
+        id: 'airport-labels',
+        source: 'airports',
+        type: 'symbol',
+        layout: {
+          'text-field': '{city}, {country}',
+          'text-anchor': 'bottom',
+          'text-padding': 10,
         },
       });
+      this.map.addLayer(
+        {
+          id: 'trip',
+          source: 'trip',
+          type: 'line',
+          paint: {
+            'line-width': 3,
+            'line-color': 'tomato',
+          },
+        },
+        'trip',
+      );
 
       this.map.addControl(nav, 'top-left');
       this.map.addControl(
@@ -154,11 +175,15 @@ class Map extends Component {
       () => {
         if (this.state.tripGeoJSON.features.length > 0) {
           const bbox = turf.bbox(this.state.tripGeoJSON);
-          console.log('bbox:', bbox);
           this.map.fitBounds(bbox);
         }
         if (this.map.getSource('airports')) {
           this.map.getSource('airports').setData(this.state.airportsGeoJSON);
+        }
+        if (this.map.getSource('airport-labels')) {
+          this.map
+            .getSource('airport-labels')
+            .setData(this.state.airportsGeoJSON);
         }
         if (this.map.getSource('trip')) {
           this.map.getSource('trip').setData(this.state.tripGeoJSON);
