@@ -14,7 +14,6 @@ import {
   Map,
   Login,
   Signup,
-  D3Test,
   UserHome,
   TripMenu,
 } from './components';
