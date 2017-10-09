@@ -65,6 +65,11 @@ class CompassCenter extends React.Component {
       strokeWidth: 2,
       fill: 'none',
     };
+    const textStyle = {
+      stroke: primary,
+      strokeWidth: 2,
+      fill: 'none',
+    };
     return (
       <g>
         <circle
@@ -78,6 +83,7 @@ class CompassCenter extends React.Component {
           y={origin.y + 7}
           font-size="20px"
           text-anchor="middle"
+          style={textStyle}
         >
           {airportAbbrv}
         </text>
