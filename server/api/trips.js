@@ -4,6 +4,7 @@ const Promise = require('bluebird');
 const {
   Trip,
   Flight,
+  Airport,
 } = require('../db/models');
 module.exports = router;
 
@@ -18,6 +19,25 @@ router.get('/', (req, res, next) => {
 router.get('/user/:userId', (req, res, next) => {
   Trip.findAll({
     include: [Flight],
+    where: {
+      userId: req.params.userId
+    }
+  })
+  .then(trips => res.send(trips))
+  .catch(next);
+});
+
+// get trips by userId
+router.get('/user/:userId/extended', (req, res, next) => {
+  Trip.findAll({
+    include: [{
+      model: Flight, include: [{
+        model: Airport, as: 'toId'
+      }, {
+        model: Airport, as: 'fromId'
+      },
+      ]},
+    ],
     where: {
       userId: req.params.userId
     }
