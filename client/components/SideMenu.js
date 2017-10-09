@@ -3,11 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Link, NavLink } from 'react-router-dom';
 import { logout } from '../store';
-import {
-  ControlPanel,
-  FlightListPanel,
-  MyTrips,
-} from '../components';
+import { ControlPanel, FlightListPanel, MyTrips } from '../components';
 
 class SideMenu extends Component {
   render() {
@@ -40,7 +36,9 @@ class SideMenu extends Component {
                     <span>Map</span>
                   </NavLink>
                 </li>
-                <li className={location.pathname === '/trips' ? 'is-active' : ''}>
+                <li
+                  className={location.pathname === '/trips' ? 'is-active' : ''}
+                >
                   <NavLink to="/trips" activeClassName="is-active">
                     <span>My Trips</span>
                   </NavLink>
@@ -48,18 +46,16 @@ class SideMenu extends Component {
               </ul>
             </div>
           </div>
-          {location.pathname === '/trips'
-          ? <MyTrips />
-          :
-            (
+          <ControlPanel />
+          <div className="sidenav-mid-container">
+            {location.pathname === '/trips' ? (
+              <MyTrips />
+            ) : (
               <div>
-                <ControlPanel />
-                <div className="sidenav-mid-container">
-                  <FlightListPanel />
-                </div>
+                <FlightListPanel />
               </div>
             )}
-
+          </div>
         </aside>
       </div>
     );
