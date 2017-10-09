@@ -22,15 +22,6 @@ class TripMenu extends Component {
     this.props.dispatchClearTrip();
   };
 
-  handleSaveTrip = () => {
-    console.log('this.props');
-    console.log(this.props);
-    // Currently, trip is in the client store as an array of flights.
-    // We should make it an object with name, userId, and an array of flights
-    // instead so that we can just hand it over to the thunk as is. TODO
-    this.props.dispatchSaveTrip(this.props.trip);
-  };
-
   handleAddFlightToTrip = () => {
     if (this.props.currentFlight.dest) {
       const flight = {
@@ -44,7 +35,13 @@ class TripMenu extends Component {
 
   handleSaveTrip = evt => {
     evt.preventDefault();
-    // dispatch TODO
+    const userId = this.props.userId;
+    const currentTripName = this.props.currentTripName;
+    if (userId && currentTripName) {
+      this.props.dispatchSaveTrip(userId, currentTripName)
+    } else {
+      // Something is wrong. TODO
+    }
   }
 
   handleTripNameChange = evt => {
@@ -175,6 +172,7 @@ const mapState = state => {
     currentTripName: state.userInput.currentTripName,
     airportAbbrv: state.userInput.originAirportAbbrv,
     isLoggedIn: !!state.user.id,
+    userId: state.user.id,
   };
 };
 
