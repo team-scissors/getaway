@@ -82,8 +82,8 @@ class CompassCenter extends React.Component {
         <text
           x={origin.x}
           y={origin.y + 7}
-          font-size="20px"
-          text-anchor="middle"
+          fontSize="20px"
+          textAnchor="middle"
           style={textStyle}
         >
           {airportAbbrv}

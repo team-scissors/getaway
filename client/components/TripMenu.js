@@ -10,6 +10,7 @@ import {
   setMaxPrice,
   addFlightToTrip,
   setDate,
+  setTripName,
 } from '../store/user-input';
 import { createTrip } from '../store/trips';
 import { flightsFromAirportByAbbrv } from './util_helper';
@@ -41,6 +42,16 @@ class TripMenu extends Component {
     }
   };
 
+  handleSaveTrip = evt => {
+    evt.preventDefault();
+    // dispatch TODO
+  }
+
+  handleTripNameChange = evt => {
+    const name = evt.target.value;
+    this.props.dispatchSetTripName(name);
+  };
+
   handleFlyTo = airport => {
     console.log('want to fly to: ', airport);
   };
@@ -50,6 +61,7 @@ class TripMenu extends Component {
       children,
       origin,
       currentFlight,
+      currentTripName,
       handleClick,
       isLoggedIn,
       match,
@@ -61,9 +73,20 @@ class TripMenu extends Component {
       <div className="column is-narrow trip-menu">
         <aside className="menu menu-wrapper">
           <div className="card">
-            <header className="card-header">
-              <p className="card-header-title">Trip: [PLACEHOLDER]</p>
-            </header>
+            <form onSubmit={this.handleSaveTrip}>
+              <div className="field">
+                {/* <label className="label is-medium">Trip</label> */}
+                <div className="control">
+                  <input
+                    className="input is-medium"
+                    type="text"
+                    placeholder="Trip Name"
+                    value={currentTripName}
+                    onChange={this.handleTripNameChange}
+                  />
+                </div>
+              </div>
+            </form>
             <footer className="card-footer">
               <p className="card-footer-item">
                 <a
@@ -149,6 +172,7 @@ const mapState = state => {
   return {
     trip: state.userInput.currentTrip,
     currentFlight: state.userInput.currentFlight,
+    currentTripName: state.userInput.currentTripName,
     airportAbbrv: state.userInput.originAirportAbbrv,
     isLoggedIn: !!state.user.id,
   };
@@ -167,6 +191,9 @@ const mapDispatch = dispatch => {
     },
     dispatchSetAirport(abbrv) {
       dispatch(setAirport(abbrv));
+    },
+    dispatchSetTripName(name) {
+      dispatch(setTripName(name));
     },
     dispatchSaveTrip: (userId, name) => {
       dispatch(createTrip({ userId, name }));
