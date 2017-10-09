@@ -80,7 +80,7 @@ class ControlPanel extends Component {
   };
 
   maxPriceChange = evt => {
-    const price = evt.target.value <= 0 ? 1000 : evt.target.value;
+    const price = evt.target.value;
     this.setState(
       {
         maxPriceValue: price,
