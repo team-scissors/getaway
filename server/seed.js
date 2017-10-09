@@ -18,14 +18,14 @@ const pricePerKm = 0.18;
 // Initialize an array of 14 dates.
 const numDates = 14;
 let dates = [];
-for (let i=0; i<numDates; i++) {
-  dates.push(new Date(2018, 1, i+1));
+for (let i = 0; i < numDates; i++) {
+  dates.push(new Date(2018, 1, i + 1));
 }
 
 let idx = 0;
 const getNextDate = () => {
   const date = dates[idx];
-  idx = idx === dates.length-1 ? 0 : idx+1;
+  idx = idx === dates.length - 1 ? 0 : idx + 1;
   return date;
 };
 
@@ -97,62 +97,66 @@ const createTrips = trips => Promise.all(trips.map(trip => Trip.create(trip)));
 
 /* ---------- Syncing database ---------- */
 const seed = () => {
-  return Promise.all([
-    createAirports(airports),
-    createUsers(fakeUsers),
-  ]).spread((airports, users) => {
-    console.log(` -> seeded airports & users`);
-    const topCreatedAirports = airports.filter(airport => {
-      return (
-        topAirports.find(searchAirport => {
-          //console.log('while seeding', searchAirport.iata_faa === airport.abbrv);
-          return searchAirport.iata_faa === airport.abbrv;
-        }) !== undefined
-      );
-    });
-    // For topCreatedAirports we need to make complete bipartite graph of prices
+  return Promise.all([createAirports(airports), createUsers(fakeUsers)])
+    .spread((airports, users) => {
+      console.log(` -> seeded airports & users`);
+      const topCreatedAirports = airports.filter(airport => {
+        return (
+          topAirports.find(searchAirport => {
+            //console.log('while seeding', searchAirport.iata_faa === airport.abbrv);
+            return searchAirport.iata_faa === airport.abbrv;
+          }) !== undefined
+        );
+      });
+      // For topCreatedAirports we need to make complete bipartite graph of prices
 
-    const createPrices = topCreatedAirports.map(fromAirport => {
-      return Promise.all(
-        topCreatedAirports
-        // for each major airport, add flights to each every other major airport
-        // but exclude those that are too close to it. If too close, this will
-        // map to undefined
-        .map(toAirport => {
-          const distance = geolib.getDistance(
-            {
-              latitude: fromAirport.latitude,
-              longitude: fromAirport.longitude,
-            },
-            {
-              latitude: toAirport.latitude,
-              longitude: toAirport.longitude,
-            }
-          );
-          const minDist = 241.402 * 1000; // Minimum distance for a flight to exist
-          if (distance < minDist) return;
-          return fromAirport.addToAirport(toAirport, {
-            through: {
-              price: (distance / 1000 * pricePerKm) + generateNoise(distance),
-              departAt: getNextDate(),
-            },
-          });
-        })
-        // filter out those that are undefined
-        .filter(i => i)
-      );
+      const createPrices = topCreatedAirports.map(fromAirport => {
+        return Promise.all(
+          topCreatedAirports
+            // for each major airport, add flights to each every other major airport
+            // but exclude those that are too close to it. If too close, this will
+            // map to undefined
+            .map(toAirport => {
+              const distance = geolib.getDistance(
+                {
+                  latitude: fromAirport.latitude,
+                  longitude: fromAirport.longitude,
+                },
+                {
+                  latitude: toAirport.latitude,
+                  longitude: toAirport.longitude,
+                },
+              );
+              const minDist = 241.402 * 1000; // Minimum distance for a flight to exist
+              if (distance < minDist) return;
+              return fromAirport.addToAirport(toAirport, {
+                through: {
+                  price: Math.max(
+                    distance /
+                      1000 *
+                      pricePerKm *
+                      chance.floating({ min: 0.25, max: 1.2 }),
+                    30,
+                  ), // + generateNoise(distance),
+                  departAt: getNextDate(),
+                },
+              });
+            })
+            // filter out those that are undefined
+            .filter(i => i),
+        );
+      });
+      return Promise.all(createPrices);
+    })
+    .then(prices => {
+      // console.log(util.inspect(prices, {
+      //   depth: 3,
+      //   showHidden: true,
+      //   colors: true,
+      //   maxArrayLength: 10,
+      // }));
+      return Promise.resolve();
     });
-    return Promise.all(createPrices);
-  })
-  .then( prices => {
-    // console.log(util.inspect(prices, {
-    //   depth: 3,
-    //   showHidden: true,
-    //   colors: true,
-    //   maxArrayLength: 10,
-    // }));
-    return Promise.resolve();
-  })
 };
 
 db

@@ -74,16 +74,16 @@ class ControlPanel extends Component {
 
   handleMaxPriceSubmit = evt => {
     evt.preventDefault();
-    if (this.state.maxPriceValue <= 0) {
-      return;
-    }
-    this.props.dispatchSetMaxPrice(this.state.maxPriceValue);
+    const price =
+      this.state.maxPriceValue <= 0 ? 1000 : this.state.maxPriceValue;
+    this.props.dispatchSetMaxPrice(price);
   };
 
   maxPriceChange = evt => {
+    const price = evt.target.value;
     this.setState(
       {
-        maxPriceValue: evt.target.value,
+        maxPriceValue: price,
       },
       () => {
         this.props.dispatchSetMaxPrice(this.state.maxPriceValue);
@@ -139,6 +139,16 @@ class ControlPanel extends Component {
             </div>
           </div>
           <div className="panel-block">
+            <div className="columns" style={{ width: '100%' }}>
+              <div className="column">
+                <label className="label is-small">Departure Date</label>
+              </div>
+              <div className="column">
+                <label className="label is-small">Max Price</label>
+              </div>
+            </div>
+          </div>
+          <div className="panel-block">
             <div className="field is-grouped">
               <div className="control">
                 <DayPickerInput
@@ -156,9 +166,9 @@ class ControlPanel extends Component {
                 <div className="control">
                   <form onSubmit={this.handleMaxPriceSubmit}>
                     <input
-                      className="input is-small"
+                      className="input is-fullwidth is-small"
                       type="text"
-                      placeholder={`Maximum Price`}
+                      placeholder={this.props.maxPrice}
                       value={this.state.maxPriceValue}
                       onChange={this.maxPriceChange}
                     />

@@ -5,11 +5,11 @@ import { withRouter } from 'react-router-dom';
 import { graphql } from 'react-apollo';
 import {
   VictoryTheme,
+  VictoryLegend,
   VictoryPolarAxis,
   VictoryZoomContainer,
   VictoryLine,
-  VictoryStack,
-  VictoryBar,
+  VictoryLabel,
   VictoryScatter,
   VictoryChart,
   VictoryGroup,
@@ -36,65 +36,145 @@ const directions = {
   315: 'SE',
 };
 
+const regions = {
+  Europe: '#66c2a5',
+  Oceania: '#fc8d62',
+  Asia: '#8da0cb',
+  NorthAmerica: '#e78ac3',
+  Africa: '#a6d854',
+  SouthAmerica: '#ffd92f',
+};
+
+const regionLegendLabels = [
+  { name: 'Europe', symbol: { fill: regions['Europe'] } },
+  { name: 'Oceania', symbol: { fill: regions['Oceania'] } },
+  { name: 'Asia', symbol: { fill: regions['Asia'] } },
+  { name: 'North America', symbol: { fill: regions['NorthAmerica'] } },
+  { name: 'Africa', symbol: { fill: regions['Africa'] } },
+  { name: 'South America', symbol: { fill: regions['SouthAmerica'] } },
+];
+
+const primary = '#00D1B2';
+
+const innerRadius = 35;
+class CompassCenter extends React.Component {
+  render() {
+    const { origin, airportAbbrv } = this.props;
+    const circleStyle = {
+      stroke: primary,
+      strokeWidth: 1,
+      fill: 'none',
+    };
+    const textStyle = {
+      stroke: primary,
+      strokeWidth: 2,
+      fill: primary,
+      letterSpacing: '.2rem',
+    };
+    return (
+      <g>
+        <circle
+          cx={origin.x}
+          cy={origin.y}
+          r={innerRadius}
+          style={circleStyle}
+        />
+        <text
+          x={origin.x}
+          y={origin.y + 7}
+          font-size="20px"
+          text-anchor="middle"
+          style={textStyle}
+        >
+          {airportAbbrv}
+        </text>
+      </g>
+    );
+  }
+}
+
 class Flights extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      airportData: [],
+    };
   }
 
-  componentDidMount() {}
+  createAirportData = (origin, maxPrice) => {
+    let airport_data = [];
+    if (!origin) return airport_data;
+    const curAirport = {
+      latitude: origin.latitude,
+      longitude: origin.longitude,
+    };
+    airport_data = origin.flights.nodes
+      .filter(flight => {
+        return flight.price < maxPrice;
+      })
+      .map(flight => {
+        return {
+          ...flight.dest,
+          price: +flight.price,
+          departAt: flight.departAt,
+          distance: geolib.getDistance(curAirport, {
+            latitude: flight.dest.latitude,
+            longitude: flight.dest.longitude,
+          }),
+          // Victory polar is counter-clockwise
+          bearing:
+            (90 -
+              geolib.getBearing(curAirport, {
+                latitude: flight.dest.latitude,
+                longitude: flight.dest.longitude,
+              })) %
+            360,
+        };
+      });
+    return airport_data;
+  };
+
+  componentDidMount() {
+    const {
+      airports,
+      airportAbbrv,
+      selectedDestination,
+      dispatchSetCurrentFlight,
+    } = this.props;
+  }
 
   componentDidUpdate() {}
 
-  render() {
-    const { airports, airportAbbrv, dispatchSetCurrentFlight } = this.props;
-
-    let airport_data;
-    if (this.props.loading === true) {
-      airport_data = [];
-    } else {
-      if (this.props.origin) {
-        const curAirport = {
-          latitude: this.props.origin.latitude,
-          longitude: this.props.origin.longitude,
-        };
-        airport_data = this.props.origin.flights.nodes
-          .map(flight => {
-            return {
-              ...flight.dest,
-              price: +flight.price,
-              departAt: flight.departAt,
-              distance: geolib.getDistance(curAirport, {
-                latitude: flight.dest.latitude,
-                longitude: flight.dest.longitude,
-              }),
-              // Victory polar is counter-clockwise
-              bearing:
-                (90 -
-                  geolib.getBearing(curAirport, {
-                    latitude: flight.dest.latitude,
-                    longitude: flight.dest.longitude,
-                  })) %
-                360,
-            };
-          })
-          .filter(airport => {
-            return airport.price < this.props.maxPrice;
-          });
-      } else {
-        airport_data = [];
-      }
+  componentWillReceiveProps(nextProps) {
+    const { selectedDestination, origin, maxPrice } = nextProps;
+    if (this.props.selectedDestination !== selectedDestination)
+      console.log('diff dests!');
+    if (origin != this.props.origin || maxPrice != this.props.maxPrice) {
+      const airportData = this.createAirportData(origin, maxPrice);
+      this.setState({ airportData: airportData });
     }
+  }
 
-    // console.log('airports data:', airport_data);
-    // console.log(this.props);
+  render() {
+    const {
+      airports,
+      airportAbbrv,
+      selectedDestination,
+      dispatchSetCurrentFlight,
+    } = this.props;
 
-    const selectedDestination = this.props.selectedDestination;
+    console.log('sel dest:', selectedDestination);
+    const destAbbrv = selectedDestination.dest
+      ? selectedDestination.dest.abbrv
+      : '';
+
     return (
       <VictoryChart
         animate={{ duration: 500, easing: 'quadInOut' }}
         polar
         width={500}
         height={500}
+        innerRadius={innerRadius}
         domain={{ x: [0, 360] }}
         theme={VictoryTheme.material}
         domainPadding={{ y: 10 }}
@@ -102,7 +182,7 @@ class Flights extends Component {
         scale={{ y: 'linear' }}
       >
         <VictoryPolarAxis // Bearing directions
-          labelPlacement="parallel"
+          labelPlacement="perpendicular"
           tickValues={_.keys(directions).map(k => +k)}
           tickFormat={_.values(directions)}
           style={{
@@ -119,6 +199,16 @@ class Flights extends Component {
           }}
           tickCount={4}
           tickFormat={t => `$${t}`}
+        />
+        <VictoryLegend
+          x={30}
+          y={10}
+          symbolSpacer={5}
+          centerTitle
+          orientation="horizontal"
+          gutter={10}
+          style={{ border: { stroke: 'none' }, title: { fontSize: 14 } }}
+          data={regionLegendLabels}
         />
         <VictoryScatter
           animate={{
@@ -137,16 +227,40 @@ class Flights extends Component {
               }),
             },
           }}
-          style={{ data: { fill: 'tomato' } }}
+          size={d => {
+            return d.abbrv === destAbbrv ? 7 : 3;
+          }}
+          style={{
+            data: {
+              fill: d => {
+                if (d.abbrv === airportAbbrv) {
+                  return 'black';
+                }
+                const color =
+                  d.abbrv === destAbbrv
+                    ? primary
+                    : regions[d.continent.replace(/\s/g, '')];
+                return color;
+              },
+            },
+          }}
           labels={d =>
             `${d.abbrv}\n ${d.name} \n ${d.city}, ${d.country} \n Price:$${Math.trunc(
               d.price,
             )}`}
           labelPlacement="vertical"
-          labelComponent={<VictoryTooltip dx={-2} dy={10} />}
+          labelComponent={
+            <VictoryTooltip
+              dx={10}
+              dy={10}
+              cornerRadius={10}
+              pointerLength={0}
+              flyoutStyle={{}}
+            />
+          }
           x="bearing"
           y="price"
-          data={airport_data}
+          data={this.state.airportData}
           events={[
             {
               target: 'data',
@@ -156,6 +270,7 @@ class Flights extends Component {
                     {
                       target: 'data',
                       mutation: props => {
+                        console.log('click props:', props);
                         const a = props.datum;
                         const selectedFlight = {
                           price: a.price,
@@ -179,17 +294,21 @@ class Flights extends Component {
                     {
                       target: 'data',
                       mutation: props => {
-                        return {
-                          style: Object.assign({}, props.style, {
-                            fill: '#00D1B2',
-                          }),
-                          size: 7,
-                        };
+                        if (props.datum.abbrv !== airportAbbrv) {
+                          return {
+                            style: Object.assign({}, props.style, {
+                              fill: primary,
+                            }),
+                          };
+                        }
                       },
                     },
                     {
                       target: 'labels',
-                      mutation: () => ({ active: true }),
+                      mutation: props => {
+                        if (props.datum.abbrv !== airportAbbrv)
+                          return { active: true };
+                      },
                     },
                   ];
                 },
@@ -198,9 +317,7 @@ class Flights extends Component {
                     {
                       target: 'data',
                       mutation: props => {
-                        return {
-                          size: 3,
-                        };
+                        return {};
                       },
                     },
                     {
@@ -213,6 +330,8 @@ class Flights extends Component {
             },
           ]}
         />
+        {/* <CompassLabel /> */}
+        <CompassCenter airportAbbrv={this.props.airportAbbrv} />
       </VictoryChart>
     );
   }

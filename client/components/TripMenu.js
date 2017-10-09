@@ -11,15 +11,12 @@ import {
   addFlightToTrip,
   setDate,
 } from '../store/user-input';
-import {
-  createTrip,
-} from '../store/trips';
+import { createTrip } from '../store/trips';
 import { flightsFromAirportByAbbrv } from './util_helper';
 import moment from 'moment';
 import { ControlPanel, FlightListPanel } from '../components';
 
 class TripMenu extends Component {
-
   handleClearTrip = () => {
     this.props.dispatchClearTrip();
   };
@@ -44,6 +41,10 @@ class TripMenu extends Component {
     }
   };
 
+  handleFlyTo = airport => {
+    console.log('want to fly to: ', airport);
+  };
+
   render() {
     const {
       children,
@@ -56,12 +57,6 @@ class TripMenu extends Component {
       trip,
     } = this.props;
 
-    // console.log('trip', trip);
-    // console.log('currentFlight', currentFlight);
-    // console.log('origin', origin);
-    //
-    // console.log('loading', loading, 'origin', origin);
-
     return (
       <div className="column is-narrow trip-menu">
         <aside className="menu menu-wrapper">
@@ -71,7 +66,7 @@ class TripMenu extends Component {
             </header>
             <div className="card-content current-flight-info">
               <div className="content">
-                {!loading ? (
+                {!loading && origin ? (
                   <span>
                     From: <strong>{origin.abbrv}</strong>, {origin.city}{' '}
                   </span>
@@ -101,20 +96,28 @@ class TripMenu extends Component {
               </div>
             </div>
             <footer className="card-footer">
-              <a
-                href="#"
-                className="card-footer-item"
-                onClick={this.handleAddFlightToTrip}
-              >
-                Add To Trip
-              </a>
-              <a
-                href="#"
-                className="card-footer-item"
-                onClick={this.handleClearTrip}
-              >
-                Clear Trip
-              </a>
+              <p className="card-footer-item">
+                <a
+                  className="button is-success is-outlined"
+                  onClick={this.handleAddFlightToTrip}
+                >
+                  <span className="icon is-small">
+                    <i className="fa fa-plus" />
+                  </span>
+                  <span>Add To Trip</span>
+                </a>
+              </p>
+              <p className="card-footer-item">
+                <a
+                  onClick={this.handleClearTrip}
+                  className="button is-danger is-outlined"
+                >
+                  <span>Clear Trip</span>
+                  <span className="icon is-small">
+                    <i className="fa fa-times" />
+                  </span>
+                </a>
+              </p>
             </footer>
           </div>
           {trip.length > 0 ? (
@@ -126,13 +129,13 @@ class TripMenu extends Component {
                     <a className="panel-block" key={idx}>
                       <nav className="level flight-list-item">
                         <div className="level-item has-text-centered">
-                          <div>
+                          <div onClick={() => this.handleFlyTo(flight.origin)}>
                             <p className="heading">From</p>
                             <p className="title is-6">{flight.origin.abbrv}</p>
                           </div>
                         </div>
                         <div className="level-item has-text-centered">
-                          <div>
+                          <div onClick={() => this.handleFlyTo(flight.dest)}>
                             <p className="heading">To</p>
                             <p className="title is-6">{flight.dest.abbrv}</p>
                           </div>
@@ -152,7 +155,6 @@ class TripMenu extends Component {
                           </div>
                         </div>
                       </nav>
-                      {/* {flight.origin.abbrv} to {flight.dest.abbrv} */}
                     </a>
                   );
                 })}
@@ -201,8 +203,8 @@ const mapDispatch = dispatch => {
       const fakeTrip = {
         name: 'my new trip',
         userId: 1,
-      }
-      dispatch(createTrip(fakeTrip))
+      };
+      dispatch(createTrip(fakeTrip));
     },
   };
 };

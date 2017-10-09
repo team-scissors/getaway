@@ -14,6 +14,7 @@ import mapboxgl from 'mapbox-gl';
 mapboxgl.accessToken =
   'pk.eyJ1IjoidGhlc2h1byIsImEiOiJjajgyNXZhY2oyaWc4MzJzMG82dWM3Zm9mIn0._fGWYG5J5f0NwYRbVnByeQ';
 
+const primary = '#00D1B2';
 const buildTripGeoJSON = trip => {
   const tripGeoJSON = {
     type: 'FeatureCollection',
@@ -32,20 +33,8 @@ const buildTripGeoJSON = trip => {
     });
   });
 
-  console.log('features:', tripGeoJSON.features);
+  // console.log('features:', tripGeoJSON.features);
 
-  // tripGeoJSON.features.forEach(feature => {
-  //   var lineDistance = turf.lineDistance(feature, 'kilometers');
-  //   var arc = [];
-  //   // Draw an arc between the `origin` & `destination` of the two points
-  //   for (var i = 0; i < lineDistance; i++) {
-  //     var segment = turf.along(feature, i / 1000 * lineDistance, 'kilometers');
-  //     arc.push(segment.geometry.coordinates);
-  //   }
-
-  //   // Update the route with calculated arc coordinates
-  //   feature.geometry.coordinates = arc;
-  // });
   return tripGeoJSON;
 };
 
@@ -78,13 +67,15 @@ class Map extends Component {
         data: this.state.tripGeoJSON,
       });
 
+      this.map.setPitch(45);
+
       this.map.addLayer({
         id: 'trip',
         source: 'trip',
         type: 'line',
         paint: {
-          'line-width': 2,
-          'line-color': '#007cbf',
+          'line-width': 3,
+          'line-color': 'tomato',
         },
       });
 
@@ -106,12 +97,16 @@ class Map extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('nextprops:', nextProps);
     this.setState(
       {
         tripGeoJSON: buildTripGeoJSON(nextProps.trip),
       },
       () => {
+        if (this.state.tripGeoJSON.features.length > 0) {
+          const bbox = turf.bbox(this.state.tripGeoJSON);
+          console.log('bbox:', bbox);
+          this.map.fitBounds(bbox);
+        }
         if (this.map.getSource('trip')) {
           this.map.getSource('trip').setData(this.state.tripGeoJSON);
         }

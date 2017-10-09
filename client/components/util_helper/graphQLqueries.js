@@ -8,6 +8,7 @@ export const flightsFromAirportByAbbrv = gql`
       abbrv
       city
       country
+      continent
       longitude
       latitude
       flights: flightsByFromId {
@@ -20,6 +21,7 @@ export const flightsFromAirportByAbbrv = gql`
             abbrv
             name
             city
+            continent
             country
             longitude
             latitude
@@ -38,6 +40,7 @@ export const airportByAbbrv = gql`
       abbrv
       city
       country
+      continent
       longitude
       latitude
     }
@@ -58,8 +61,8 @@ Query arguments should look something like this:
 }
 */
 export const createTrip = gql`
-  mutation createTrip($input:CreateTripInput!) {
-    createTrip(input: $input){
+  mutation createTrip($input: CreateTripInput!) {
+    createTrip(input: $input) {
       trip {
         id
         name
