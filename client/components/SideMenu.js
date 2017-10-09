@@ -46,18 +46,16 @@ class SideMenu extends Component {
               </ul>
             </div>
           </div>
-          {location.pathname === '/trips' ? (
-            <div className="sidenav-mid-container">
+          <ControlPanel />
+          <div className="sidenav-mid-container">
+            {location.pathname === '/trips' ? (
               <MyTrips />
-            </div>
-          ) : (
-            <div>
-              <ControlPanel />
-              <div className="sidenav-mid-container">
+            ) : (
+              <div>
                 <FlightListPanel />
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </aside>
       </div>
     );
