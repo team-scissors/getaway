@@ -114,14 +114,16 @@ class Flights extends Component {
         return flight.price < maxPrice;
       })
       .map(flight => {
+        const distance = geolib.getDistance(curAirport, {
+          latitude: flight.dest.latitude,
+          longitude: flight.dest.longitude,
+        });
         return {
           ...flight.dest,
           price: +flight.price,
           departAt: flight.departAt,
-          distance: geolib.getDistance(curAirport, {
-            latitude: flight.dest.latitude,
-            longitude: flight.dest.longitude,
-          }),
+          distance: distance,
+          costPerKm: +flight.price / distance,
           // Victory polar is counter-clockwise
           bearing:
             (90 -
@@ -182,9 +184,9 @@ class Flights extends Component {
         innerRadius={innerRadius}
         domain={{ x: [0, 360] }}
         theme={VictoryTheme.material}
-        domainPadding={{ y: 10 }}
+        domainPadding={{ y: 20 }}
         containerComponent={<VictoryZoomContainer />}
-        scale={{ y: 'linear' }}
+        // scale={{ x: 'linear', y: 'log' }}
       >
         <VictoryPolarAxis // Bearing directions
           labelPlacement="perpendicular"
@@ -216,6 +218,9 @@ class Flights extends Component {
           data={regionLegendLabels}
         />
         <VictoryScatter
+          bubbleProperty="costPerKm"
+          maxBubbleSize={7}
+          minBubbleSize={2}
           animate={{
             onEnter: {
               duration: 200,
@@ -232,11 +237,13 @@ class Flights extends Component {
               }),
             },
           }}
-          size={d => {
-            return d.abbrv === destAbbrv ? 7 : 3;
-          }}
+          // size={d => {
+          //   return d.abbrv === destAbbrv ? 7 : 3;
+          // }}
           style={{
             data: {
+              stroke: 'black',
+              strokeWidth: 0.2,
               fill: d => {
                 if (d.abbrv === airportAbbrv) {
                   return 'black';

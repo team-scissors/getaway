@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { trips, fetchTrips } from '../store';
+import { setTripName, setTrip } from '../store/user-input';
 import * as _ from 'underscore';
 
 class MyTrips extends Component {
@@ -12,7 +13,11 @@ class MyTrips extends Component {
   }
 
   handleLoadTrip = evt => {
-    console.log(evt.target.value);
+    const selectedTrip = this.props.myTrips.find(trip => {
+      return trip.id === +evt.target.dataset.tripid;
+    });
+    this.props.dispatchSetTrip(selectedTrip.Flights);
+    this.props.dispatchSetTripName(selectedTrip.name);
   };
 
   render() {
@@ -34,8 +39,7 @@ class MyTrips extends Component {
                   className={`panel-block
                 ${active ? 'is-active' : ''} list-item`}
                   key={trip.id}
-                  onClick={this.handleTripClick}
-                  value={trip.id}
+                  data-tripid={trip.id}
                   style={active ? { background: '#00d1b2', color: '#fff' } : {}}
                 >
                   <div>
@@ -63,6 +67,12 @@ const mapDispatch = dispatch => {
   return {
     dispatchFetchTrips: userId => {
       dispatch(fetchTrips(userId));
+    },
+    dispatchSetTrip: trip => {
+      dispatch(setTrip(trip));
+    },
+    dispatchSetTripName: tripName => {
+      dispatch(setTripName(tripName));
     },
   };
 };
