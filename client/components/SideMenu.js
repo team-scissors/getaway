@@ -3,7 +3,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Link, NavLink } from 'react-router-dom';
 import { logout } from '../store';
-import { ControlPanel, FlightListPanel } from '../components';
+import {
+  ControlPanel,
+  FlightListPanel,
+  MyTrips,
+} from '../components';
 
 class SideMenu extends Component {
   render() {
@@ -44,10 +48,18 @@ class SideMenu extends Component {
               </ul>
             </div>
           </div>
-          <ControlPanel />
-          <div className="sidenav-mid-container">
-            <FlightListPanel />
-          </div>
+          {location.pathname === '/trips'
+          ? <MyTrips />
+          :
+            (
+              <div>
+                <ControlPanel />
+                <div className="sidenav-mid-container">
+                  <FlightListPanel />
+                </div>
+              </div>
+            )}
+
         </aside>
       </div>
     );

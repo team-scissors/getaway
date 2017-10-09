@@ -24,9 +24,16 @@ class MyTrips extends Component {
     } = this.props;
     console.log('myTrips');
     console.log(myTrips);
+    const tripsList = myTrips && myTrips.map(trip => {
+      return (
+        <li>{trip.name}</li>
+      );
+    });
     return (
       <div>
-        <h1>Hello!</h1>
+        <ul>
+          {tripsList}
+        </ul>
       </div>
     );
   }
