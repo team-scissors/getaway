@@ -14,7 +14,7 @@ import {
 import { createTrip } from '../store/trips';
 import { flightsFromAirportByAbbrv } from './util_helper';
 import moment from 'moment';
-import { ControlPanel, FlightListPanel } from '../components';
+import { ControlPanel, FlightListPanel, UserPanel } from '../components';
 
 class TripMenu extends Component {
   handleClearTrip = () => {
@@ -60,6 +60,7 @@ class TripMenu extends Component {
     return (
       <div className="column is-narrow trip-menu">
         <aside className="menu menu-wrapper">
+          <UserPanel />
           <div className="card">
             <header className="card-header">
               <p className="card-header-title">Current Flight</p>
