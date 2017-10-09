@@ -39,56 +39,76 @@ const directions = {
 class Flights extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      airportData: [],
+    };
   }
 
-  componentDidMount() {}
+  createAirportData = (origin, maxPrice) => {
+    let airport_data;
+    const curAirport = {
+      latitude: origin.latitude,
+      longitude: origin.longitude,
+    };
+    airport_data = origin.flights.nodes
+      .filter(flight => {
+        return flight.price < maxPrice;
+      })
+      .map(flight => {
+        return {
+          ...flight.dest,
+          price: +flight.price,
+          departAt: flight.departAt,
+          distance: geolib.getDistance(curAirport, {
+            latitude: flight.dest.latitude,
+            longitude: flight.dest.longitude,
+          }),
+          // Victory polar is counter-clockwise
+          bearing:
+            (90 -
+              geolib.getBearing(curAirport, {
+                latitude: flight.dest.latitude,
+                longitude: flight.dest.longitude,
+              })) %
+            360,
+        };
+      });
+    return airport_data;
+  };
+
+  componentDidMount() {
+    const {
+      airports,
+      airportAbbrv,
+      selectedDestination,
+      dispatchSetCurrentFlight,
+    } = this.props;
+  }
 
   componentDidUpdate() {}
 
-  render() {
-    const { airports, airportAbbrv, dispatchSetCurrentFlight } = this.props;
-
-    let airport_data;
-    if (this.props.loading === true) {
-      airport_data = [];
-    } else {
-      if (this.props.origin) {
-        const curAirport = {
-          latitude: this.props.origin.latitude,
-          longitude: this.props.origin.longitude,
-        };
-        airport_data = this.props.origin.flights.nodes
-          .map(flight => {
-            return {
-              ...flight.dest,
-              price: +flight.price,
-              departAt: flight.departAt,
-              distance: geolib.getDistance(curAirport, {
-                latitude: flight.dest.latitude,
-                longitude: flight.dest.longitude,
-              }),
-              // Victory polar is counter-clockwise
-              bearing:
-                (90 -
-                  geolib.getBearing(curAirport, {
-                    latitude: flight.dest.latitude,
-                    longitude: flight.dest.longitude,
-                  })) %
-                360,
-            };
-          })
-          .filter(airport => {
-            return airport.price < this.props.maxPrice;
-          });
-      } else {
-        airport_data = [];
-      }
+  componentWillReceiveProps(nextProps) {
+    const { selectedDestination, origin, maxPrice } = nextProps;
+    if (origin) {
+      this.setState({ airportData: this.createAirportData(origin, maxPrice) });
     }
+  }
+
+  render() {
+    const {
+      airports,
+      airportAbbrv,
+      selectedDestination,
+      dispatchSetCurrentFlight,
+    } = this.props;
+
+    const airport_data = this.state.airportData;
+    console.log('airportdata:', airport_data);
+    console.log('flight: sel dest:', selectedDestination);
 
     // console.log('airports data:', airport_data);
     // console.log(this.props);
 
-    const selectedDestination = this.props.selectedDestination;
     return (
       <VictoryChart
         animate={{ duration: 500, easing: 'quadInOut' }}
@@ -146,7 +166,7 @@ class Flights extends Component {
           labelComponent={<VictoryTooltip dx={-2} dy={10} />}
           x="bearing"
           y="price"
-          data={airport_data}
+          data={this.state.airportData}
           events={[
             {
               target: 'data',
