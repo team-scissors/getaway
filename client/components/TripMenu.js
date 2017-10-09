@@ -62,39 +62,8 @@ class TripMenu extends Component {
         <aside className="menu menu-wrapper">
           <div className="card">
             <header className="card-header">
-              <p className="card-header-title">Current Flight</p>
+              <p className="card-header-title">Trip: [PLACEHOLDER]</p>
             </header>
-            <div className="card-content current-flight-info">
-              <div className="content">
-                {!loading && origin ? (
-                  <span>
-                    From: <strong>{origin.abbrv}</strong>, {origin.city}{' '}
-                  </span>
-                ) : (
-                  <span className="icon is-huge">
-                    <i className="fa fa-refresh fa-spin" />
-                  </span>
-                )}
-                {currentFlight.dest && (
-                  <span>
-                    <i
-                      className="fa fa-chevron-right"
-                      aria-hidden="true"
-                    />{' '}
-                    <strong>{currentFlight.dest.abbrv}</strong>,{' '}
-                    {currentFlight.dest.city}{' '}
-                  </span>
-                )}
-                <p>
-                  {currentFlight.dest && (
-                    <span>
-                      on <strong>{currentFlight.departAt}</strong> @{' '}
-                      <strong>${Math.trunc(currentFlight.price)} </strong>
-                    </span>
-                  )}
-                </p>
-              </div>
-            </div>
             <footer className="card-footer">
               <p className="card-footer-item">
                 <a
@@ -199,12 +168,8 @@ const mapDispatch = dispatch => {
     dispatchSetAirport(abbrv) {
       dispatch(setAirport(abbrv));
     },
-    dispatchSaveTrip: flights => {
-      const fakeTrip = {
-        name: 'my new trip',
-        userId: 1,
-      };
-      dispatch(createTrip(fakeTrip));
+    dispatchSaveTrip: (userId, name) => {
+      dispatch(createTrip({ userId, name }));
     },
   };
 };

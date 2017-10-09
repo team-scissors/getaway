@@ -1,3 +1,4 @@
+/* eslint react/prefer-stateless-function:0 */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Link, NavLink } from 'react-router-dom';
