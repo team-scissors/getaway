@@ -83,7 +83,7 @@ const mapDispatch = dispatch => {
 
 const ApolloApp = graphql(flightsFromAirportByAbbrv, {
   options: ({ airportAbbrv }) => ({ variables: { airportAbbrv } }),
-  props: ({ data: { loading, departFrom } }) => ({ loading, departFrom }),
+  props: ({ data: { loading, origin } }) => ({ loading, origin }),
 })(App);
 
 export default connect(mapState, mapDispatch)(ApolloApp);
