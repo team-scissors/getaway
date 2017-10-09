@@ -17,3 +17,4 @@ export { default as Flights } from './Flights';
 export { default as ControlPanel } from './ControlPanel';
 export { default as UserPanel } from './UserPanel';
 export { default as FlightListPanel } from './FlightListPanel';
+export { default as MyTrips } from './MyTrips';

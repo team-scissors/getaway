@@ -11,6 +11,7 @@ import {
   UserHome,
   Flights,
   ControlPanel,
+  MyTrips,
 } from './components'
 import {me} from './store'
 
