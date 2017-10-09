@@ -39,11 +39,11 @@ class TopNavFlight extends Component {
     } = this.props;
 
     return (
-      <nav class="level" style={{ padding: 10 }}>
-        <div class="level-item has-text-centered">
+      <nav className="level" style={{ padding: 10 }}>
+        <div className="level-item has-text-centered">
           <div>
-            <p class="heading">From</p>
-            <p class="title is-5">
+            <p className="heading">From</p>
+            <p className="title is-5">
               {!loading && origin ? (
                 <span>
                   {origin.abbrv}, {origin.city}
@@ -56,10 +56,10 @@ class TopNavFlight extends Component {
             </p>
           </div>
         </div>
-        <div class="level-item has-text-centered">
+        <div className="level-item has-text-centered">
           <div>
-            <p class="heading">To</p>
-            <p class="title is-5">
+            <p className="heading">To</p>
+            <p className="title is-5">
               {currentFlight.dest && (
                 <span>
                   {currentFlight.dest.abbrv}, {currentFlight.dest.city}
@@ -68,25 +68,25 @@ class TopNavFlight extends Component {
             </p>
           </div>
         </div>
-        <div class="level-item has-text-centered">
+        <div className="level-item has-text-centered">
           <div>
-            <p class="heading">Departure</p>
-            <p class="title is-5">
+            <p className="heading">Departure</p>
+            <p className="title is-5">
               {currentFlight && <span>{currentFlight.departAt}</span>}
             </p>
           </div>
         </div>
-        <div class="level-item has-text-centered">
+        <div className="level-item has-text-centered">
           <div>
-            <p class="heading">Price</p>
-            <p class="title is-5">
+            <p className="heading">Price</p>
+            <p className="title is-5">
               {currentFlight.dest && (
                 <span>${Math.trunc(currentFlight.price)}</span>
               )}
             </p>
           </div>
         </div>
-        <div class="level-item has-text-centered">
+        <div className="level-item has-text-centered">
           <div>
             <div className="field is-grouped">
               <p className="control">
