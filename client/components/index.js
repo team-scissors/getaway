@@ -11,6 +11,7 @@ export { default as Map } from './Map';
 export { default as UserHome } from './UserHome';
 export { default as SideMenu } from './SideMenu';
 export { default as TripMenu } from './TripMenu';
+export { default as TopNavFlight } from './TopNavFlight';
 export { Login, Signup } from './AuthForm';
 export { default as Flights } from './Flights';
 export { default as ControlPanel } from './ControlPanel';

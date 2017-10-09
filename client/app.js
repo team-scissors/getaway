@@ -10,6 +10,7 @@ import {
   Main,
   Flights,
   SideMenu,
+  TopNavFlight,
   Map,
   Login,
   Signup,
@@ -35,6 +36,7 @@ class App extends Component {
         <div className="columns main-container">
           <SideMenu />
           <div className="column main-content">
+            <TopNavFlight />
             <Switch>
               {/* Routes placed here are available to all visitors */}
               <Route exact path="/" render={() => <Redirect to="/flights" />} />
@@ -54,7 +56,6 @@ class App extends Component {
             </Switch>
           </div>
           <TripMenu />
-          {/* <div className="button is-primary floating-button">User</div> */}
         </div>
       </Router>
     );
