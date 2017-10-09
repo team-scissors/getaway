@@ -167,13 +167,6 @@ class TripMenu extends Component {
                     </a>
                   );
                 })}
-                <a
-                  href="#"
-                  className="card-footer-item button is-primary"
-                  onClick={this.handleSaveTrip}
-                >
-                  Save Trip
-                </a>
               </nav>
             </div>
           ) : (
