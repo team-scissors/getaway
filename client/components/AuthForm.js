@@ -15,6 +15,11 @@ const AuthForm = (props) => {
         <div className="card-content">
           <form onSubmit={handleSubmit} name={name}>
             {
+              // REVIEW
+              // Favor making separate components and keeping logic out of the
+              // jsx
+              //
+              // isSignup && <SignupForm/>
               name === "signup" &&
               <div>
                 <div>

@@ -1,5 +1,6 @@
 import geolib from 'geolib';
 
+// REVIEW: Fan of this file
 //cardinals object used in flights component to render cardinals outside the circle
 export const cardinals = {
       0: 'E',

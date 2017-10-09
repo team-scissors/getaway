@@ -28,6 +28,7 @@ const reducer = combineReducers({
 const middleware = applyMiddleware(
   thunkMiddleware,
   createLogger({ collapsed: true })
+  // REVIEW: how can this be configurable?
   // (typeof window.__REDUX_DEVTOOLS_EXTENSION__ !== 'undefined') ? window.__REDUX_DEVTOOLS_EXTENSION__() : f => f,
 );
 const store = createStore(reducer, middleware);

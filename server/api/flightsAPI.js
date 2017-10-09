@@ -24,6 +24,7 @@ expected Output:
 }
 */
 
+// REVIEW: holy secrets batman!
 const getFlights = (origin, departureDate, maxPrice, apiKey="pryQGXaCG5zkd5P3yAGEQbWX9uMawvpT") => {
   return new Promise((resolve, reject) => {
     unirest.get(`http://api.sandbox.amadeus.com/v1.2/flights/inspiration-search?origin=${origin}&departure_date=${departureDate}&max_price=${maxPrice}&apikey=${apiKey}`)

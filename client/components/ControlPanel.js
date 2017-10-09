@@ -39,6 +39,10 @@ class ControlPanel extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    // REVIEW
+    // don't turn props into state
+    //
+    // static defaultProps = { isLoading: '' }
     this.setState({
       isLoading: nextProps.loading ? 'is-loading' : '',
     });
@@ -139,6 +143,7 @@ class ControlPanel extends Component {
             </div>
           </div>
           <div className="panel-block">
+            {/* REVIEW: Hey, clean up after yourself ;) */}
             <div className="columns" style={{ width: '100%' }}>
               <div className="column">
                 <label className="label is-small">Departure Date</label>

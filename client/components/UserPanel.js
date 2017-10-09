@@ -20,6 +20,9 @@ class UserPanel extends Component {
     return (
       <div className="sidenav-top-container">
         <div className="tabs is-toggle is-fullwidth">
+        {/* REVIEW: prefer making more components*/}
+        {/* isLoggedIn ? <LoggedIn/> : <LoggedOut/> */}
+        {/* isLoggedIn ? this.renderLoggedIn() : this.renderLoggedOut() */}
         {
           isLoggedIn
           ? (<ul>

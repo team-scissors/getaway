@@ -1,5 +1,6 @@
 import { gql } from 'react-apollo';
 
+// REVIEW: nice
 export const flightsFromAirportByAbbrv = gql`
   query flightsFromAirportByAbbrv($airportAbbrv: String!) {
     origin: airportByAbbrv(abbrv: $airportAbbrv) {

@@ -5,6 +5,8 @@ import { withRouter, Link, NavLink } from 'react-router-dom';
 import { logout } from '../store';
 import { ControlPanel, FlightListPanel } from '../components';
 
+isActiveClass = (path) => { path === location.pathname ? 'is-atcive' : '' }
+
 class SideMenu extends Component {
   render() {
     const { children, handleClick, isLoggedIn } = this.props;
@@ -16,6 +18,7 @@ class SideMenu extends Component {
           <div className="sidenav-top-container">
             <div className="tabs is-toggle is-fullwidth">
               <ul>
+                {/* REVIEW: location.pathname stuff is a good opportunity to refactor */}
                 <li
                   className={
                     location.pathname === '/flights' ? 'is-active' : ''

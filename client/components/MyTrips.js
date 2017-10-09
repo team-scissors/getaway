@@ -6,9 +6,25 @@ import {
   trips,
   fetchTrips,
 } from '../store';
+// REVIEW: install individual underscore methods
+// do not import things you do not use
 import * as _ from 'underscore';
 
-class MyTrips extends Component {
+
+//export {
+//  warn: process.env.LOG_LEVEL > 2 ? console.warn ? funciton () {}
+//}
+//
+//class AppComponent extends React.Component {
+//  log () {
+//    if (this.props.loggerOn) {
+//    }
+//  }
+//  warn () {}
+//}
+
+import ourLogger from './logger';
+class MyTrips extends AppComponent {
 
   componentDidMount() {
     const {
@@ -22,6 +38,8 @@ class MyTrips extends Component {
     const {
       myTrips,
     } = this.props;
+    // REVIEW: Clean up after yourself
+    ourLogger.warn('soteuhonetuhaosentuhsoteusant');
     console.log('myTrips');
     console.log(myTrips);
     return (

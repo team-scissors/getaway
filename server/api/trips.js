@@ -71,6 +71,7 @@ router.post('/:tripId', (req, res, next) => {
     const trip = Trip.findById(req.params.tripId);
     Promise.all([flights, trip])
     .spread( (flights, trip) => {
+      // REVIEW: This does not return promise, is that what we want?
       Promise.all( flights.map(flight => {
         trip.addFlight(flight);
       }));
@@ -85,33 +86,43 @@ router.post('/:tripId', (req, res, next) => {
 });
 
 // Removes a flight from a trip
-router.delete('/:tripId/:flightId', (req, res, next) => {
-  const trip = Trip.findById(req.params.tripId);
-  const flight = Flight.findById(req.params.flightId);
-  Promise.all([trip, flight])
-  .spread( (trip, flight) => {
-    trip.removeFlight(flight);
-  })
-  .then(trip => res.send(trip))
-  .catch(next);
+// REVIEW: opportunity to use async/await
+router.delete('/:tripId/:flightId', async (req, res, next) => {
+  try {
+    const tripQuery = Trip.findById(req.params.tripId);
+    const flightQuery = Flight.findById(req.params.flightId);
+    const trip = await tripQuery;
+    const flight = await flightQuery;
+    await trip.removeFlight(flight);
+    res.send(trip);
+  }
+  catch (error) {
+    next(error);
+  }
 });
 
 // Delete a trip
-router.delete('/:tripId', (req, res, next) => {
-  Trip.findById(req.params.tripId)
-  .then( trip => {
-    trip.destroy();
-  })
-  .then( success => {
-    res.send(success);
-  })
-  .catch(next);
+// REVIEW: here too!
+router.delete('/:tripId', async (req, res, next) => {
+  try {
+    const trip = await Trip.findById(req.params.tripId)
+    await trip.destroy();
+    res.send(200);
+  }
+  catch (error) {
+    next(error);
+  }
 });
 
 // Create a new trip.
-router.post('/', (req, res, next) => {
-  const body = req.body;
-  Trip.create(body)
-  .then(newTrip => res.send(newTrip))
-  .catch(next);
+// REVIEW: so easy!
+router.post('/', async (req, res, next) => {
+  try {
+    const body = req.body;
+    const newTrip = await Trip.create(body);
+    res.send(newTrip);
+  }
+  catch(error) {
+    next(error):
+  }
 });
