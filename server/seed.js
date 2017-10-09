@@ -131,11 +131,13 @@ const seed = () => {
               if (distance < minDist) return;
               return fromAirport.addToAirport(toAirport, {
                 through: {
-                  price:
+                  price: Math.max(
                     distance /
-                    1000 *
-                    pricePerKm *
-                    chance.floating({ min: 0.9, max: 1.1 }), // + generateNoise(distance),
+                      1000 *
+                      pricePerKm *
+                      chance.floating({ min: 0.25, max: 1.2 }),
+                    30,
+                  ), // + generateNoise(distance),
                   departAt: getNextDate(),
                 },
               });
