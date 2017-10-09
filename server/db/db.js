@@ -2,8 +2,11 @@ const Sequelize = require('sequelize')
 const db = new Sequelize(
   process.env.DATABASE_URL || 'postgres://localhost:5432/getaway', {
     logging: false,
-    dialetOptions: {
-      timeout:60,
+    pool: {
+      max: 5,
+      min: 0,
+      idle: 60000,
+      acquire: 0,
     }
   }
 )
