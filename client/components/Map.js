@@ -15,6 +15,35 @@ mapboxgl.accessToken =
   'pk.eyJ1IjoidGhlc2h1byIsImEiOiJjajgyNXZhY2oyaWc4MzJzMG82dWM3Zm9mIn0._fGWYG5J5f0NwYRbVnByeQ';
 
 const primary = '#00D1B2';
+
+const buildAirportsGeoJSON = trip => {
+  const airportsGeoJSON = {
+    type: 'FeatureCollection',
+    features: [],
+  };
+
+  if (trip.length > 0)
+    airportsGeoJSON.features.push({
+      type: 'Feature',
+      geometry: {
+        type: 'Point',
+        coordinates: [trip[0].origin.longitude, trip[0].origin.latitude],
+      },
+    });
+
+  trip.forEach(flight => {
+    const destination = [flight.dest.longitude, flight.dest.latitude];
+    airportsGeoJSON.features.push({
+      type: 'Feature',
+      geometry: {
+        type: 'Point',
+        coordinates: destination,
+      },
+    });
+  });
+  return airportsGeoJSON;
+};
+
 const buildTripGeoJSON = trip => {
   const tripGeoJSON = {
     type: 'FeatureCollection',
@@ -32,8 +61,6 @@ const buildTripGeoJSON = trip => {
       },
     });
   });
-
-  // console.log('features:', tripGeoJSON.features);
 
   return tripGeoJSON;
 };
@@ -54,21 +81,37 @@ class Map extends Component {
         type: 'FeatureCollection',
         features: [],
       },
+      airportsGeoJSON: {
+        type: 'FeatureCollection',
+        features: [],
+      },
     };
 
     this.setState({
       tripGeoJSON: buildTripGeoJSON(this.props.trip),
+      airportsGeoJSON: buildAirportsGeoJSON(this.props.trip),
     });
 
     this.map.on('load', () => {
       const nav = new mapboxgl.NavigationControl();
+
       this.map.addSource('trip', {
         type: 'geojson',
         data: this.state.tripGeoJSON,
       });
 
+      this.map.addSource('airports', {
+        type: 'geojson',
+        data: this.state.airportsGeoJSON,
+      });
+
       this.map.setPitch(45);
 
+      this.map.addLayer({
+        id: 'airports',
+        source: 'airports',
+        type: 'circle',
+      });
       this.map.addLayer({
         id: 'trip',
         source: 'trip',
@@ -100,12 +143,16 @@ class Map extends Component {
     this.setState(
       {
         tripGeoJSON: buildTripGeoJSON(nextProps.trip),
+        airportsGeoJSON: buildAirportsGeoJSON(nextProps.trip),
       },
       () => {
         if (this.state.tripGeoJSON.features.length > 0) {
           const bbox = turf.bbox(this.state.tripGeoJSON);
           console.log('bbox:', bbox);
           this.map.fitBounds(bbox);
+        }
+        if (this.map.getSource('airports')) {
+          this.map.getSource('airports').setData(this.state.airportsGeoJSON);
         }
         if (this.map.getSource('trip')) {
           this.map.getSource('trip').setData(this.state.tripGeoJSON);
