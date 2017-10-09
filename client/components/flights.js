@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { graphql } from 'react-apollo';
 import {
+  Flyout,
   VictoryTheme,
   VictoryLegend,
   VictoryPolarAxis,
@@ -82,8 +83,8 @@ class CompassCenter extends React.Component {
         <text
           x={origin.x}
           y={origin.y + 7}
-          font-size="20px"
-          text-anchor="middle"
+          fontSize="20px"
+          textAnchor="middle"
           style={textStyle}
         >
           {airportAbbrv}
@@ -140,7 +141,11 @@ class Flights extends Component {
       airportAbbrv,
       selectedDestination,
       dispatchSetCurrentFlight,
+      origin,
+      maxPrice,
     } = this.props;
+    const airportData = this.createAirportData(origin, maxPrice);
+    this.setState({ airportData: airportData });
   }
 
   componentDidUpdate() {}
@@ -245,17 +250,20 @@ class Flights extends Component {
             },
           }}
           labels={d =>
-            `${d.abbrv}\n ${d.name} \n ${d.city}, ${d.country} \n Price:$${Math.trunc(
+            `${d.abbrv}\n  ${d.city}, ${d.country} \n Price: $${Math.trunc(
               d.price,
             )}`}
           labelPlacement="vertical"
           labelComponent={
             <VictoryTooltip
-              dx={10}
-              dy={10}
-              cornerRadius={10}
               pointerLength={0}
-              flyoutStyle={{}}
+              flyoutComponent={<Flyout cornerRadius={10} polar={true} />}
+              flyoutStyle={{
+                fill: 'white',
+                fillOpacity: 0.9,
+                stroke: '#000',
+                strokeWidth: 0.2,
+              }}
             />
           }
           x="bearing"

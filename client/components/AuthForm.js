@@ -1,45 +1,59 @@
 import React from 'react'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import {auth} from '../store'
+import { auth } from '../store'
 
 /**
  * COMPONENT
  */
 const AuthForm = (props) => {
-  const {name, displayName, handleSubmit, error} = props
+  const { name, displayName, handleSubmit, error } = props
 
   return (
-    <div className='card'>
-      <div className='content'>
-        <form onSubmit={handleSubmit} name={name}>
-          {
-            name === 'signup' &&
+    <div>
+      <div class="card">
+        <div class="card-content">
+          <form onSubmit={handleSubmit} name={name}>
+            {
+              name === "signup" &&
+              <div>
+                <div>
+                  <h1 className="title">
+                    Register an Account
+                  </h1>
+                </div>
+                <div>
+                  <label className="label">First Name</label>
+                  <p className="control">
+                    <input className="input" name="firstName" type="text" placeholder="John" />
+                  </p>
+                </div>
+                <div>
+                  <label className="label">Last Name</label>
+                  <p className="control">
+                    <input className="input" name="lastName" type="text" placeholder="Smith" />
+                  </p>
+                </div>
+              </div>
+            }
             <div>
-              <div>
-                <label htmlFor='firstName'><small>First Name</small></label>
-                <input name='firstName' type='text' />
-              </div>
-              <div>
-                <label htmlFor='lastName'><small>Last Name</small></label>
-                <input name='lastName' type='text' />
-              </div>
+              <label className="label">Email</label>
+              <p className="control">
+                <input className="input" name="email" type="text" placeholder="jsmith@example.org" />
+              </p>
             </div>
-          }
-          <div>
-            <label htmlFor='email'><small>Email</small></label>
-            <input name='email' type='text' />
-          </div>
-          <div>
-            <label htmlFor='password'><small>Password</small></label>
-            <input name='password' type='password' />
-          </div>
-          <div>
-            <button type='submit'>{displayName}</button>
-          </div>
-          {error && error.response && <div> {error.response.data} </div>}
-        </form>
-        <a href='/auth/google'>{displayName} with Google</a>
+            <div>
+              <label className="label">Password</label>
+              <p className="control">
+                <input className="input" name="password" type="password" placeholder="●●●●●●●" />
+              </p>
+            </div>
+            <div>
+              <button className="button is-primary" type='submit'>{displayName}</button>
+            </div>
+            {error && error.response && <div> {error.response.data}</div>}
+          </form>
+        </div>
       </div>
     </div>
   )
@@ -70,17 +84,17 @@ const mapSignup = (state) => {
 
 const mapDispatch = (dispatch) => {
   return {
-    handleSubmit (evt) {
+    handleSubmit(evt) {
       evt.preventDefault()
       const formName = evt.target.name
       let user = {};
-      if(formName === 'login'){
+      if (formName === 'login') {
         user = {
           email: evt.target.email.value,
           password: evt.target.password.value,
         }
       }
-      else if(formName === 'signup'){
+      else if (formName === 'signup') {
         user = {
           firstName: evt.target.firstName.value,
           lastName: evt.target.lastName.value,

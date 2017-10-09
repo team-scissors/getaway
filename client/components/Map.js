@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import { logout } from '../store';
 import mapboxgl from 'mapbox-gl';
+import { setMap } from '../store/user-input';
 
 /**
  * COMPONENT
@@ -15,6 +16,43 @@ mapboxgl.accessToken =
   'pk.eyJ1IjoidGhlc2h1byIsImEiOiJjajgyNXZhY2oyaWc4MzJzMG82dWM3Zm9mIn0._fGWYG5J5f0NwYRbVnByeQ';
 
 const primary = '#00D1B2';
+
+const buildAirportsGeoJSON = trip => {
+  const airportsGeoJSON = {
+    type: 'FeatureCollection',
+    features: [],
+  };
+
+  if (trip.length > 0)
+    airportsGeoJSON.features.push({
+      type: 'Feature',
+      geometry: {
+        type: 'Point',
+        coordinates: [trip[0].origin.longitude, trip[0].origin.latitude],
+      },
+      properties: {
+        city: trip[0].origin.city,
+        country: trip[0].origin.country,
+      },
+    });
+
+  trip.forEach(flight => {
+    const destination = [flight.dest.longitude, flight.dest.latitude];
+    airportsGeoJSON.features.push({
+      type: 'Feature',
+      geometry: {
+        type: 'Point',
+        coordinates: destination,
+      },
+      properties: {
+        city: flight.dest.city,
+        country: flight.dest.country,
+      },
+    });
+  });
+  return airportsGeoJSON;
+};
+
 const buildTripGeoJSON = trip => {
   const tripGeoJSON = {
     type: 'FeatureCollection',
@@ -33,8 +71,6 @@ const buildTripGeoJSON = trip => {
     });
   });
 
-  // console.log('features:', tripGeoJSON.features);
-
   return tripGeoJSON;
 };
 
@@ -49,8 +85,14 @@ class Map extends Component {
       zoom: 3,
     });
 
+    this.props.dispatchSetMap(this.map);
+
     this.state = {
       tripGeoJSON: {
+        type: 'FeatureCollection',
+        features: [],
+      },
+      airportsGeoJSON: {
         type: 'FeatureCollection',
         features: [],
       },
@@ -58,26 +100,54 @@ class Map extends Component {
 
     this.setState({
       tripGeoJSON: buildTripGeoJSON(this.props.trip),
+      airportsGeoJSON: buildAirportsGeoJSON(this.props.trip),
     });
 
     this.map.on('load', () => {
       const nav = new mapboxgl.NavigationControl();
+
       this.map.addSource('trip', {
         type: 'geojson',
         data: this.state.tripGeoJSON,
       });
 
+      this.map.addSource('airports', {
+        type: 'geojson',
+        data: this.state.airportsGeoJSON,
+      });
+
       this.map.setPitch(45);
 
       this.map.addLayer({
-        id: 'trip',
-        source: 'trip',
-        type: 'line',
+        id: 'airports',
+        source: 'airports',
+        type: 'circle',
         paint: {
-          'line-width': 3,
-          'line-color': 'tomato',
+          'circle-color': 'tomato',
         },
       });
+      this.map.addLayer({
+        id: 'airport-labels',
+        source: 'airports',
+        type: 'symbol',
+        layout: {
+          'text-field': '{city}, {country}',
+          'text-anchor': 'bottom',
+          'text-padding': 10,
+        },
+      });
+      this.map.addLayer(
+        {
+          id: 'trip',
+          source: 'trip',
+          type: 'line',
+          paint: {
+            'line-width': 3,
+            'line-color': 'tomato',
+          },
+        },
+        'trip',
+      );
 
       this.map.addControl(nav, 'top-left');
       this.map.addControl(
@@ -100,12 +170,20 @@ class Map extends Component {
     this.setState(
       {
         tripGeoJSON: buildTripGeoJSON(nextProps.trip),
+        airportsGeoJSON: buildAirportsGeoJSON(nextProps.trip),
       },
       () => {
         if (this.state.tripGeoJSON.features.length > 0) {
           const bbox = turf.bbox(this.state.tripGeoJSON);
-          console.log('bbox:', bbox);
           this.map.fitBounds(bbox);
+        }
+        if (this.map.getSource('airports')) {
+          this.map.getSource('airports').setData(this.state.airportsGeoJSON);
+        }
+        if (this.map.getSource('airport-labels')) {
+          this.map
+            .getSource('airport-labels')
+            .setData(this.state.airportsGeoJSON);
         }
         if (this.map.getSource('trip')) {
           this.map.getSource('trip').setData(this.state.tripGeoJSON);
@@ -143,6 +221,9 @@ const mapState = state => ({
 const mapDispatch = dispatch => ({
   handleClick() {
     dispatch(logout());
+  },
+  dispatchSetMap(map) {
+    dispatch(setMap(map));
   },
 });
 

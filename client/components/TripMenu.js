@@ -10,24 +10,16 @@ import {
   setMaxPrice,
   addFlightToTrip,
   setDate,
+  setTripName,
 } from '../store/user-input';
 import { createTrip } from '../store/trips';
 import { flightsFromAirportByAbbrv } from './util_helper';
 import moment from 'moment';
-import { ControlPanel, FlightListPanel } from '../components';
+import { ControlPanel, FlightListPanel, UserPanel } from '../components';
 
 class TripMenu extends Component {
   handleClearTrip = () => {
     this.props.dispatchClearTrip();
-  };
-
-  handleSaveTrip = () => {
-    console.log('this.props');
-    console.log(this.props);
-    // Currently, trip is in the client store as an array of flights.
-    // We should make it an object with name, userId, and an array of flights
-    // instead so that we can just hand it over to the thunk as is. TODO
-    this.props.dispatchSaveTrip(this.props.trip);
   };
 
   handleAddFlightToTrip = () => {
@@ -41,8 +33,28 @@ class TripMenu extends Component {
     }
   };
 
+  handleSaveTrip = evt => {
+    evt.preventDefault();
+    const userId = this.props.userId;
+    const currentTripName = this.props.currentTripName;
+    if (userId && currentTripName) {
+      this.props.dispatchSaveTrip(userId, currentTripName);
+    } else {
+      // Something is wrong. TODO
+    }
+  };
+
+  handleTripNameChange = evt => {
+    const name = evt.target.value;
+    this.props.dispatchSetTripName(name);
+  };
+
   handleFlyTo = airport => {
+    const { map } = this.props;
     console.log('want to fly to: ', airport);
+    map.flyTo({
+      center: [airport.longitude, airport.latitude],
+    });
   };
 
   render() {
@@ -50,6 +62,7 @@ class TripMenu extends Component {
       children,
       origin,
       currentFlight,
+      currentTripName,
       handleClick,
       isLoggedIn,
       match,
@@ -57,54 +70,48 @@ class TripMenu extends Component {
       trip,
     } = this.props;
 
+    const totalPrice =
+      trip.length > 0
+        ? trip.reduce((a, b) => {
+            return a + b.price;
+          }, 0)
+        : 0;
+
     return (
       <div className="column is-narrow trip-menu">
         <aside className="menu menu-wrapper">
+          <UserPanel />
           <div className="card">
-            <header className="card-header">
-              <p className="card-header-title">Current Flight</p>
-            </header>
-            <div className="card-content current-flight-info">
-              <div className="content">
-                {!loading && origin ? (
-                  <span>
-                    From: <strong>{origin.abbrv}</strong>, {origin.city}{' '}
-                  </span>
-                ) : (
-                  <span className="icon is-huge">
-                    <i className="fa fa-refresh fa-spin" />
-                  </span>
-                )}
-                {currentFlight.dest && (
-                  <span>
-                    <i
-                      className="fa fa-chevron-right"
-                      aria-hidden="true"
-                    />{' '}
-                    <strong>{currentFlight.dest.abbrv}</strong>,{' '}
-                    {currentFlight.dest.city}{' '}
-                  </span>
-                )}
-                <p>
-                  {currentFlight.dest && (
-                    <span>
-                      on <strong>{currentFlight.departAt}</strong> @{' '}
-                      <strong>${Math.trunc(currentFlight.price)} </strong>
-                    </span>
-                  )}
-                </p>
+            <div className="card-content">
+              <form onSubmit={this.handleSaveTrip}>
+                <div className="field">
+                  {/* <label className="label is-medium">Trip</label> */}
+                  <div className="control">
+                    <input
+                      className="input is-medium"
+                      type="text"
+                      placeholder="Trip Name"
+                      value={currentTripName}
+                      onChange={this.handleTripNameChange}
+                    />
+                  </div>
+                </div>
+              </form>
+              <div className="section">
+                Total Trip Cost:
+                {trip.length > 0 ? `$${Math.trunc(totalPrice)}` : ''}
               </div>
             </div>
             <footer className="card-footer">
               <p className="card-footer-item">
                 <a
                   className="button is-success is-outlined"
-                  onClick={this.handleAddFlightToTrip}
+                  onClick={this.handleSaveTrip}
                 >
                   <span className="icon is-small">
-                    <i className="fa fa-plus" />
+                    <i className="fa fa-check" />
                   </span>
-                  <span>Add To Trip</span>
+                  <span>Save Trip</span>
                 </a>
               </p>
               <p className="card-footer-item">
@@ -180,8 +187,11 @@ const mapState = state => {
   return {
     trip: state.userInput.currentTrip,
     currentFlight: state.userInput.currentFlight,
+    currentTripName: state.userInput.currentTripName,
     airportAbbrv: state.userInput.originAirportAbbrv,
     isLoggedIn: !!state.user.id,
+    map: state.userInput.map,
+    userId: state.user.id,
   };
 };
 
@@ -199,12 +209,11 @@ const mapDispatch = dispatch => {
     dispatchSetAirport(abbrv) {
       dispatch(setAirport(abbrv));
     },
-    dispatchSaveTrip: flights => {
-      const fakeTrip = {
-        name: 'my new trip',
-        userId: 1,
-      };
-      dispatch(createTrip(fakeTrip));
+    dispatchSetTripName(name) {
+      dispatch(setTripName(name));
+    },
+    dispatchSaveTrip: (userId, name) => {
+      dispatch(createTrip({ userId, name }));
     },
   };
 };

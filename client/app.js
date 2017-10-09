@@ -10,6 +10,7 @@ import {
   Main,
   Flights,
   SideMenu,
+  TopNavFlight,
   Map,
   Login,
   Signup,
@@ -35,26 +36,39 @@ class App extends Component {
         <div className="columns main-container">
           <SideMenu />
           <div className="column main-content">
-            <Switch>
-              {/* Routes placed here are available to all visitors */}
-              <Route exact path="/" render={() => <Redirect to="/flights" />} />
-              <Route path="/map" component={Map} />
-              <Route path="/flights" component={Flights} />
-              {isLoggedIn ? (
-                <Switch>
-                  {/* Routes placed here are only available after logging in */}
-                  <Route path="/home" component={UserHome} />
-                </Switch>
-              ) : (
-                <Switch>
-                  <Route path="/login" component={Login} />
-                  <Route path="/signup" component={Signup} />
-                </Switch>
-              )}
-            </Switch>
+            <div>
+              <TopNavFlight />
+            </div>
+            <div
+              style={{
+                height: '100%',
+                position: 'inherit',
+              }}
+            >
+              <Switch>
+                {/* Routes placed here are available to all visitors */}
+                <Route
+                  exact
+                  path="/"
+                  render={() => <Redirect to="/flights" />}
+                />
+                <Route path="/map" component={Map} />
+                <Route path="/flights" component={Flights} />
+                {isLoggedIn ? (
+                  <Switch>
+                    {/* Routes placed here are only available after logging in */}
+                    <Route path="/home" component={UserHome} />
+                  </Switch>
+                ) : (
+                  <Switch>
+                    <Route path="/login" component={Login} />
+                    <Route path="/signup" component={Signup} />
+                  </Switch>
+                )}
+              </Switch>
+            </div>
           </div>
           <TripMenu />
-          {/* <div className="button is-primary floating-button">User</div> */}
         </div>
       </Router>
     );

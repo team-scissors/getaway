@@ -9,9 +9,7 @@ module.exports = router;
 
 // get all trips
 router.get('/', (req, res, next) => {
-  Trip.findAll({
-    include: [Flight]
-  })
+  Trip.findAll()
   .then(trips => res.send(trips))
   .catch(next);
 });
@@ -37,6 +35,15 @@ router.get('/:tripId', (req, res, next) => {
   .catch(next);
 });
 
+// get a trip's flights
+router.get('/:tripId/flights', (req, res, next) => {
+  Trip.findById(req.params.tripId, {
+    include: [Flight]
+  })
+  .then(trip => res.send(trip.Flights))
+  .catch(next);
+});
+
 // Adds a flight to an existing trip
 router.put('/:tripId/:flightId', (req, res, next) => {
   const trip = Trip.findById(req.params.tripId);
@@ -47,6 +54,34 @@ router.put('/:tripId/:flightId', (req, res, next) => {
   })
   .then(trip => res.send(trip))
   .catch(next);
+});
+
+// Adds a bunch of flights to a trip. The body of the request should look like
+/*
+[ 7893, 123, 5431 ] <-- where each number is an id of a flight
+*/
+router.post('/:tripId', (req, res, next) => {
+  const flightIds = req.body;
+  console.log('flightIds');
+  console.log(flightIds);
+  if (req.body && Array.isArray(flightIds)) {
+    const flights = Promise.all( flightIds.map(id => {
+      return Flight.findById(id);
+    }));
+    const trip = Trip.findById(req.params.tripId);
+    Promise.all([flights, trip])
+    .spread( (flights, trip) => {
+      Promise.all( flights.map(flight => {
+        trip.addFlight(flight);
+      }));
+    })
+    .then( trip => {
+      res.send(trip);
+    })
+    .catch(next);
+  } else {
+    res.send(400);
+  }
 });
 
 // Removes a flight from a trip

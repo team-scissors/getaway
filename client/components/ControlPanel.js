@@ -121,7 +121,7 @@ class ControlPanel extends Component {
             >
               <form onSubmit={this.handleOriginSubmit}>
                 <div className="field">
-                  <label className="label is-small">Origin Aiport</label>
+                  <label className="label is-small">Origin Airport</label>
                   <div className="control has-icons-left">
                     <input
                       className="input is-medium"
