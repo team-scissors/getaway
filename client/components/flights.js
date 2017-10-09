@@ -5,11 +5,10 @@ import { withRouter } from 'react-router-dom';
 import { graphql } from 'react-apollo';
 import {
   VictoryTheme,
+  VictoryLegend,
   VictoryPolarAxis,
   VictoryZoomContainer,
   VictoryLine,
-  VictoryStack,
-  VictoryBar,
   VictoryScatter,
   VictoryChart,
   VictoryGroup,
@@ -44,6 +43,15 @@ const regions = {
   Africa: '#a6d854',
   SouthAmerica: '#ffd92f',
 };
+
+const regionLegendLabels = [
+  { name: 'Europe', symbol: { fill: regions['Europe'] } },
+  { name: 'Oceania', symbol: { fill: regions['Oceania'] } },
+  { name: 'Asia', symbol: { fill: regions['Asia'] } },
+  { name: 'North America', symbol: { fill: regions['NorthAmerica'] } },
+  { name: 'Africa', symbol: { fill: regions['Africa'] } },
+  { name: 'South America', symbol: { fill: regions['SouthAmerica'] } },
+];
 
 const primary = '#00D1B2';
 
@@ -151,6 +159,16 @@ class Flights extends Component {
           }}
           tickCount={4}
           tickFormat={t => `$${t}`}
+        />
+        <VictoryLegend
+          x={30}
+          y={10}
+          symbolSpacer={5}
+          centerTitle
+          orientation="horizontal"
+          gutter={10}
+          style={{ border: { stroke: 'none' }, title: { fontSize: 14 } }}
+          data={regionLegendLabels}
         />
         <VictoryScatter
           animate={{
