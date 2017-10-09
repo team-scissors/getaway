@@ -36,24 +36,32 @@ class App extends Component {
         <div className="columns main-container">
           <SideMenu />
           <div className="column main-content">
-            <TopNavFlight />
-            <Switch>
-              {/* Routes placed here are available to all visitors */}
-              <Route exact path="/" render={() => <Redirect to="/flights" />} />
-              <Route path="/map" component={Map} />
-              <Route path="/flights" component={Flights} />
-              {isLoggedIn ? (
-                <Switch>
-                  {/* Routes placed here are only available after logging in */}
-                  <Route path="/home" component={UserHome} />
-                </Switch>
-              ) : (
-                <Switch>
-                  <Route path="/login" component={Login} />
-                  <Route path="/signup" component={Signup} />
-                </Switch>
-              )}
-            </Switch>
+            <div>
+              <TopNavFlight />
+            </div>
+            <div>
+              <Switch>
+                {/* Routes placed here are available to all visitors */}
+                <Route
+                  exact
+                  path="/"
+                  render={() => <Redirect to="/flights" />}
+                />
+                <Route path="/map" component={Map} />
+                <Route path="/flights" component={Flights} />
+                {isLoggedIn ? (
+                  <Switch>
+                    {/* Routes placed here are only available after logging in */}
+                    <Route path="/home" component={UserHome} />
+                  </Switch>
+                ) : (
+                  <Switch>
+                    <Route path="/login" component={Login} />
+                    <Route path="/signup" component={Signup} />
+                  </Switch>
+                )}
+              </Switch>
+            </div>
           </div>
           <TripMenu />
         </div>

@@ -86,6 +86,8 @@ body {
   position: relative;
   box-sizing: content-box;
   background: transparent;
+  display: flex;
+  flex-direction: column;
   // height: 100vh;
 }
 
