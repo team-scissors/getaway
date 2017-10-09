@@ -34,6 +34,7 @@ export const fetchTrips = userId => {
   return dispatch => {
     if (!userId) return;
     return axios.get(`/api/trips/user/${userId}`)
+    .then(res => res.data)
     .then(trips => {
       dispatch(getTrips(trips));
     })

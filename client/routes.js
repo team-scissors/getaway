@@ -34,7 +34,6 @@ class Routes extends Component {
             <Route path='/login' component={Login} />
             <Route path='/signup' component={Signup} />
             <Route path='/flights' component={Flights} />
-            <Route path='/trips' component={MyTrips} />
             {
               isLoggedIn &&
                 <Switch>

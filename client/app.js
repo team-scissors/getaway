@@ -16,6 +16,7 @@ import {
   Signup,
   UserHome,
   TripMenu,
+  MyTrips,
 } from './components';
 import { me } from './store';
 
@@ -53,6 +54,7 @@ class App extends Component {
                 />
                 <Route path="/map" component={Map} />
                 <Route path="/flights" component={Flights} />
+                <Route path="/trips" component={MyTrips} />
                 {isLoggedIn ? (
                   <Switch>
                     {/* Routes placed here are only available after logging in */}

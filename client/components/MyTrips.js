@@ -1,16 +1,32 @@
+/* eslint react/prefer-stateless-function:0 */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withRouter, Link, NavLink } from 'react-router-dom';
-import { logout } from '../store';
+import { withRouter } from 'react-router-dom';
+import {
+  trips,
+  fetchTrips,
+} from '../store';
 import * as _ from 'underscore';
 
 class MyTrips extends Component {
 
+  componentDidMount() {
+    const {
+      userId,
+      dispatchFetchTrips,
+    } = this.props;
+    if (userId) dispatchFetchTrips(userId);
+  }
+
   render() {
-    console.log('in the MyTrips component!');
+    const {
+      myTrips,
+    } = this.props;
+    console.log('myTrips');
+    console.log(myTrips);
     return (
-      <div className="column is-narrow trip-menu">
-        <h1>Hello, World!</h1>
+      <div>
+        <h1>Hello!</h1>
       </div>
     );
   }
@@ -18,7 +34,7 @@ class MyTrips extends Component {
 
 const mapState = state => {
   return {
-    trips: state.trips,
+    myTrips: state.trips,
     isLoggedIn: !!state.user.id,
     userId: state.user.id,
   };
@@ -26,8 +42,8 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
-    dispatchSaveTrip: (userId, name) => {
-      dispatch(createTrip({ userId, name }));
+    dispatchFetchTrips: userId => {
+      dispatch(fetchTrips(userId));
     },
   };
 };
