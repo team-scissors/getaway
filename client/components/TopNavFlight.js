@@ -39,45 +39,59 @@ class TopNavFlight extends Component {
     } = this.props;
 
     return (
-      <nav className="navbar is-white top-nav">
-        <div className="navbar-item">
-          {!loading && origin ? (
-            <span>
-              From:{' '}
-              <strong>
-                {origin.abbrv}, {origin.city}
-              </strong>
-            </span>
-          ) : (
-            <span className="icon is-huge">
-              <i className="fa fa-refresh fa-spin" />
-            </span>
-          )}
+      <nav class="level" style={{ padding: 10 }}>
+        <div class="level-item has-text-centered">
+          <div>
+            <p class="heading">From</p>
+            <p class="title is-5">
+              {!loading && origin ? (
+                <span>
+                  {origin.abbrv}, {origin.city}
+                </span>
+              ) : (
+                <span className="icon is-huge">
+                  <i className="fa fa-refresh fa-spin" />
+                </span>
+              )}
+            </p>
+          </div>
         </div>
-        {currentFlight.dest && (
-          <div className="navbar-item">
-            <span>
-              To:{' '}
-              <strong>
-                {currentFlight.dest.abbrv}, {currentFlight.dest.city}
-              </strong>
-            </span>
+        <div class="level-item has-text-centered">
+          <div>
+            <p class="heading">To</p>
+            <p class="title is-5">
+              {currentFlight.dest && (
+                <span>
+                  {currentFlight.dest.abbrv}, {currentFlight.dest.city}
+                </span>
+              )}
+            </p>
           </div>
-        )}
-        {currentFlight.dest && (
-          <div className="navbar-item">
-            <span>
-              on <strong>{currentFlight.departAt}</strong> @{' '}
-              <strong>${Math.trunc(currentFlight.price)}</strong>
-            </span>
+        </div>
+        <div class="level-item has-text-centered">
+          <div>
+            <p class="heading">Departure</p>
+            <p class="title is-5">
+              {currentFlight && <span>{currentFlight.departAt}</span>}
+            </p>
           </div>
-        )}
-        <div className="navbar-end">
-          <div className="navbar-item">
+        </div>
+        <div class="level-item has-text-centered">
+          <div>
+            <p class="heading">Price</p>
+            <p class="title is-5">
+              {currentFlight.dest && (
+                <span>${Math.trunc(currentFlight.price)}</span>
+              )}
+            </p>
+          </div>
+        </div>
+        <div class="level-item has-text-centered">
+          <div>
             <div className="field is-grouped">
               <p className="control">
                 <a
-                  className="button is-success is-outlined"
+                  className="button is-info is-outlined"
                   onClick={this.handleAddFlightToTrip}
                 >
                   <span className="icon is-small">

@@ -70,35 +70,48 @@ class TripMenu extends Component {
       trip,
     } = this.props;
 
+    const totalPrice =
+      trip.length > 0
+        ? trip.reduce((a, b) => {
+            return a + b.price;
+          }, 0)
+        : 0;
+
     return (
       <div className="column is-narrow trip-menu">
         <aside className="menu menu-wrapper">
           <UserPanel />
           <div className="card">
-            <form onSubmit={this.handleSaveTrip}>
-              <div className="field">
-                {/* <label className="label is-medium">Trip</label> */}
-                <div className="control">
-                  <input
-                    className="input is-medium"
-                    type="text"
-                    placeholder="Trip Name"
-                    value={currentTripName}
-                    onChange={this.handleTripNameChange}
-                  />
+            <div className="card-content">
+              <form onSubmit={this.handleSaveTrip}>
+                <div className="field">
+                  {/* <label className="label is-medium">Trip</label> */}
+                  <div className="control">
+                    <input
+                      className="input is-medium"
+                      type="text"
+                      placeholder="Trip Name"
+                      value={currentTripName}
+                      onChange={this.handleTripNameChange}
+                    />
+                  </div>
                 </div>
+              </form>
+              <div className="section">
+                Total Trip Cost:
+                {trip.length > 0 ? `$${Math.trunc(totalPrice)}` : ''}
               </div>
-            </form>
+            </div>
             <footer className="card-footer">
               <p className="card-footer-item">
                 <a
                   className="button is-success is-outlined"
-                  onClick={this.handleAddFlightToTrip}
+                  onClick={this.handleSaveTrip}
                 >
                   <span className="icon is-small">
-                    <i className="fa fa-plus" />
+                    <i className="fa fa-check" />
                   </span>
-                  <span>Add To Trip</span>
+                  <span>Save Trip</span>
                 </a>
               </p>
               <p className="card-footer-item">
