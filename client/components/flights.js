@@ -64,7 +64,8 @@ class Flights extends Component {
   }
 
   createAirportData = (origin, maxPrice) => {
-    let airport_data;
+    let airport_data = [];
+    if (!origin) return airport_data;
     const curAirport = {
       latitude: origin.latitude,
       longitude: origin.longitude,
@@ -204,7 +205,15 @@ class Flights extends Component {
               d.price,
             )}`}
           labelPlacement="vertical"
-          labelComponent={<VictoryTooltip dx={-2} dy={10} />}
+          labelComponent={
+            <VictoryTooltip
+              dx={10}
+              dy={10}
+              cornerRadius={10}
+              pointerLength={0}
+              flyoutStyle={{}}
+            />
+          }
           x="bearing"
           y="price"
           data={this.state.airportData}

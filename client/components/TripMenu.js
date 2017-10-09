@@ -11,15 +11,12 @@ import {
   addFlightToTrip,
   setDate,
 } from '../store/user-input';
-import {
-  createTrip,
-} from '../store/trips';
+import { createTrip } from '../store/trips';
 import { flightsFromAirportByAbbrv } from './util_helper';
 import moment from 'moment';
 import { ControlPanel, FlightListPanel } from '../components';
 
 class TripMenu extends Component {
-
   handleClearTrip = () => {
     this.props.dispatchClearTrip();
   };
@@ -71,7 +68,7 @@ class TripMenu extends Component {
             </header>
             <div className="card-content current-flight-info">
               <div className="content">
-                {!loading ? (
+                {!loading && origin ? (
                   <span>
                     From: <strong>{origin.abbrv}</strong>, {origin.city}{' '}
                   </span>
@@ -201,8 +198,8 @@ const mapDispatch = dispatch => {
       const fakeTrip = {
         name: 'my new trip',
         userId: 1,
-      }
-      dispatch(createTrip(fakeTrip))
+      };
+      dispatch(createTrip(fakeTrip));
     },
   };
 };
