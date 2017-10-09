@@ -97,9 +97,11 @@ class TripMenu extends Component {
                   </div>
                 </div>
               </form>
-              <div className="section">
-                Total Trip Cost:
-                {trip.length > 0 ? `$${Math.trunc(totalPrice)}` : ''}
+              <div className="section" style={{ padding: 20 }}>
+                <div className="heading">Total Trip Cost:</div>
+                <div className="title">
+                  {trip.length > 0 ? ` $${Math.trunc(totalPrice)}` : ''}
+                </div>
               </div>
             </div>
             <footer className="card-footer">

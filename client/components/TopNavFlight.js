@@ -60,10 +60,12 @@ class TopNavFlight extends Component {
           <div>
             <p class="heading">To</p>
             <p class="title is-5">
-              {currentFlight.dest && (
+              {currentFlight.dest ? (
                 <span>
                   {currentFlight.dest.abbrv}, {currentFlight.dest.city}
                 </span>
+              ) : (
+                <span />
               )}
             </p>
           </div>
