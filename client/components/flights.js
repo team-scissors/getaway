@@ -141,7 +141,11 @@ class Flights extends Component {
       airportAbbrv,
       selectedDestination,
       dispatchSetCurrentFlight,
+      origin,
+      maxPrice,
     } = this.props;
+    const airportData = this.createAirportData(origin, maxPrice);
+    this.setState({ airportData: airportData });
   }
 
   componentDidUpdate() {}
