@@ -160,10 +160,10 @@ class Flights extends Component {
               }),
             },
           }}
+          size={d => (d.abbrv === destAbbrv ? 7 : 3)}
           style={{
             data: {
               fill: d => (d.abbrv === destAbbrv ? primary : 'tomato'),
-              size: d => (d.abbrv === destAbbrv ? 7 : 3),
             },
           }}
           labels={d =>
@@ -184,6 +184,7 @@ class Flights extends Component {
                     {
                       target: 'data',
                       mutation: props => {
+                        console.log('click props:', props);
                         const a = props.datum;
                         const selectedFlight = {
                           price: a.price,
@@ -211,7 +212,6 @@ class Flights extends Component {
                           style: Object.assign({}, props.style, {
                             fill: primary,
                           }),
-                          size: 7,
                         };
                       },
                     },
@@ -226,9 +226,7 @@ class Flights extends Component {
                     {
                       target: 'data',
                       mutation: props => {
-                        return {
-                          size: 3,
-                        };
+                        return {};
                       },
                     },
                     {
