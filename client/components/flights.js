@@ -9,6 +9,7 @@ import {
   VictoryPolarAxis,
   VictoryZoomContainer,
   VictoryLine,
+  VictoryLabel,
   VictoryScatter,
   VictoryChart,
   VictoryGroup,
@@ -55,6 +56,36 @@ const regionLegendLabels = [
 
 const primary = '#00D1B2';
 
+const innerRadius = 35;
+class CompassCenter extends React.Component {
+  render() {
+    const { origin, airportAbbrv } = this.props;
+    const circleStyle = {
+      stroke: primary,
+      strokeWidth: 2,
+      fill: 'none',
+    };
+    return (
+      <g>
+        <circle
+          cx={origin.x}
+          cy={origin.y}
+          r={innerRadius}
+          style={circleStyle}
+        />
+        <text
+          x={origin.x}
+          y={origin.y + 7}
+          font-size="20px"
+          text-anchor="middle"
+        >
+          {airportAbbrv}
+        </text>
+      </g>
+    );
+  }
+}
+
 class Flights extends Component {
   constructor(props) {
     super(props);
@@ -93,17 +124,6 @@ class Flights extends Component {
             360,
         };
       });
-    airport_data.push({
-      ..._.omit(origin, 'flights'),
-      price: 0,
-      departAt: '',
-      distance: 0,
-      bearing: 0,
-    });
-    console.log(
-      'last el of airportdata:',
-      airport_data[airport_data.length - 1],
-    );
     return airport_data;
   };
 
@@ -147,6 +167,7 @@ class Flights extends Component {
         polar
         width={500}
         height={500}
+        innerRadius={innerRadius}
         domain={{ x: [0, 360] }}
         theme={VictoryTheme.material}
         domainPadding={{ y: 10 }}
@@ -302,6 +323,8 @@ class Flights extends Component {
             },
           ]}
         />
+        {/* <CompassLabel /> */}
+        <CompassCenter airportAbbrv={this.props.airportAbbrv} />
       </VictoryChart>
     );
   }
