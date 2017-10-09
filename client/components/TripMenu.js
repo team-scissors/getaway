@@ -41,6 +41,10 @@ class TripMenu extends Component {
     }
   };
 
+  handleFlyTo = airport => {
+    console.log('want to fly to: ', airport);
+  };
+
   render() {
     const {
       children,
@@ -52,12 +56,6 @@ class TripMenu extends Component {
       loading,
       trip,
     } = this.props;
-
-    // console.log('trip', trip);
-    // console.log('currentFlight', currentFlight);
-    // console.log('origin', origin);
-    //
-    // console.log('loading', loading, 'origin', origin);
 
     return (
       <div className="column is-narrow trip-menu">
@@ -123,13 +121,13 @@ class TripMenu extends Component {
                     <a className="panel-block" key={idx}>
                       <nav className="level flight-list-item">
                         <div className="level-item has-text-centered">
-                          <div>
+                          <div onClick={() => this.handleFlyTo(flight.origin)}>
                             <p className="heading">From</p>
                             <p className="title is-6">{flight.origin.abbrv}</p>
                           </div>
                         </div>
                         <div className="level-item has-text-centered">
-                          <div>
+                          <div onClick={() => this.handleFlyTo(flight.dest)}>
                             <p className="heading">To</p>
                             <p className="title is-6">{flight.dest.abbrv}</p>
                           </div>
@@ -149,7 +147,6 @@ class TripMenu extends Component {
                           </div>
                         </div>
                       </nav>
-                      {/* {flight.origin.abbrv} to {flight.dest.abbrv} */}
                     </a>
                   );
                 })}

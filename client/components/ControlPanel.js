@@ -72,12 +72,12 @@ class ControlPanel extends Component {
     });
   };
 
-  // handleMaxPriceSubmit = evt => {
-  //   evt.preventDefault();
-  //   const price =
-  //     this.state.maxPriceValue <= 0 ? 1000 : this.state.maxPriceValue;
-  //   this.props.dispatchSetMaxPrice(price);
-  // };
+  handleMaxPriceSubmit = evt => {
+    evt.preventDefault();
+    const price =
+      this.state.maxPriceValue <= 0 ? 1000 : this.state.maxPriceValue;
+    this.props.dispatchSetMaxPrice(price);
+  };
 
   maxPriceChange = evt => {
     const price = evt.target.value <= 0 ? 1000 : evt.target.value;
@@ -164,7 +164,7 @@ class ControlPanel extends Component {
                   <a className="button is-static is-small">$</a>
                 </div>
                 <div className="control">
-                  <form>
+                  <form onSubmit={this.handleMaxPriceSubmit}>
                     <input
                       className="input is-fullwidth is-small"
                       type="text"
