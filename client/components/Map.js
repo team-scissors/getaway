@@ -111,6 +111,9 @@ class Map extends Component {
         id: 'airports',
         source: 'airports',
         type: 'circle',
+        paint: {
+          'circle-color': 'tomato',
+        },
       });
       this.map.addLayer({
         id: 'trip',
