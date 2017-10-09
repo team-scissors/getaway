@@ -36,8 +36,10 @@ class SideMenu extends Component {
                     <span>Map</span>
                   </NavLink>
                 </li>
-                <li>
-                  <a>My Trips</a>
+                <li className={location.pathname === '/trips' ? 'is-active' : ''}>
+                  <NavLink to="/trips" activeClassName="is-active">
+                    <span>My Trips</span>
+                  </NavLink>
                 </li>
               </ul>
             </div>
