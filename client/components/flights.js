@@ -36,6 +36,15 @@ const directions = {
   315: 'SE',
 };
 
+const regions = {
+  Europe: '#66c2a5',
+  Oceania: '#fc8d62',
+  Asia: '#8da0cb',
+  NorthAmerica: '#e78ac3',
+  Africa: '#a6d854',
+  SouthAmerica: '#ffd92f',
+};
+
 const primary = '#00D1B2';
 
 class Flights extends Component {
@@ -163,7 +172,13 @@ class Flights extends Component {
           size={d => (d.abbrv === destAbbrv ? 7 : 3)}
           style={{
             data: {
-              fill: d => (d.abbrv === destAbbrv ? primary : 'tomato'),
+              fill: d => {
+                const color =
+                  d.abbrv === destAbbrv
+                    ? primary
+                    : regions[d.continent.replace(/\s/g, '')];
+                return color;
+              },
             },
           }}
           labels={d =>
