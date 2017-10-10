@@ -15,13 +15,12 @@ class Checkout extends Component {
 
     return (
       <section className="section">
-        {
-          tripName && <h2 className="has-text-centered">Trip {tripName} Details</h2>
-        }
+          <h2 className="has-text-centered">Trip Name {trip && `: + ${tripName}`}</h2>
         {trip.length > 0 ? (
           <div className="card trip-list">
             <div className="panel">
-              {trip.map((flight, idx) => {
+              {
+                trip.map((flight, idx) => {
                 return (
                   <div className="panel-block" key={idx}>
                     <div className="level flight-list-item">
@@ -54,7 +53,8 @@ class Checkout extends Component {
                     </div>
                   </div>
                 );
-              })}
+              })
+              }
             </div>
           </div>
         ) : (
