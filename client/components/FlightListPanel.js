@@ -19,6 +19,10 @@ class FlightListPanel extends Component {
 
   componentWillReceiveProps(nextProps) {
     console.log('nextProps', nextProps);
+    if (!this.props.loading) {
+      console.log('this.props', this.props);
+      this.props.refetch();
+    }
   }
 
   handleDestClick = e => {
@@ -117,7 +121,7 @@ const mapDispatch = dispatch => {
 // })(FlightListPanel);
 const ApolloFlightListPanel = graphql(flightsFromAirportByAbbrvAndDate, {
   options: ({ airportAbbrv, departureDate }) => ({ variables: { airportAbbrv, departureDate } }),
-  props: ({ data: { loading, origin } }) => ({ loading, origin }),
+  props: ({ data: { loading, origin, refetch } }) => ({ loading, origin, refetch }),
 })(FlightListPanel);
 
 export default connect(mapState, mapDispatch)(ApolloFlightListPanel);
