@@ -39,11 +39,11 @@ class TopNavFlight extends Component {
     } = this.props;
 
     return (
-      <nav className="level" style={{ padding: 10 }}>
+      <nav className="level" style={{ padding: 18 }}>
         <div className="level-item has-text-centered">
           <div>
             <p className="heading">From</p>
-            <p className="title is-5">
+            <p className="title is-6">
               {!loading && origin ? (
                 <span>
                   {origin.abbrv}, {origin.city}
@@ -59,7 +59,7 @@ class TopNavFlight extends Component {
         <div className="level-item has-text-centered">
           <div>
             <p className="heading">To</p>
-            <p className="title is-5">
+            <p className="title is-6">
               {currentFlight.dest ? (
                 <span>
                   {currentFlight.dest.abbrv}, {currentFlight.dest.city}
@@ -73,7 +73,7 @@ class TopNavFlight extends Component {
         <div className="level-item has-text-centered">
           <div>
             <p className="heading">Departure</p>
-            <p className="title is-5">
+            <p className="title is-6">
               {currentFlight && <span>{currentFlight.departAt}</span>}
             </p>
           </div>
@@ -81,7 +81,7 @@ class TopNavFlight extends Component {
         <div className="level-item has-text-centered">
           <div>
             <p className="heading">Price</p>
-            <p className="title is-5">
+            <p className="title is-6">
               {currentFlight.dest && (
                 <span>${Math.trunc(currentFlight.price)}</span>
               )}

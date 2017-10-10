@@ -85,8 +85,8 @@ class TripMenu extends Component {
     const totalPrice =
       trip.length > 0
         ? trip.reduce((a, b) => {
-            return a + b.price;
-          }, 0)
+          return a + b.price;
+        }, 0)
         : 0;
 
     return (
@@ -125,10 +125,10 @@ class TripMenu extends Component {
                   onClick={this.handleSaveTrip}
                   disabled={!currentTripName}
                 >
+                  <span>Save</span>
                   <span className="icon is-small">
                     <i className="fa fa-check" />
                   </span>
-                  <span>Save Trip</span>
                 </a>
               </p>
               <p className="card-footer-item">
@@ -136,11 +136,22 @@ class TripMenu extends Component {
                   onClick={this.handleClearTrip}
                   className="button is-danger is-outlined"
                 >
-                  <span>Clear Trip</span>
+                  <span>Clear</span>
                   <span className="icon is-small">
                     <i className="fa fa-times" />
                   </span>
                 </a>
+              </p>
+              <p className="card-footer-item">
+                <Link
+                  to="/checkout"
+                  className="button is-info is-outlined"
+                >
+                  <span>Checkout</span>
+                  <span className="icon is-small">
+                    <i className="fa fa-shopping-cart" />
+                  </span>
+                </Link>
               </p>
             </footer>
           </div>
@@ -191,8 +202,8 @@ class TripMenu extends Component {
               </nav>
             </div>
           ) : (
-            ''
-          )}
+              ''
+            )}
         </aside>
       </div>
     );
