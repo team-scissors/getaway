@@ -21,6 +21,7 @@ import geolib from 'geolib';
 import {
   getAirportsData,
   flightsFromAirportByAbbrv,
+  flightsFromAirportByAbbrvAndDate,
   cardinals,
   ticketPrices,
 } from './util_helper';
@@ -361,6 +362,7 @@ const mapState = state => {
     maxPrice: state.userInput.maxPrice,
     selectedDestination: state.userInput.currentFlight,
     airportAbbrv: state.userInput.originAirportAbbrv,
+    departureDate: state.userInput.departureDate,
   };
 };
 
@@ -373,8 +375,12 @@ const mapDispatch = dispatch => {
 };
 
 // See ./util_helper/graphQLqueries.js for queries
-const ApolloFlights = graphql(flightsFromAirportByAbbrv, {
-  options: ({ airportAbbrv }) => ({ variables: { airportAbbrv } }),
+// const ApolloFlights = graphql(flightsFromAirportByAbbrv, {
+//   options: ({ airportAbbrv }) => ({ variables: { airportAbbrv } }),
+//   props: ({ data: { loading, origin } }) => ({ loading, origin }),
+// })(Flights);
+const ApolloFlights = graphql(flightsFromAirportByAbbrvAndDate, {
+  options: ({ airportAbbrv, departureDate }) => ({ variables: { airportAbbrv, departureDate } }),
   props: ({ data: { loading, origin } }) => ({ loading, origin }),
 })(Flights);
 
