@@ -4,6 +4,7 @@ const Promise = require('bluebird');
 const {
   Trip,
   Flight,
+  Airport,
 } = require('../db/models');
 module.exports = router;
 
@@ -24,6 +25,24 @@ router.get('/user/:userId', (req, res, next) => {
   })
   .then(trips => res.send(trips))
   .catch(next);
+});
+
+// get trips by userId
+router.get('/user/:userId/extended', async (req, res, next) => {
+  try {
+    const trips = await Trip.findAll({
+      include: [Flight],
+      where: {
+        userId: req.params.userId
+      }
+    });
+    const extendedTrips = trips.map(trip => {
+      // Map each of the flights to the current trip TODO
+    });
+  } catch(err) {
+    next(err);
+  }
+
 });
 
 // get a trip by its id
@@ -109,8 +128,16 @@ router.delete('/:tripId', (req, res, next) => {
 });
 
 // Create a new trip.
+/* req.body should look like
+{
+  "name": "some name",
+  userId: 1
+}
+*/
 router.post('/', (req, res, next) => {
   const body = req.body;
+  console.log('body:');
+  console.log(body);
   Trip.create(body)
   .then(newTrip => res.send(newTrip))
   .catch(next);

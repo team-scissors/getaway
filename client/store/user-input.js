@@ -10,6 +10,7 @@ const ADD_FLIGHT_TO_TRIP = 'ADD_FLIGHT_TO_TRIP';
 const SET_CURRENT_FLIGHT = 'SET_CURRENT_FLIGHT';
 const SET_DATE = 'SET_DATE';
 const SET_MAP = 'SET_MAP';
+const SET_TRIP = 'SET_TRIP';
 /**
  * INITIAL STATE
  */
@@ -42,6 +43,10 @@ export const setDate = date => {
 
 export const clearTrip = () => {
   return { type: CLEAR_TRIP };
+};
+
+export const setTrip = trip => {
+  return { type: SET_TRIP, trip };
 };
 
 export const setTripName = tripName => {
@@ -78,6 +83,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         map: action.map,
+      };
+    case SET_TRIP:
+      return {
+        ...state,
+        currentTrip: action.trip,
       };
     case CLEAR_TRIP:
       return {

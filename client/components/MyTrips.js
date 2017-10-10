@@ -2,26 +2,27 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { trips, fetchTrips } from '../store';
-import * as _ from 'underscore';
+
+import { graphql } from 'react-apollo';
+import { tripsByUserId } from './util_helper';
 
 class MyTrips extends Component {
-  componentDidMount() {
-    const { userId, dispatchFetchTrips } = this.props;
-    if (userId) dispatchFetchTrips(userId);
-  }
 
-  handleTripClick = () => {};
 
   render() {
-    const { myTrips, currentTripName } = this.props;
-    console.log('myTrips');
-    console.log(myTrips);
-    const tripsList =
-      myTrips &&
-      myTrips.map(trip => {
-        return <li>{trip.name}</li>;
-      });
+    const {
+      // myTrips,
+      currentTripName,
+      trips,
+      loading,
+    } = this.props;
+    const myTrips = !loading ?
+      trips.trips.map(trip => {
+        return ({
+          id: trip.id,
+          name: trip.name,
+        });
+      }) : '';
     return (
       <div>
         <nav className="panel flight-list">
@@ -30,10 +31,11 @@ class MyTrips extends Component {
               const active = trip.name === currentTripName;
               return (
                 <a
-                  className={`panel-block 
+                  // onClick={this.handleLoadTrip}
+                  className={`panel-block
                 ${active ? 'is-active' : ''} list-item`}
                   key={trip.id}
-                  onClick={this.handleTripClick}
+                  data-tripid={trip.id}
                   style={active ? { background: '#00d1b2', color: '#fff' } : {}}
                 >
                   <div>
@@ -57,12 +59,11 @@ const mapState = state => {
   };
 };
 
-const mapDispatch = dispatch => {
-  return {
-    dispatchFetchTrips: userId => {
-      dispatch(fetchTrips(userId));
-    },
-  };
-};
+const mapDispatch = () => ({});
 
-export default withRouter(connect(mapState, mapDispatch)(MyTrips));
+const ApolloMyTrips = graphql(tripsByUserId, {
+  options: ({ userId }) => ({ variables: { id: userId } }),
+  props: ({ data: { loading, allTrips } }) => ({ loading, trips: allTrips }),
+})(MyTrips);
+
+export default withRouter(connect(mapState, mapDispatch)(ApolloMyTrips));
