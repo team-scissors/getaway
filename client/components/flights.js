@@ -21,6 +21,7 @@ import geolib from 'geolib';
 import {
   getAirportsData,
   flightsFromAirportByAbbrv,
+  flightsFromAirportByAbbrvAndDate,
   cardinals,
   ticketPrices,
 } from './util_helper';
@@ -114,14 +115,16 @@ class Flights extends Component {
         return flight.price < maxPrice;
       })
       .map(flight => {
+        const distance = geolib.getDistance(curAirport, {
+          latitude: flight.dest.latitude,
+          longitude: flight.dest.longitude,
+        });
         return {
           ...flight.dest,
           price: +flight.price,
           departAt: flight.departAt,
-          distance: geolib.getDistance(curAirport, {
-            latitude: flight.dest.latitude,
-            longitude: flight.dest.longitude,
-          }),
+          distance: distance,
+          costPerKm: +flight.price / distance,
           // Victory polar is counter-clockwise
           bearing:
             (90 -
@@ -182,9 +185,9 @@ class Flights extends Component {
         innerRadius={innerRadius}
         domain={{ x: [0, 360] }}
         theme={VictoryTheme.material}
-        domainPadding={{ y: 10 }}
+        domainPadding={{ y: 20 }}
         containerComponent={<VictoryZoomContainer />}
-        scale={{ y: 'linear' }}
+        // scale={{ x: 'linear', y: 'log' }}
       >
         <VictoryPolarAxis // Bearing directions
           labelPlacement="perpendicular"
@@ -216,6 +219,9 @@ class Flights extends Component {
           data={regionLegendLabels}
         />
         <VictoryScatter
+          bubbleProperty="distance"
+          maxBubbleSize={7}
+          minBubbleSize={2}
           animate={{
             onEnter: {
               duration: 200,
@@ -232,11 +238,13 @@ class Flights extends Component {
               }),
             },
           }}
-          size={d => {
-            return d.abbrv === destAbbrv ? 7 : 3;
-          }}
+          // size={d => {
+          //   return d.abbrv === destAbbrv ? 7 : 3;
+          // }}
           style={{
             data: {
+              stroke: 'black',
+              strokeWidth: 0.2,
               fill: d => {
                 if (d.abbrv === airportAbbrv) {
                   return 'black';
@@ -354,6 +362,7 @@ const mapState = state => {
     maxPrice: state.userInput.maxPrice,
     selectedDestination: state.userInput.currentFlight,
     airportAbbrv: state.userInput.originAirportAbbrv,
+    departureDate: state.userInput.departureDate,
   };
 };
 
@@ -366,8 +375,14 @@ const mapDispatch = dispatch => {
 };
 
 // See ./util_helper/graphQLqueries.js for queries
-const ApolloFlights = graphql(flightsFromAirportByAbbrv, {
-  options: ({ airportAbbrv }) => ({ variables: { airportAbbrv } }),
+// const ApolloFlights = graphql(flightsFromAirportByAbbrv, {
+//   options: ({ airportAbbrv }) => ({ variables: { airportAbbrv } }),
+//   props: ({ data: { loading, origin } }) => ({ loading, origin }),
+// })(Flights);
+const ApolloFlights = graphql(flightsFromAirportByAbbrvAndDate, {
+  options: ({ airportAbbrv, departureDate }) => ({
+    variables: { airportAbbrv, departureDate },
+  }),
   props: ({ data: { loading, origin } }) => ({ loading, origin }),
 })(Flights);
 

@@ -95,7 +95,8 @@ class ControlPanel extends Component {
     // this.setState({
     //   selectedDay: day,
     // });
-    this.props.dispatchSetDate(date);
+    // console.log
+    this.props.dispatchSetDate(date.toDate());
   };
 
   render() {
@@ -116,8 +117,8 @@ class ControlPanel extends Component {
         <nav className="panel">
           <div className="panel-block">
             <div
-              className={`control is-medium ${this.state
-                .isLoading} has-icons-left`}
+              className={`control is-medium 
+                 has-icons-left`}
             >
               <form onSubmit={this.handleOriginSubmit}>
                 <div className="field">

@@ -16,6 +16,12 @@ const Flight = db.define('Flight', {
     type: Sequelize.FLOAT,
     allowNull: false,
   },
+}, {
+  uniqueKeys: {
+    departFromTo: {
+      fields: ['departAt', 'fromId', 'toId']
+    }
+  }
 });
 
 module.exports = Flight;

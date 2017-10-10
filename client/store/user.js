@@ -1,5 +1,10 @@
-import axios from 'axios'
-import history from '../history'
+import axios from 'axios';
+import history from '../history';
+import {
+  clearTrip,
+  setTripName,
+  clearInputAirport,
+} from './user-input';
 
 /**
  * ACTION TYPES
@@ -42,7 +47,10 @@ export const logout = () =>
   dispatch =>
     axios.post('/auth/logout')
       .then(res => {
-        dispatch(removeUser())
+        dispatch(removeUser());
+        dispatch(clearTrip());
+        dispatch(clearInputAirport());
+        dispatch(setTripName(''));
         history.push('/login')
       })
       .catch(err => console.log(err))

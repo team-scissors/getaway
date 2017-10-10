@@ -54,6 +54,7 @@ class App extends Component {
                   render={() => <Redirect to="/flights" />}
                 />
                 <Route path="/map" component={Map} />
+                <Route path="/trips" component={Map} />
                 <Route path="/flights" component={Flights} />
                 {isLoggedIn ? (
                   <Switch>
