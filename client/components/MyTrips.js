@@ -10,12 +10,22 @@ class MyTrips extends Component {
   render() {
     // console.log('this.props');
     // console.log(this.props);
-    const { myTrips, currentTripName } = this.props;
-    const tripsList =
-      myTrips &&
-      myTrips.map(trip => {
-        return <li key={trip.id}>{trip.name}</li>;
+    const {
+      // myTrips,
+      currentTripName,
+      trips,
+      loading,
+    } = this.props;
+    const myTrips = loading ? ''
+      : trips.trips.map(trip => {
+        // console.log('trip.name: ');
+        // console.log(trip.name);
+        return (
+          <li key={trip.id}>{trip.name}</li>
+        );
       });
+      // console.log('myTrips:');
+      // console.log(myTrips);
     return (
       <div>
         <nav className="panel flight-list">
@@ -57,7 +67,7 @@ const mapDispatch = () => ({});
 
 const ApolloMyTrips = graphql(tripsByUserId, {
   options: ({ userId }) => ({ variables: { id: userId } }),
-  props: (data) => (data),
+  props: ({ data: { loading, allTrips } }) => ({ loading, trips: allTrips }),
 })(MyTrips);
 
 export default withRouter(connect(mapState, mapDispatch)(ApolloMyTrips));
