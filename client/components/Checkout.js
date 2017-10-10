@@ -18,20 +18,19 @@ class Checkout extends Component {
         <h2 className="has-text-centered">Trip Details</h2>
         {trip.length > 0 ? (
           <div className="card trip-list">
-            <nav className="panel">
-              {' '}
+            <div className="panel">
               {trip.map((flight, idx) => {
                 return (
                   <a className="panel-block" key={idx}>
-                    <nav className="level flight-list-item">
+                    <div className="level flight-list-item">
                       <div className="level-item has-text-centered">
-                        <div onClick={() => this.handleFlyTo(flight.origin)}>
+                        <div>
                           <p className="heading">From</p>
                           <p className="title is-6">{flight.origin.abbrv}</p>
                         </div>
                       </div>
                       <div className="level-item has-text-centered">
-                        <div onClick={() => this.handleFlyTo(flight.dest)}>
+                        <div>
                           <p className="heading">To</p>
                           <p className="title is-6">{flight.dest.abbrv}</p>
                         </div>
@@ -50,11 +49,11 @@ class Checkout extends Component {
                           </p>
                         </div>
                       </div>
-                    </nav>
+                    </div>
                   </a>
                 );
               })}
-            </nav>
+            </div>
           </div>
         ) : (
             ''
