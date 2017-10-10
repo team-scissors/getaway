@@ -10,6 +10,7 @@ import { ApolloClient, createNetworkInterface } from 'react-apollo';
 import user from './user';
 import userInput from './user-input';
 import trips from './trips';
+import error from './error';
 
 const networkInterface = createNetworkInterface({
   uri: '/graphql',
@@ -22,6 +23,7 @@ const reducer = combineReducers({
   user,
   userInput,
   trips,
+  error,
   apollo: client.reducer(),
 });
 const middleware = applyMiddleware(
@@ -35,3 +37,4 @@ export default store;
 export * from './user';
 export * from './user-input';
 export * from './trips';
+export * from './error';
