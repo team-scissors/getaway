@@ -32,6 +32,43 @@ export const flightsFromAirportByAbbrv = gql`
   }
 `;
 
+
+// Finish this. TODO
+// export const
+// gql`
+// query flightsFromAirportByAbbrvAndDate($abbrv: String = "ORD", $date: Date = "02-01-2018") {
+// origin: airportByAbbrv(abbrv: $abbrv) {
+//     id
+//     name
+//     abbrv
+//     city
+//     country
+//     continent
+//     longitude
+//     latitude
+//     flights: flightsByFromId(condition: {
+//       departAt: $date
+//     }) {
+//       nodes {
+//         id
+//         price
+//         departAt
+//         dest: airportByToId {
+//           id
+//           abbrv
+//           name
+//           city
+//           continent
+//           country
+//           longitude
+//           latitude
+//         }
+//       }
+//     }
+// }
+// }
+// `;
+
 /* Gets the trips for a user by their id
 Query arguments should look something like this:
 {
