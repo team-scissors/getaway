@@ -39,7 +39,7 @@ Query arguments should look something like this:
 }
 */
 export const tripsByUserId = gql`
-  query tripsByUserId($id: Int!) {
+  query tripsByUserId($id: Int = 0) {
     allTrips(condition: {
       userId: $id
     }) {

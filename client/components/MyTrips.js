@@ -2,20 +2,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { trips, fetchTrips } from '../store';
-import * as _ from 'underscore';
+import { graphql } from 'react-apollo';
+import { tripsByUserId } from './util_helper';
 
 class MyTrips extends Component {
-  componentDidMount() {
-    const { userId, dispatchFetchTrips } = this.props;
-    if (userId) dispatchFetchTrips(userId);
-  }
-
-  handleLoadTrip = evt => {
-    console.log(evt.target.value);
-  };
 
   render() {
+    // console.log('this.props');
+    // console.log(this.props);
     const { myTrips, currentTripName } = this.props;
     const tripsList =
       myTrips &&
@@ -30,11 +24,11 @@ class MyTrips extends Component {
               const active = trip.name === currentTripName;
               return (
                 <a
-                  onClick={this.handleLoadTrip}
+                  // onClick={this.handleLoadTrip}
                   className={`panel-block
                 ${active ? 'is-active' : ''} list-item`}
                   key={trip.id}
-                  onClick={this.handleTripClick}
+                  // onClick={this.handleTripClick}
                   value={trip.id}
                   style={active ? { background: '#00d1b2', color: '#fff' } : {}}
                 >
@@ -59,12 +53,11 @@ const mapState = state => {
   };
 };
 
-const mapDispatch = dispatch => {
-  return {
-    dispatchFetchTrips: userId => {
-      dispatch(fetchTrips(userId));
-    },
-  };
-};
+const mapDispatch = () => ({});
 
-export default withRouter(connect(mapState, mapDispatch)(MyTrips));
+const ApolloMyTrips = graphql(tripsByUserId, {
+  options: ({ userId }) => ({ variables: { id: userId } }),
+  props: (data) => (data),
+})(MyTrips);
+
+export default withRouter(connect(mapState, mapDispatch)(ApolloMyTrips));
