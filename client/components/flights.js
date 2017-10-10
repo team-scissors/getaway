@@ -219,7 +219,7 @@ class Flights extends Component {
           data={regionLegendLabels}
         />
         <VictoryScatter
-          bubbleProperty="costPerKm"
+          bubbleProperty="distance"
           maxBubbleSize={7}
           minBubbleSize={2}
           animate={{
@@ -380,7 +380,9 @@ const mapDispatch = dispatch => {
 //   props: ({ data: { loading, origin } }) => ({ loading, origin }),
 // })(Flights);
 const ApolloFlights = graphql(flightsFromAirportByAbbrvAndDate, {
-  options: ({ airportAbbrv, departureDate }) => ({ variables: { airportAbbrv, departureDate } }),
+  options: ({ airportAbbrv, departureDate }) => ({
+    variables: { airportAbbrv, departureDate },
+  }),
   props: ({ data: { loading, origin } }) => ({ loading, origin }),
 })(Flights);
 
