@@ -1,4 +1,6 @@
 import axios from 'axios';
+import { setError } from './error';
+import { tripSubmitConfirm } from './user-input';
 
 /**
  * ACTION TYPES
@@ -38,7 +40,7 @@ export const fetchTrips = userId => {
     .then(trips => {
       dispatch(getTrips(trips));
     })
-    .catch(err => console.log(err));
+    .catch(err => dispatch(setError(err)));
   };
 };
 
@@ -48,7 +50,7 @@ export const fetchTrips = userId => {
   "userId": 1
 }
 */
-export const createTrip = (newTrip, flightIds) => {
+export const createTrip = (newTrip, flightIds, message) => {
   return dispatch => {
     return axios.post(`/api/trips/`, newTrip)
     .then(res => res.data)
@@ -57,8 +59,9 @@ export const createTrip = (newTrip, flightIds) => {
     })
     .then(() => {
       dispatch(fetchTrips(newTrip.userId));
+      dispatch(tripSubmitConfirm(message));
     })
-    .catch(err => console.log(err));
+    .catch(err => dispatch(setError(err)));
   };
 };
 
@@ -68,7 +71,7 @@ export const updateTripNewFlight = (tripId, flightId) => {
     .then(res => {
       // Do something with the store here. TODO: make an action creator
     })
-    .catch(err => console.log(err));
+    .catch(err => dispatch(setError(err)));
   };
 };
 

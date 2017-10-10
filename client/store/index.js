@@ -8,9 +8,9 @@ import createLogger from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
 import { ApolloClient, createNetworkInterface } from 'react-apollo';
 import user from './user';
-import flightPrices from './flight-prices';
 import userInput from './user-input';
 import trips from './trips';
+import error from './error';
 
 const networkInterface = createNetworkInterface({
   uri: '/graphql',
@@ -23,6 +23,7 @@ const reducer = combineReducers({
   user,
   userInput,
   trips,
+  error,
   apollo: client.reducer(),
 });
 const middleware = applyMiddleware(
@@ -34,6 +35,6 @@ const store = createStore(reducer, middleware);
 
 export default store;
 export * from './user';
-export * from './flight-prices';
 export * from './user-input';
 export * from './trips';
+export * from './error';

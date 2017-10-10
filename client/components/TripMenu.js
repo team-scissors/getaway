@@ -12,6 +12,7 @@ import {
   setDate,
   setTripName,
 } from '../store/user-input';
+import { clearSubmitConfirm } from '../store';
 import { createTrip } from '../store/trips';
 import { flightsFromAirportByAbbrv } from './util_helper';
 import moment from 'moment';
@@ -21,6 +22,7 @@ class TripMenu extends Component {
   handleClearTrip = () => {
     this.props.dispatchClearTrip();
     this.props.dispatchSetTripName('');
+    this.props.dispatchClearSubmitConfirm();
   };
 
   handleAddFlightToTrip = () => {
@@ -36,6 +38,7 @@ class TripMenu extends Component {
 
   handleSaveTrip = evt => {
     evt.preventDefault();
+    const message = `Created ${this.props.currentTripName} successfully`;
     const newTrip = {
       name: this.props.currentTripName,
       userId: this.props.userId,
@@ -46,7 +49,7 @@ class TripMenu extends Component {
       })
       : [];
     if (newTrip.name && newTrip.userId) {
-      this.props.dispatchSaveTrip(newTrip, flightIds);
+      this.props.dispatchSaveTrip(newTrip, flightIds, message);
     } else {
       // Something is wrong. TODO
     }
@@ -76,6 +79,7 @@ class TripMenu extends Component {
       match,
       loading,
       trip,
+      tripSubmitConfirm,
     } = this.props;
 
     const totalPrice =
@@ -109,16 +113,17 @@ class TripMenu extends Component {
               </form>
               <div className="section" style={{ padding: 20 }}>
                 <div className="heading">Total Trip Cost:</div>
-                <div className="title">
-                  {trip.length > 0 ? ` $${Math.trunc(totalPrice)}` : ''}
+                  <div className="title">
+                    {trip.length > 0 ? ` $${Math.trunc(totalPrice)}` : ''}
+                  </div>
                 </div>
               </div>
-            </div>
             <footer className="card-footer">
               <p className="card-footer-item">
                 <a
                   className="button is-success is-outlined"
                   onClick={this.handleSaveTrip}
+                  disabled={!currentTripName}
                 >
                   <span className="icon is-small">
                     <i className="fa fa-check" />
@@ -139,6 +144,12 @@ class TripMenu extends Component {
               </p>
             </footer>
           </div>
+          {
+            !!tripSubmitConfirm &&
+            <div className="card has-text-centered">
+              { tripSubmitConfirm }
+            </div>
+            }
           {trip.length > 0 ? (
             <div className="card trip-list">
               <nav className="panel">
@@ -204,6 +215,7 @@ const mapState = state => {
     isLoggedIn: !!state.user.id,
     map: state.userInput.map,
     userId: state.user.id,
+    tripSubmitConfirm: state.userInput.tripSubmitConfirm,
   };
 };
 
@@ -224,8 +236,11 @@ const mapDispatch = dispatch => {
     dispatchSetTripName(name) {
       dispatch(setTripName(name));
     },
-    dispatchSaveTrip: (newTrip, flightIds) => {
-      dispatch(createTrip(newTrip, flightIds));
+    dispatchSaveTrip: (newTrip, flightIds, message) => {
+      dispatch(createTrip(newTrip, flightIds, message));
+    },
+    dispatchClearSubmitConfirm: () => {
+      dispatch(clearSubmitConfirm());
     },
   };
 };
