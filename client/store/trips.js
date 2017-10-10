@@ -44,7 +44,14 @@ export const fetchTrips = userId => {
   };
 };
 
+/* Body to the post api should look something like
+{
+  "name": "some name",
+  "userId": 1
+}
+*/
 export const createTrip = (newTrip, flightIds) => {
+  console.log('FRONTEND flightIds', flightIds);
   return dispatch => {
     return axios.post(`/api/trips/`, newTrip)
     .then(res => res.data)

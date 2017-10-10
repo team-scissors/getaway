@@ -99,6 +99,7 @@ router.post('/:tripId', (req, res, next) => {
     })
     .catch(next);
   } else {
+    console.log('BACKEND req.body', req.body);
     res.send(400);
   }
 });
@@ -131,7 +132,7 @@ router.delete('/:tripId', (req, res, next) => {
 /* req.body should look like
 {
   "name": "some name",
-  userId: 1
+  "userId": 1
 }
 */
 router.post('/', (req, res, next) => {
