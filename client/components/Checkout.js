@@ -11,17 +11,19 @@ class Checkout extends Component {
   }
 
   render() {
-    const {trip} = this.props;
+    const {trip, tripName} = this.props;
 
     return (
       <section className="section">
-        <h2 className="has-text-centered">Trip Details</h2>
+        {
+          tripName && <h2 className="has-text-centered">Trip {tripName} Details</h2>
+        }
         {trip.length > 0 ? (
           <div className="card trip-list">
             <div className="panel">
               {trip.map((flight, idx) => {
                 return (
-                  <a className="panel-block" key={idx}>
+                  <div className="panel-block" key={idx}>
                     <div className="level flight-list-item">
                       <div className="level-item has-text-centered">
                         <div>
@@ -50,7 +52,7 @@ class Checkout extends Component {
                         </div>
                       </div>
                     </div>
-                  </a>
+                  </div>
                 );
               })}
             </div>
@@ -69,6 +71,7 @@ class Checkout extends Component {
 const mapState = state => {
   return {
     trip: state.userInput.currentTrip,
+    tripName: state.userInput.currentTripName,
   };
 };
 
