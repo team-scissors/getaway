@@ -36,14 +36,18 @@ export const fetchTrips = userId => {
     return axios.get(`/api/trips/user/${userId}`)
     .then(res => res.data)
     .then(trips => {
-      console.log('trips:');
-      console.log(trips);
       dispatch(getTrips(trips));
     })
     .catch(err => console.log(err));
   };
 };
 
+/* Body to the post api should look something like
+{
+  "name": "some name",
+  "userId": 1
+}
+*/
 export const createTrip = (newTrip, flightIds) => {
   return dispatch => {
     return axios.post(`/api/trips/`, newTrip)

@@ -36,10 +36,17 @@ class TripMenu extends Component {
 
   handleSaveTrip = evt => {
     evt.preventDefault();
-    const userId = this.props.userId;
-    const currentTripName = this.props.currentTripName;
-    if (userId && currentTripName) {
-      this.props.dispatchSaveTrip(userId, currentTripName);
+    const newTrip = {
+      name: this.props.currentTripName,
+      userId: this.props.userId,
+    };
+    const flightIds = this.props.trip.length > 0
+      ? this.props.trip.map(trip => {
+        return trip.id;
+      })
+      : [];
+    if (newTrip.name && newTrip.userId) {
+      this.props.dispatchSaveTrip(newTrip, flightIds);
     } else {
       // Something is wrong. TODO
     }
@@ -52,7 +59,7 @@ class TripMenu extends Component {
 
   handleFlyTo = airport => {
     const { map } = this.props;
-    console.log('want to fly to: ', airport);
+    // console.log('want to fly to: ', airport);
     map.flyTo({
       center: [airport.longitude, airport.latitude],
     });
@@ -181,6 +188,13 @@ class TripMenu extends Component {
   }
 }
 
+const getTripIds = trips => {
+  if (!trip) return [];
+  return trips.map(trip => {
+    return trip.id;
+  });
+};
+
 const mapState = state => {
   return {
     trip: state.userInput.currentTrip,
@@ -210,8 +224,8 @@ const mapDispatch = dispatch => {
     dispatchSetTripName(name) {
       dispatch(setTripName(name));
     },
-    dispatchSaveTrip: (userId, name) => {
-      dispatch(createTrip({ userId, name }));
+    dispatchSaveTrip: (newTrip, flightIds) => {
+      dispatch(createTrip(newTrip, flightIds));
     },
   };
 };
