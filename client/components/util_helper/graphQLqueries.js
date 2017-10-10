@@ -32,6 +32,54 @@ export const flightsFromAirportByAbbrv = gql`
   }
 `;
 
+/* Gets the trips for a user by their id
+Query arguments should look something like this:
+{
+  "id": 1
+}
+*/
+export const tripsByUserId = gql`
+  query tripsByUserId($id: Int!) {
+    allTrips(condition: {
+      userId: $id
+    }) {
+      trips: nodes {
+        id
+        name
+        tripFlightsByTripId {
+          nodes {
+            flightByFlightId {
+              id
+              departAt
+              price
+              origin: airportByFromId {
+                id
+                name
+                abbrv
+                city
+                country
+                continent
+                longitude
+                latitude
+              }
+              dest: airportByToId {
+                id
+                name
+                abbrv
+                city
+                country
+                continent
+                longitude
+                latitude
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
 export const airportByAbbrv = gql`
   query airportByAbbrv($airportAbbrv: String!) {
     departFrom: airportByAbbrv(abbrv: $airportAbbrv) {
