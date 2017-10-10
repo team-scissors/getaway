@@ -35,8 +35,8 @@ export const flightsFromAirportByAbbrv = gql`
 
 // Finish this. TODO
 export const flightsFromAirportByAbbrvAndDate = gql`
-  query flightsFromAirportByAbbrvAndDate($abbrv: String = "ORD", $date: Date = "2018-02-04") {
-    origin: airportByAbbrv(abbrv: $abbrv) {
+  query flightsFromAirportByAbbrvAndDate($airportAbbrv: String = "ORD", $departureDate: Date = "2018-02-04") {
+    origin: airportByAbbrv(abbrv: $airportAbbrv) {
         id
         name
         abbrv
@@ -46,7 +46,7 @@ export const flightsFromAirportByAbbrvAndDate = gql`
         longitude
         latitude
         flights: flightsByFromId(condition: {
-          departAt: $date
+          departAt: $departureDate
         }) {
           nodes {
             id

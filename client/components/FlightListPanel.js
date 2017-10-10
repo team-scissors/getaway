@@ -15,19 +15,26 @@ import {
 class FlightListPanel extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      flights: [],
+    }
   }
 
   componentWillReceiveProps(nextProps) {
     console.log('nextProps', nextProps);
     if (!this.props.loading) {
-      console.log('this.props', this.props);
+      // console.log('this.props', this.props);
+      this.setState({
+        flights: nextProps.origin.flights.nodes.slice(),
+      })
       this.props.refetch();
     }
   }
 
   handleDestClick = e => {
     const abbrv = e.currentTarget.dataset.abbrv;
-    const flightList = this.props.origin.flights.nodes.slice();
+    // const flightList = this.props.origin.flights.nodes.slice();
+    const flightList = this.state.flights;
     const flight = flightList.find(f => {
       return f.dest.abbrv === abbrv;
     });
