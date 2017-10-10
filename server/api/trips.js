@@ -81,8 +81,6 @@ router.put('/:tripId/:flightId', (req, res, next) => {
 */
 router.post('/:tripId', (req, res, next) => {
   const flightIds = req.body;
-  console.log('flightIds');
-  console.log(flightIds);
   if (req.body && Array.isArray(flightIds)) {
     const flights = Promise.all( flightIds.map(id => {
       return Flight.findById(id);
@@ -99,7 +97,6 @@ router.post('/:tripId', (req, res, next) => {
     })
     .catch(next);
   } else {
-    console.log('BACKEND req.body', req.body);
     res.send(400);
   }
 });
@@ -137,8 +134,6 @@ router.delete('/:tripId', (req, res, next) => {
 */
 router.post('/', (req, res, next) => {
   const body = req.body;
-  console.log('body:');
-  console.log(body);
   Trip.create(body)
   .then(newTrip => res.send(newTrip))
   .catch(next);

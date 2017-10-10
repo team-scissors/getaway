@@ -36,8 +36,6 @@ export const fetchTrips = userId => {
     return axios.get(`/api/trips/user/${userId}`)
     .then(res => res.data)
     .then(trips => {
-      console.log('trips:');
-      console.log(trips);
       dispatch(getTrips(trips));
     })
     .catch(err => console.log(err));
@@ -51,7 +49,6 @@ export const fetchTrips = userId => {
 }
 */
 export const createTrip = (newTrip, flightIds) => {
-  console.log('FRONTEND flightIds', flightIds);
   return dispatch => {
     return axios.post(`/api/trips/`, newTrip)
     .then(res => res.data)

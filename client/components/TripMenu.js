@@ -36,8 +36,6 @@ class TripMenu extends Component {
 
   handleSaveTrip = evt => {
     evt.preventDefault();
-    // const userId = this.props.userId;
-    // const currentTripName = this.props.currentTripName;
     const newTrip = {
       name: this.props.currentTripName,
       userId: this.props.userId,
@@ -61,7 +59,7 @@ class TripMenu extends Component {
 
   handleFlyTo = airport => {
     const { map } = this.props;
-    console.log('want to fly to: ', airport);
+    // console.log('want to fly to: ', airport);
     map.flyTo({
       center: [airport.longitude, airport.latitude],
     });

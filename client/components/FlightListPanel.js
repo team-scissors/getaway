@@ -15,15 +15,10 @@ import {
 class FlightListPanel extends Component {
   constructor(props) {
     super(props);
-    // this.state = {
-    //   flights: [],
-    // }
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('nextProps', nextProps);
     if (!this.props.loading) {
-      // console.log('this.props', this.props);
       this.setState({
         flights: nextProps.origin.flights.nodes.slice(),
       })
