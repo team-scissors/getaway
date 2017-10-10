@@ -117,8 +117,8 @@ class ControlPanel extends Component {
         <nav className="panel">
           <div className="panel-block">
             <div
-              className={`control is-medium ${this.state
-                .isLoading} has-icons-left`}
+              className={`control is-medium 
+                 has-icons-left`}
             >
               <form onSubmit={this.handleOriginSubmit}>
                 <div className="field">

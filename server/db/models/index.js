@@ -25,12 +25,18 @@ Flight.belongsToMany(Trip, {
 // Refer to the created_at column to see historical data.
 Airport.belongsToMany(Airport, {
   as: 'fromAirport',
-  through: 'Flight',
+  through: {
+    model: 'Flight',
+    unique: false,
+  },
   foreignKey: 'toId',
 });
 Airport.belongsToMany(Airport, {
   as: 'toAirport',
-  through: 'Flight',
+  through: {
+    model: 'Flight',
+    unique: false,
+  },
   foreignKey: 'fromId',
 });
 // Flight.belongsTo(Airport, { as: 'from' });
