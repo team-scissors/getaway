@@ -8,14 +8,30 @@ import { NavLink } from 'react-router-dom';
 class Checkout extends Component {
   constructor(props) {
     super(props);
+    this.StripeHandler = StripeCheckout.configure({
+      key: 'pk_test_9my2xxrckuwRluIePEZcdRbt',
+      image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
+      locale: 'auto',
+      token: function(token) {
+        // You can access the token ID with `token.id`.
+        // Get the token ID to your server-side code for use.
+      }
+    });
   }
 
   render() {
     const {trip, tripName} = this.props;
 
+    const totalPrice =
+    trip.length > 0
+      ? trip.reduce((a, b) => {
+        return a + b.price;
+      }, 0)
+      : 0;
+
     return (
       <section className="section">
-          <h2 className="has-text-centered">Trip Name {trip && `: + ${tripName}`}</h2>
+          <h2 className="has-text-centered">Trip Name {trip && `: ${tripName}`}</h2>
         {trip.length > 0 ? (
           <div className="card trip-list">
             <div className="panel">
@@ -56,6 +72,10 @@ class Checkout extends Component {
               })
               }
             </div>
+            <button onClick={()=> 
+              this.StripeHandler.open({
+                name: 'getAway!',description: tripName, amount: Math.trunc(totalPrice)*100
+            }) }>Purchase</button>
           </div>
         ) : (
             ''
