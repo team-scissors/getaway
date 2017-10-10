@@ -72,7 +72,7 @@ class Checkout extends Component {
               })
               }
             </div>
-            <button onClick={()=> 
+            <button className="button is-primary" onClick={()=> 
               this.StripeHandler.open({
                 name: 'getAway!',description: tripName, amount: Math.trunc(totalPrice)*100
             }) }>Purchase</button>
