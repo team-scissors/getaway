@@ -4,7 +4,10 @@ import { graphql } from 'react-apollo';
 import { setAirport } from '../store/user-input';
 import { setCurrentFlight } from '../store';
 import scrollIntoView from 'scroll-into-view';
-import { flightsFromAirportByAbbrv } from './util_helper';
+import {
+  flightsFromAirportByAbbrv,
+  flightsFromAirportByAbbrvAndDate,
+} from './util_helper';
 
 /**
  * COMPONENT
@@ -12,6 +15,10 @@ import { flightsFromAirportByAbbrv } from './util_helper';
 class FlightListPanel extends Component {
   constructor(props) {
     super(props);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    console.log('nextProps', nextProps);
   }
 
   handleDestClick = e => {
@@ -54,7 +61,7 @@ class FlightListPanel extends Component {
               : false;
             return (
               <a
-                className={`panel-block 
+                className={`panel-block
                 ${active ? 'is-active' : ''} list-item`}
                 key={airport.id}
                 onClick={this.handleDestClick}
@@ -92,6 +99,7 @@ const mapState = state => {
     currentFlight: state.userInput.currentFlight,
     airportAbbrv: state.userInput.originAirportAbbrv,
     maxPrice: state.userInput.maxPrice,
+    departureDate: state.userInput.departureDate,
   };
 };
 
@@ -103,8 +111,12 @@ const mapDispatch = dispatch => {
   };
 };
 
-const ApolloFlightListPanel = graphql(flightsFromAirportByAbbrv, {
-  options: ({ airportAbbrv }) => ({ variables: { airportAbbrv } }),
+// const ApolloFlightListPanel = graphql(flightsFromAirportByAbbrv, {
+//   options: ({ airportAbbrv }) => ({ variables: { airportAbbrv } }),
+//   props: ({ data: { loading, origin } }) => ({ loading, origin }),
+// })(FlightListPanel);
+const ApolloFlightListPanel = graphql(flightsFromAirportByAbbrvAndDate, {
+  options: ({ airportAbbrv, departureDate }) => ({ variables: { airportAbbrv, departureDate } }),
   props: ({ data: { loading, origin } }) => ({ loading, origin }),
 })(FlightListPanel);
 

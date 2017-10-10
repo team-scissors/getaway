@@ -95,7 +95,8 @@ class ControlPanel extends Component {
     // this.setState({
     //   selectedDay: day,
     // });
-    this.props.dispatchSetDate(date);
+    // console.log
+    this.props.dispatchSetDate(date.toDate());
   };
 
   render() {
