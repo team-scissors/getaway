@@ -19,16 +19,6 @@ class MyTrips extends Component {
     this.props.dispatchSetTripName(tripName);
   };
   render() {
-<<<<<<< HEAD
-    const {
-      myTrips,
-    } = this.props;
-    const tripsList = myTrips && myTrips.map(trip => {
-      return (
-        <li>{trip.name}</li>
-      );
-    });
-=======
     const { currentTripName, allTrips, loading } = this.props;
 
     const myTrips = !loading
@@ -39,7 +29,6 @@ class MyTrips extends Component {
           };
         })
       : '';
->>>>>>> master
     return (
       <div>
         <nav className="panel flight-list">
