@@ -73,8 +73,8 @@ class TripMenu extends Component {
     const totalPrice =
       trip.length > 0
         ? trip.reduce((a, b) => {
-            return a + b.price;
-          }, 0)
+          return a + b.price;
+        }, 0)
         : 0;
 
     return (
@@ -125,6 +125,17 @@ class TripMenu extends Component {
                   </span>
                 </a>
               </p>
+              <p className="card-footer-item">
+                <Link
+                  to="/checkout"
+                  className="button is-info is-outlined"
+                >
+                  <span>Purchase Trip</span>
+                  <span className="icon is-small">
+                    <i className="fa fa-shopping-cart" />
+                  </span>
+                </Link>
+              </p>
             </footer>
           </div>
           {trip.length > 0 ? (
@@ -168,8 +179,8 @@ class TripMenu extends Component {
               </nav>
             </div>
           ) : (
-            ''
-          )}
+              ''
+            )}
         </aside>
       </div>
     );
