@@ -7,10 +7,12 @@ import { graphql } from 'react-apollo';
 import { tripsByUserId } from './util_helper';
 
 class MyTrips extends Component {
-  handleSetTrip = e => {
+  handleSetTrip = (tripId, e) => {
     const { allTrips } = this.props;
-    const tripId = e.target.dataset.tripid;
-    console.log('alltrips:', allTrips);
+    // const tripId = e.target.dataset.tripid;
+    // const tripId = e.target.value;
+    // console.log('alltrips:', allTrips);
+    console.log('tripId:', tripId);
     const formattedTrip = loadTripData(allTrips.trips, +tripId);
     console.log('formattedTrip:', formattedTrip);
     this.props.dispatchSetTrip(formattedTrip);
@@ -44,11 +46,11 @@ class MyTrips extends Component {
               const active = trip.name === currentTripName;
               return (
                 <a
-                  onClick={this.handleSetTrip}
+                  onClick={this.handleSetTrip.bind(null, trip.id)}
                   className={`panel-block
                 ${active ? 'is-active' : ''} list-item`}
                   key={trip.id}
-                  data-tripid={trip.id}
+                  // data-tripid={trip.id}
                   style={active ? { background: '#00d1b2', color: '#fff' } : {}}
                 >
                   <div>
