@@ -20,6 +20,7 @@ import { ControlPanel, FlightListPanel, UserPanel } from '../components';
 class TripMenu extends Component {
   handleClearTrip = () => {
     this.props.dispatchClearTrip();
+    this.props.dispatchSetTripName('');
   };
 
   handleAddFlightToTrip = () => {
@@ -33,18 +34,12 @@ class TripMenu extends Component {
     }
   };
 
-  handleCreateTrip = evt => {
+  handleSaveTrip = evt => {
     evt.preventDefault();
     const userId = this.props.userId;
     const currentTripName = this.props.currentTripName;
-    const flightIds = this.props.trip.map(flight => {
-      return flight.id;
-    })
     if (userId && currentTripName) {
-      this.props.dispatchCreateTrip({
-        userId: userId,
-        name: currentTripName
-      }, flightIds: flightIds);
+      this.props.dispatchSaveTrip(userId, currentTripName);
     } else {
       // Something is wrong. TODO
     }
@@ -89,14 +84,16 @@ class TripMenu extends Component {
           <UserPanel />
           <div className="card">
             <div className="card-content">
-              <form onSubmit={this.handleCreateTrip}>
+              <form onSubmit={this.handleSaveTrip}>
                 <div className="field">
                   {/* <label className="label is-medium">Trip</label> */}
                   <div className="control">
+                    <label className="label is-medium">
+                      {currentTripName ? currentTripName : '[Unnamed Trip]'}
+                    </label>
                     <input
                       className="input is-medium"
                       type="text"
-                      placeholder="Trip Name"
                       value={currentTripName}
                       onChange={this.handleTripNameChange}
                     />
@@ -114,7 +111,7 @@ class TripMenu extends Component {
               <p className="card-footer-item">
                 <a
                   className="button is-success is-outlined"
-                  onClick={this.handleCreateTrip}
+                  onClick={this.handleSaveTrip}
                 >
                   <span className="icon is-small">
                     <i className="fa fa-check" />
@@ -213,8 +210,8 @@ const mapDispatch = dispatch => {
     dispatchSetTripName(name) {
       dispatch(setTripName(name));
     },
-    dispatchCreateTrip: (newTrip, flightIds) => {
-      dispatch(createTrip(newTrip, flightIds ));
+    dispatchSaveTrip: (userId, name) => {
+      dispatch(createTrip({ userId, name }));
     },
   };
 };

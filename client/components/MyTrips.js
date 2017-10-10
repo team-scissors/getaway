@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { setTrip } from '../store';
+import { setTrip, setTripName } from '../store';
 import { graphql } from 'react-apollo';
 import { tripsByUserId } from './util_helper';
 
@@ -13,17 +13,13 @@ class MyTrips extends Component {
     // const tripId = e.target.value;
     // console.log('alltrips:', allTrips);
     console.log('tripId:', tripId);
-    const formattedTrip = loadTripData(allTrips.trips, +tripId);
+    const [formattedTrip, tripName] = loadTripData(allTrips.trips, +tripId);
     console.log('formattedTrip:', formattedTrip);
     this.props.dispatchSetTrip(formattedTrip);
+    this.props.dispatchSetTripName(tripName);
   };
   render() {
-    const {
-      // myTrips,
-      currentTripName,
-      allTrips,
-      loading,
-    } = this.props;
+    const { currentTripName, allTrips, loading } = this.props;
 
     const myTrips = !loading
       ? allTrips.trips.map(trip => {
@@ -33,11 +29,6 @@ class MyTrips extends Component {
           };
         })
       : '';
-    // const foundTrip =
-    //   allTrips && allTrips.trips.length > 0
-    //     ? loadTripData(allTrips.trips, 5)
-    //     : [];
-    // console.log('formatted trip array:', foundTrip);
     return (
       <div>
         <nav className="panel flight-list">
@@ -50,7 +41,6 @@ class MyTrips extends Component {
                   className={`panel-block
                 ${active ? 'is-active' : ''} list-item`}
                   key={trip.id}
-                  // data-tripid={trip.id}
                   style={active ? { background: '#00d1b2', color: '#fff' } : {}}
                 >
                   <div>
@@ -66,16 +56,17 @@ class MyTrips extends Component {
 }
 
 const loadTripData = (trips, tripId) => {
-  console.log('loadTripData(): trips, tripId:', trips, tripId);
   const foundTrip = trips.find(tripObj => {
     return tripObj.id === tripId;
   });
-  console.log('loadTripData(): foundTrip:', foundTrip);
-  return foundTrip.tripFlightsByTripId.nodes.map(flight => {
-    return {
-      ...flight.flightByFlightId,
-    };
-  });
+  return [
+    foundTrip.tripFlightsByTripId.nodes.map(flight => {
+      return {
+        ...flight.flightByFlightId,
+      };
+    }),
+    foundTrip.name,
+  ];
 };
 
 const mapState = state => {
@@ -91,6 +82,9 @@ const mapDispatch = dispatch => {
   return {
     dispatchSetTrip(trip) {
       dispatch(setTrip(trip));
+    },
+    dispatchSetTripName(tripName) {
+      dispatch(setTripName(tripName));
     },
   };
 };
