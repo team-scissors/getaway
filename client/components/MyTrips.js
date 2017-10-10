@@ -2,13 +2,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-
+import { setTrip } from '../store';
 import { graphql } from 'react-apollo';
 import { tripsByUserId } from './util_helper';
 
 class MyTrips extends Component {
-
-
+  handleSetTrip = e => {
+    const { allTrips } = this.props;
+    const tripId = e.target.dataset.tripid;
+    console.log('alltrips:', allTrips);
+    const formattedTrip = loadTripData(allTrips.trips, +tripId);
+    console.log('formattedTrip:', formattedTrip);
+    this.props.dispatchSetTrip(formattedTrip);
+  };
   render() {
     const {
       // myTrips,
@@ -16,16 +22,20 @@ class MyTrips extends Component {
       allTrips,
       loading,
     } = this.props;
-    console.log('allTrips');
-    console.log(allTrips);
-    const myTrips = !loading ?
-      allTrips.trips.map(trip => {
-        return ({
-          id: trip.id,
-          name: trip.name,
-        });
-      }) : '';
-    const foundTrip = !loading ? loadTripData(allTrips.trips, 1) : [];
+
+    const myTrips = !loading
+      ? allTrips.trips.map(trip => {
+          return {
+            id: trip.id,
+            name: trip.name,
+          };
+        })
+      : '';
+    // const foundTrip =
+    //   allTrips && allTrips.trips.length > 0
+    //     ? loadTripData(allTrips.trips, 5)
+    //     : [];
+    // console.log('formatted trip array:', foundTrip);
     return (
       <div>
         <nav className="panel flight-list">
@@ -34,7 +44,7 @@ class MyTrips extends Component {
               const active = trip.name === currentTripName;
               return (
                 <a
-                  // onClick={this.handleLoadTrip}
+                  onClick={this.handleSetTrip}
                   className={`panel-block
                 ${active ? 'is-active' : ''} list-item`}
                   key={trip.id}
@@ -54,15 +64,16 @@ class MyTrips extends Component {
 }
 
 const loadTripData = (trips, tripId) => {
-  console.log('trips');
-  console.log(trips);
-  if (!trips || trips.length) return;
-  const trip = trips.find(tripObj => {
+  console.log('loadTripData(): trips, tripId:', trips, tripId);
+  const foundTrip = trips.find(tripObj => {
     return tripObj.id === tripId;
   });
-  console.log('trip:');
-  console.log(trip);
-  return trip;
+  console.log('loadTripData(): foundTrip:', foundTrip);
+  return foundTrip.tripFlightsByTripId.nodes.map(flight => {
+    return {
+      ...flight.flightByFlightId,
+    };
+  });
 };
 
 const mapState = state => {
@@ -74,7 +85,13 @@ const mapState = state => {
   };
 };
 
-const mapDispatch = () => ({});
+const mapDispatch = dispatch => {
+  return {
+    dispatchSetTrip(trip) {
+      dispatch(setTrip(trip));
+    },
+  };
+};
 
 const ApolloMyTrips = graphql(tripsByUserId, {
   options: ({ userId }) => ({ variables: { id: userId } }),
