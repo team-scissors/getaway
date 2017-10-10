@@ -108,10 +108,10 @@ class TripMenu extends Component {
                   className="button is-success is-outlined"
                   onClick={this.handleSaveTrip}
                 >
+                  <span>Save</span>
                   <span className="icon is-small">
                     <i className="fa fa-check" />
                   </span>
-                  <span>Save</span>
                 </a>
               </p>
               <p className="card-footer-item">
@@ -130,7 +130,7 @@ class TripMenu extends Component {
                   to="/checkout"
                   className="button is-info is-outlined"
                 >
-                  <span>Purchase</span>
+                  <span>Checkout</span>
                   <span className="icon is-small">
                     <i className="fa fa-shopping-cart" />
                   </span>
