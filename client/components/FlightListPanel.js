@@ -15,9 +15,9 @@ import {
 class FlightListPanel extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      flights: [],
-    }
+    // this.state = {
+    //   flights: [],
+    // }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -33,8 +33,8 @@ class FlightListPanel extends Component {
 
   handleDestClick = e => {
     const abbrv = e.currentTarget.dataset.abbrv;
-    // const flightList = this.props.origin.flights.nodes.slice();
-    const flightList = this.state.flights;
+    const flightList = this.props.origin.flights.nodes.slice();
+    // const flightList = this.state.flights;
     const flight = flightList.find(f => {
       return f.dest.abbrv === abbrv;
     });
