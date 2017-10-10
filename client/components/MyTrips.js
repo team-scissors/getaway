@@ -8,24 +8,19 @@ import { tripsByUserId } from './util_helper';
 class MyTrips extends Component {
 
   render() {
-    // console.log('this.props');
-    // console.log(this.props);
     const {
       // myTrips,
       currentTripName,
       trips,
       loading,
     } = this.props;
-    const myTrips = loading ? ''
-      : trips.trips.map(trip => {
-        // console.log('trip.name: ');
-        // console.log(trip.name);
-        return (
-          <li key={trip.id}>{trip.name}</li>
-        );
-      });
-      // console.log('myTrips:');
-      // console.log(myTrips);
+    const myTrips = !loading ?
+      trips.trips.map(trip => {
+        return ({
+          id: trip.id,
+          name: trip.name,
+        });
+      }) : '';
     return (
       <div>
         <nav className="panel flight-list">
