@@ -97,25 +97,26 @@ const createTrips = trips => Promise.all(trips.map(trip => Trip.create(trip)));
 
 /* ---------- Syncing database ---------- */
 const seed = () => {
-  return Promise.all([createAirports(airports), createUsers(fakeUsers)])
-    .spread((airports, users) => {
-      console.log(` -> seeded airports & users`);
-      const topCreatedAirports = airports.filter(airport => {
-        return (
-          topAirports.find(searchAirport => {
-            //console.log('while seeding', searchAirport.iata_faa === airport.abbrv);
-            return searchAirport.iata_faa === airport.abbrv;
-          }) !== undefined
-        );
-      });
-      // For topCreatedAirports we need to make complete bipartite graph of prices
+  return Promise.all([
+    createAirports(airports),
+    createUsers(fakeUsers),
+  ]).spread((airports, users) => {
+    console.log(` -> seeded airports & users`);
+    const topCreatedAirports = airports.filter(airport => {
+      return (
+        topAirports.find(searchAirport => {
+          //console.log('while seeding', searchAirport.iata_faa === airport.abbrv);
+          return searchAirport.iata_faa === airport.abbrv;
+        }) !== undefined
+      );
+    });
+    // For topCreatedAirports we need to make complete bipartite graph of prices
 
+    const datePrices = [];
+    dates.forEach(date => {
       const createPrices = topCreatedAirports.map(fromAirport => {
         return Promise.all(
           topCreatedAirports
-            // for each major airport, add flights to each every other major airport
-            // but exclude those that are too close to it. If too close, this will
-            // map to undefined
             .map(toAirport => {
               const distance = geolib.getDistance(
                 {
@@ -137,8 +138,8 @@ const seed = () => {
                       pricePerKm *
                       chance.floating({ min: 0.25, max: 1.2 }),
                     30,
-                  ), // + generateNoise(distance),
-                  departAt: getNextDate(),
+                  ),
+                  departAt: date,
                 },
               });
             })
@@ -146,17 +147,11 @@ const seed = () => {
             .filter(i => i),
         );
       });
-      return Promise.all(createPrices);
-    })
-    .then(prices => {
-      // console.log(util.inspect(prices, {
-      //   depth: 3,
-      //   showHidden: true,
-      //   colors: true,
-      //   maxArrayLength: 10,
-      // }));
-      return Promise.resolve();
+      // return Promise.all(createPrices);
+      datePrices.push(Promise.all(createPrices));
     });
+    return Promise.all(datePrices);
+  });
 };
 
 db
