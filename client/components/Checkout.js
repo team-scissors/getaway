@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-
 /**
  * COMPONENT
  */
@@ -13,12 +12,6 @@ class Checkout extends Component {
       image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
       locale: 'auto',
       token: (token) => this.props.history.push('/')
-      
-      // function(token) { //history 
-      //   this.props.history.push("/")
-      //   // You can access the token ID with `token.id`.
-      //   // Get the token ID to your server-side code for use.
-      // }
     });
   }
 

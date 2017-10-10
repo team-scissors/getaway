@@ -39,7 +39,7 @@ class TopNavFlight extends Component {
     } = this.props;
 
     return (
-      <nav className="level" style={{ padding: 17 }}>
+      <nav className="level" style={{ padding: 18 }}>
         <div className="level-item has-text-centered">
           <div>
             <p className="heading">From</p>
