@@ -2,10 +2,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+
 import { graphql } from 'react-apollo';
 import { tripsByUserId } from './util_helper';
 
 class MyTrips extends Component {
+
 
   render() {
     const {
@@ -33,8 +35,7 @@ class MyTrips extends Component {
                   className={`panel-block
                 ${active ? 'is-active' : ''} list-item`}
                   key={trip.id}
-                  // onClick={this.handleTripClick}
-                  value={trip.id}
+                  data-tripid={trip.id}
                   style={active ? { background: '#00d1b2', color: '#fff' } : {}}
                 >
                   <div>
