@@ -22,7 +22,7 @@ const initialState = {
   originAirport: {},
   currentFlight: {},
   departureDate: new Date(2018, 1, 1),
-  maxPrice: 500,
+  maxPrice: 1000,
 };
 
 /**
