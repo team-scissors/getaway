@@ -17,7 +17,7 @@ import {
   UserHome,
   TripMenu,
   MyTrips,
-  Checkout
+  Checkout,
 } from './components';
 import { me } from './store';
 

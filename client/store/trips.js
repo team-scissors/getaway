@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { setError } from './error';
-import { tripSubmitConfirm } from './user-input';
+import { tripSubmitConfirm, clearSubmitConfirm } from './user-input';
 
 /**
  * ACTION TYPES
@@ -44,6 +44,17 @@ export const fetchTrips = userId => {
   };
 };
 
+export const deleteTrip = (tripId, userId) => {
+  return dispatch => {
+    return axios.delete(`/api/trips/${tripId}`)
+    .then(res => res.data)
+    .then(() => {
+      dispatch(fetchTrips(userId));
+    })
+    .catch(err => dispatch(setError(err)));
+  };
+};
+
 /* Body to the post api should look something like
 {
   "name": "some name",
@@ -60,6 +71,9 @@ export const createTrip = (newTrip, flightIds, message) => {
     .then(() => {
       dispatch(fetchTrips(newTrip.userId));
       dispatch(tripSubmitConfirm(message));
+      setTimeout(() => {
+         dispatch(clearSubmitConfirm());
+      }, 5000);
     })
     .catch(err => dispatch(setError(err)));
   };

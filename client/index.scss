@@ -7,6 +7,10 @@ $teal: #00d1b2;
   box-sizing: border-box;
 }
 
+.my-trip-column {
+  height: 70px;
+}
+
 body,
 html {
   // REVIEW: nice 100vh
@@ -58,6 +62,10 @@ body {
 
 .trip-list {
   margin-top: 1.5rem;
+}
+
+.trip-row {
+  justify-content: space-around;
 }
 
 .floating-button {
@@ -117,5 +125,3 @@ body {
   color: black;
   font-weight: 700;
 }
-
-
