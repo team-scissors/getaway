@@ -55,10 +55,18 @@ class MyTrips extends Component {
                           style={active ? { background: '#00d1b2', color: '#fff' } : {}}
                           >
                             <tc>
-                              <strong className="column">{`${trip.name}`}</strong>
+                              <strong>{`${trip.name}`}</strong>
                             </tc>
                             <tc>
-                              <div className="column"> {`$${trip.price}`} </div>
+                              <div> {`$${trip.price}`} </div>
+                            </tc>
+                            <tc>
+                              <a class="button is-danger is-outlined">
+                                <span>Delete</span>
+                                <span class="icon is-small">
+                                  <i class="fa fa-times"></i>
+                                </span>
+                              </a>
                             </tc>
                           </a>
                         </tr>
