@@ -23,7 +23,8 @@ class MyTrips extends Component {
     this.props.dispatchSetTripName(tripName);
   };
   handleDeleteTrip = (tripId, e) => {
-    const { allTrips, userId } = this.props;
+    const { dispatchDeleteTrip, userId } = this.props;
+    dispatchDeleteTrip(tripId, userId);
   };
   render() {
     const { currentTripName, allTrips, loading } = this.props;
@@ -43,43 +44,34 @@ class MyTrips extends Component {
     return (
       <div>
         <nav className="panel flight-list">
-          <table className="table is-striped my-trips-table">
-            <tbody>
-              {myTrips &&
-                myTrips.map(trip => {
-                  const active = trip.name === currentTripName;
-                  return (
-                    <tr>
-                      <a
-                        onClick={this.handleSetTrip.bind(null, trip.id)}
-                        className={`panel-block
-                          ${active ? 'is-active is-selected' : ''} list-item`}
-                          key={trip.id}
-                          style={active ? { background: '#00d1b2', color: '#fff' } : {}}
+          {myTrips &&
+            myTrips.map(trip => {
+              const active = trip.name === currentTripName;
+              return (
+                <a
+                  onClick={this.handleSetTrip.bind(null, trip.id)}
+                  className={`panel-block
+                    ${active ? 'is-active is-selected' : ''} list-item`}
+                    key={trip.id}
+                    style={active ? { background: '#00d1b2', color: '#fff' } : {}}
+                    >
+                      <div className="columns" style={{width: '100%'}}>
+                        <strong className="column my-trip-column">{`${trip.name}`}</strong>
+                        <div className="column my-trip-column"> {`$${trip.price}`} </div>
+                        <a
+                          className="button is-danger is-outlined column my-trip-column"
+                          style={{width: '30px'}}
+                          onClick={this.handleDeleteTrip.bind(null, trip.id)}
                           >
-                            <tc>
-                              <strong>{`${trip.name}`}</strong>
-                            </tc>
-                            <tc className="my-trip-price">
-                              <div> {`$${trip.price}`} </div>
-                            </tc>
-                            <tc>
-                              <button
-                                className="button is-danger is-outlined"
-                                onClick={this.handleSetTrip.bind(null, trip.id)}
-                                >
-                                  {/* <span>Delete</span> */}
-                                  <span className="icon is-small">
-                                    <i className="fa fa-times"></i>
-                                  </span>
-                                </button>
-                              </tc>
-                            </a>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
+                            {/* <span>Delete</span> */}
+                            <span className="icon is-small">
+                              <i className="fa fa-times"></i>
+                            </span>
+                          </a>
+                        </div>
+                      </a>
+                    );
+                  })}
                 </nav>
               </div>
             );
