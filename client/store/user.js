@@ -38,7 +38,7 @@ export const auth = (user, method) =>
     axios.post(`/auth/${method}`, user)
       .then(res => {
         dispatch(getUser(res.data))
-        history.push('/home')
+        history.push('/flights')
       })
       .catch(error =>
         dispatch(getUser({error})))
