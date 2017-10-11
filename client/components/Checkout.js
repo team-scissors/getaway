@@ -27,7 +27,7 @@ class Checkout extends Component {
 
     return (
       <section className="section">
-          <h2 className="has-text-centered">Trip Name {trip && `: ${tripName}`}</h2>
+          <h4 className="has-text-centered title is-4">Trip Name {trip && `: ${tripName}`}</h4>
         {trip.length > 0 ? (
           <div>
             <div className="card trip-list">
