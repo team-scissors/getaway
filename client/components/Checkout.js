@@ -70,10 +70,13 @@ class Checkout extends Component {
                 }
               </div>
             </div>
-            <button className="button is-primary is-pulled-right purchase" onClick={()=> 
-            this.StripeHandler.open({
-              name: 'getAway!',description: tripName, amount: Math.trunc(totalPrice)*100
-          }) }>Purchase</button>
+            <div className="level purchase">
+              <div className="title level-left is-6">Total Cost: {`$${Math.trunc(totalPrice)}`}</div>
+              <button className="button is-primary level-right" onClick={()=> 
+              this.StripeHandler.open({
+                name: 'getAway!',description: tripName, amount: Math.trunc(totalPrice)*100
+                }) }>Purchase</button>
+            </div>
           </div>
         ) : (
             ''
