@@ -56,29 +56,36 @@ class MyTrips extends Component {
               return (
                 <a
                   onClick={this.handleSetTrip.bind(null, trip.id)}
-                  className={`panel-block
-                    ${active ? 'is-active is-selected' : ''} list-item`}
-                    key={trip.id}
-                    style={active ? { background: '#00d1b2', color: '#fff' } : {}}
-                    >
-                      <div className="columns" style={{width: '100%'}}>
-                        <strong className="column my-trip-column">{`${trip.name}`}</strong>
-                        <div className="column my-trip-column"> {`$${trip.price}`} </div>
-                        <a className="button is-danger is-outlined column my-trip-column" style={{width: '30px'}} onClick={this.handleDeleteTrip.bind(null, trip.id)}
-                          >
-                            <span className="icon is-small">
-                              <i className="fa fa-times"></i>
-                            </span>
-                          </a>
-                        </div>
-                      </a>
-                    );
-                  })}
-                </nav>
-              </div>
-            );
-          }
-        }
+                  className={`panel-block trip-row
+                ${active ? 'is-active' : ''} list-item`}
+                  key={trip.id}
+                  style={active ? { background: '#eee', color: '#000' } : {}}
+                >
+                  <div style={{ width: '33%', textAlign: 'left' }}>
+                    {<strong>{`${trip.name}`}</strong>}
+                  </div>
+                  <div
+                    style={{
+                      width: '33%',
+                      textAlign: 'right',
+                      paddingRight: '20px',
+                    }}
+                  >
+                    $$$
+                  </div>
+                  <div style={{ width: '33%', textAlign: 'right' }}>
+                    <button className="button is-danger is-outlined">
+                      Delete Trip
+                    </button>
+                  </div>
+                </a>
+              );
+            })}
+        </nav>
+      </div>
+    );
+  }
+}
 
         const loadTripData = (trips, tripId) => {
           const foundTrip = trips.find(tripObj => {

@@ -17,7 +17,7 @@ import {
   UserHome,
   TripMenu,
   MyTrips,
-  Checkout
+  Checkout,
 } from './components';
 import { me } from './store';
 
@@ -60,7 +60,7 @@ class App extends Component {
                   <Switch>
                     {/* Routes placed here are only available after logging in */}
                     <Route path="/home" component={UserHome} />
-                    <Route path="/checkout" component={Checkout}/>
+                    <Route path="/checkout" component={Checkout} />
                   </Switch>
                 ) : (
                   <Switch>
