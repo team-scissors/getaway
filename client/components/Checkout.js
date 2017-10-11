@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import {
+  clearTrip,
+  setTripName,
+} from '../store/user-input';
 /**
  * COMPONENT
  */
@@ -11,7 +15,11 @@ class Checkout extends Component {
       key: 'pk_test_9my2xxrckuwRluIePEZcdRbt',
       image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
       locale: 'auto',
-      token: (token) => this.props.history.push('/')
+      token: (token) => {
+        this.props.dispatchClearTrip();
+        this.props.dispatchSetTripName('');
+        this.props.history.push('/');
+      }
     });
   }
 
@@ -70,7 +78,7 @@ class Checkout extends Component {
                 }
               </div>
             </div>
-            <button className="button is-primary is-pulled-right purchase" onClick={()=> 
+            <button className="button is-primary is-pulled-right purchase" onClick={()=>
             this.StripeHandler.open({
               name: 'getAway!',description: tripName, amount: Math.trunc(totalPrice)*100
           }) }>Purchase</button>
@@ -95,7 +103,12 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
-
+    dispatchClearTrip() {
+      dispatch(clearTrip());
+    },
+    dispatchSetTripName(name) {
+      dispatch(setTripName(name));
+    },
   };
 };
 
