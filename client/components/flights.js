@@ -124,7 +124,7 @@ class Flights extends Component {
           price: +flight.price,
           departAt: flight.departAt,
           distance: distance,
-          costPerKm: flight.price / distance,
+          costPerKm: 1/(flight.price / distance),
           // Victory polar is counter-clockwise
           bearing:
             (90 -
@@ -219,8 +219,8 @@ class Flights extends Component {
           data={regionLegendLabels}
         />
         <VictoryScatter
-          bubbleProperty="distance"
-          maxBubbleSize={7}
+          bubbleProperty="costPerKm"
+          maxBubbleSize={10}
           minBubbleSize={2}
           animate={{
             onEnter: {
@@ -313,7 +313,7 @@ class Flights extends Component {
                         if (props.datum.abbrv !== airportAbbrv) {
                           return {
                             style: Object.assign({}, props.style, {
-                              fill: primary,
+                              fill: 'blue',
                             }),
                           };
                         }
