@@ -43,11 +43,12 @@ class TripMenu extends Component {
       name: this.props.currentTripName,
       userId: this.props.userId,
     };
-    const flightIds = this.props.trip.length > 0
-      ? this.props.trip.map(trip => {
-        return trip.id;
-      })
-      : [];
+    const flightIds =
+      this.props.trip.length > 0
+        ? this.props.trip.map(trip => {
+            return trip.id;
+          })
+        : [];
     if (newTrip.name && newTrip.userId) {
       this.props.dispatchSaveTrip(newTrip, flightIds, message);
     } else {
@@ -85,8 +86,8 @@ class TripMenu extends Component {
     const totalPrice =
       trip.length > 0
         ? trip.reduce((a, b) => {
-          return a + b.price;
-        }, 0)
+            return a + b.price;
+          }, 0)
         : 0;
 
     return (
@@ -100,7 +101,14 @@ class TripMenu extends Component {
                   {/* <label className="label is-medium">Trip</label> */}
                   <div className="control">
                     <label className="label is-medium">
-                      {currentTripName ? currentTripName : '[Unnamed Trip]'}
+                      {currentTripName ? (
+                        <span>
+                          <strong>Trip: </strong>
+                          {currentTripName}
+                        </span>
+                      ) : (
+                        <span className="subtitle">Name your trip:</span>
+                      )}
                     </label>
                     <input
                       className="input is-medium"
@@ -113,11 +121,11 @@ class TripMenu extends Component {
               </form>
               <div className="section" style={{ padding: 20 }}>
                 <div className="heading">Total Trip Cost:</div>
-                  <div className="title">
-                    {trip.length > 0 ? ` $${Math.trunc(totalPrice)}` : ''}
-                  </div>
+                <div className="title">
+                  {trip.length > 0 ? ` $${Math.trunc(totalPrice)}` : ''}
                 </div>
               </div>
+            </div>
             <footer className="card-footer">
               <p className="card-footer-item">
                 <a
@@ -143,10 +151,7 @@ class TripMenu extends Component {
                 </a>
               </p>
               <p className="card-footer-item">
-                <Link
-                  to="/checkout"
-                  className="button is-info is-outlined"
-                >
+                <Link to="/checkout" className="button is-info is-outlined">
                   <span>Checkout</span>
                   <span className="icon is-small">
                     <i className="fa fa-shopping-cart" />
@@ -155,12 +160,9 @@ class TripMenu extends Component {
               </p>
             </footer>
           </div>
-          {
-            !!tripSubmitConfirm &&
-            <div className="card has-text-centered">
-              { tripSubmitConfirm }
-            </div>
-            }
+          {!!tripSubmitConfirm && (
+            <div className="card has-text-centered">{tripSubmitConfirm}</div>
+          )}
           {trip.length > 0 ? (
             <div className="card trip-list">
               <nav className="panel">
@@ -202,8 +204,8 @@ class TripMenu extends Component {
               </nav>
             </div>
           ) : (
-              ''
-            )}
+            ''
+          )}
         </aside>
       </div>
     );

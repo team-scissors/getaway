@@ -32,38 +32,38 @@ export const flightsFromAirportByAbbrv = gql`
   }
 `;
 
-
 // Finish this. TODO
 export const flightsFromAirportByAbbrvAndDate = gql`
-  query flightsFromAirportByAbbrvAndDate($airportAbbrv: String = "ORD", $departureDate: Date = "2018-02-04") {
+  query flightsFromAirportByAbbrvAndDate(
+    $airportAbbrv: String = "ORD"
+    $departureDate: Date = "2018-02-04"
+  ) {
     origin: airportByAbbrv(abbrv: $airportAbbrv) {
-        id
-        name
-        abbrv
-        city
-        country
-        continent
-        longitude
-        latitude
-        flights: flightsByFromId(condition: {
-          departAt: $departureDate
-        }) {
-          nodes {
+      id
+      name
+      abbrv
+      city
+      country
+      continent
+      longitude
+      latitude
+      flights: flightsByFromId(condition: { departAt: $departureDate }) {
+        nodes {
+          id
+          price
+          departAt
+          dest: airportByToId {
             id
-            price
-            departAt
-            dest: airportByToId {
-              id
-              abbrv
-              name
-              city
-              continent
-              country
-              longitude
-              latitude
-            }
+            abbrv
+            name
+            city
+            continent
+            country
+            longitude
+            latitude
           }
         }
+      }
     }
   }
 `;
@@ -76,9 +76,7 @@ Query arguments should look something like this:
 */
 export const tripsByUserId = gql`
   query tripsByUserId($id: Int = 0) {
-    allTrips(condition: {
-      userId: $id
-    }) {
+    allTrips(condition: { userId: $id }) {
       trips: nodes {
         id
         name

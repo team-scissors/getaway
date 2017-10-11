@@ -219,9 +219,9 @@ class Flights extends Component {
           data={regionLegendLabels}
         />
         <VictoryScatter
-          bubbleProperty="distance"
+          bubbleProperty="costPerKm"
           maxBubbleSize={7}
-          minBubbleSize={2}
+          minBubbleSize={3}
           animate={{
             onEnter: {
               duration: 200,
