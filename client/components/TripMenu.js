@@ -19,10 +19,13 @@ import moment from 'moment';
 import { ControlPanel, FlightListPanel, UserPanel } from '../components';
 
 class TripMenu extends Component {
+  componentDidUpdate() {
+    setTimeout(() => { this.props.dispatchClearSubmitConfirm(); }, 5000);
+  }
+
   handleClearTrip = () => {
     this.props.dispatchClearTrip();
     this.props.dispatchSetTripName('');
-    this.props.dispatchClearSubmitConfirm();
   };
 
   handleAddFlightToTrip = () => {
@@ -100,7 +103,7 @@ class TripMenu extends Component {
                   {/* <label className="label is-medium">Trip</label> */}
                   <div className="control">
                     <label className="label is-medium">
-                      {currentTripName ? currentTripName : '[Unnamed Trip]'}
+                      {currentTripName ? currentTripName : 'Name your trip:'}
                     </label>
                     <input
                       className="input is-medium"
@@ -146,6 +149,7 @@ class TripMenu extends Component {
                 <Link
                   to="/checkout"
                   className="button is-info is-outlined"
+                  disabled={!currentTripName}
                 >
                   <span>Checkout</span>
                   <span className="icon is-small">
