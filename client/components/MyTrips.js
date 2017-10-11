@@ -61,10 +61,10 @@ class MyTrips extends Component {
                               <div> {`$${trip.price}`} </div>
                             </tc>
                             <tc>
-                              <a class="button is-danger is-outlined">
+                              <a className="button is-danger is-outlined">
                                 <span>Delete</span>
-                                <span class="icon is-small">
-                                  <i class="fa fa-times"></i>
+                                <span className="icon is-small">
+                                  <i className="fa fa-times"></i>
                                 </span>
                               </a>
                             </tc>
