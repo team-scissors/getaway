@@ -1,13 +1,13 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
-import { auth } from '../store'
+import React from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { auth } from '../store';
 
 /**
  * COMPONENT
  */
 const AuthForm = (props) => {
-  const { name, displayName, handleSubmit, error } = props
+  const { name, displayName, handleSubmit, error } = props;
 
   return (
     <div>
@@ -15,12 +15,13 @@ const AuthForm = (props) => {
         <div className="card-content">
           <form onSubmit={handleSubmit} name={name}>
             {
-              name === "signup" &&
+              name === 'signup' &&
               <div>
                 <div>
                   <h1 className="title">
                     Register an Account
                   </h1>
+                  <br />
                 </div>
                 <div>
                   <label className="label">First Name</label>
@@ -48,16 +49,17 @@ const AuthForm = (props) => {
                 <input className="input" name="password" type="password" placeholder="●●●●●●●" />
               </p>
             </div>
-            <div>
-              <button className="button is-primary" type='submit'>{displayName}</button>
+            <br />
+            <div className="field">
+              <button className="button is-primary is-fullwidth" type="submit">{displayName}</button>
             </div>
             {error && error.response && <div> {error.response.data}</div>}
           </form>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 /**
  * CONTAINER
@@ -71,28 +73,28 @@ const mapLogin = (state) => {
     name: 'login',
     displayName: 'Login',
     error: state.user.error,
-  }
-}
+  };
+};
 
 const mapSignup = (state) => {
   return {
     name: 'signup',
     displayName: 'Sign Up',
     error: state.user.error,
-  }
-}
+  };
+};
 
 const mapDispatch = (dispatch) => {
   return {
     handleSubmit(evt) {
-      evt.preventDefault()
-      const formName = evt.target.name
+      evt.preventDefault();
+      const formName = evt.target.name;
       let user = {};
       if (formName === 'login') {
         user = {
           email: evt.target.email.value,
           password: evt.target.password.value,
-        }
+        };
       }
       else if (formName === 'signup') {
         user = {
@@ -100,15 +102,15 @@ const mapDispatch = (dispatch) => {
           lastName: evt.target.lastName.value,
           email: evt.target.email.value,
           password: evt.target.password.value,
-        }
+        };
       }
-      dispatch(auth(user, formName))
+      dispatch(auth(user, formName));
     }
-  }
-}
+  };
+};
 
-export const Login = connect(mapLogin, mapDispatch)(AuthForm)
-export const Signup = connect(mapSignup, mapDispatch)(AuthForm)
+export const Login = connect(mapLogin, mapDispatch)(AuthForm);
+export const Signup = connect(mapSignup, mapDispatch)(AuthForm);
 
 /**
  * PROP TYPES
@@ -118,4 +120,4 @@ AuthForm.propTypes = {
   displayName: PropTypes.string.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   error: PropTypes.object
-}
+};
