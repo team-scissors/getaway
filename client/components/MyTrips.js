@@ -11,6 +11,11 @@ import { graphql } from 'react-apollo';
 import { tripsByUserId } from './util_helper';
 
 class MyTrips extends Component {
+
+  componentWillRecievePRops(nextProps) {
+    console.log('newProps', newProps);
+  }
+
   handleSetTrip = (tripId, e) => {
     const { allTrips } = this.props;
     // const tripId = e.target.dataset.tripid;
@@ -28,6 +33,7 @@ class MyTrips extends Component {
   };
   render() {
     const { currentTripName, allTrips, loading } = this.props;
+    console.log();
 
     const myTrips = !loading
     ? allTrips.trips.map(trip => {
@@ -39,7 +45,7 @@ class MyTrips extends Component {
         name: trip.name,
         price: Math.trunc(price),
       };
-    })
+    });
     : '';
     return (
       <div>
@@ -58,12 +64,8 @@ class MyTrips extends Component {
                       <div className="columns" style={{width: '100%'}}>
                         <strong className="column my-trip-column">{`${trip.name}`}</strong>
                         <div className="column my-trip-column"> {`$${trip.price}`} </div>
-                        <a
-                          className="button is-danger is-outlined column my-trip-column"
-                          style={{width: '30px'}}
-                          onClick={this.handleDeleteTrip.bind(null, trip.id)}
+                        <a className="button is-danger is-outlined column my-trip-column" style={{width: '30px'}} onClick={this.handleDeleteTrip.bind(null, trip.id)}
                           >
-                            {/* <span>Delete</span> */}
                             <span className="icon is-small">
                               <i className="fa fa-times"></i>
                             </span>
