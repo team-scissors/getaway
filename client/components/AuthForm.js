@@ -10,54 +10,62 @@ const AuthForm = (props) => {
   const { name, displayName, handleSubmit, error } = props;
 
   return (
-    <div>
-      <div className="card">
-        <div className="card-content">
-          <form onSubmit={handleSubmit} name={name}>
-            {
-              name === 'signup' &&
-              <div>
-                <div>
-                  <h1 className="title">
-                    Register an Account
-                  </h1>
-                  <br />
-                </div>
-                <div>
-                  <label className="label">First Name</label>
+    <div className="columns">
+      <div className="column"></div>
+      <div className="column is-narrow" style={{width: '500px'}}>
+        <div>
+          <div className="card">
+            <div className="card-content">
+              <form onSubmit={handleSubmit} name={name} className="control">
+                {
+                  name === 'signup' &&
+                  <div>
+                    <div>
+                      <h1 className="title">
+                        Register an Account
+                      </h1>
+                      <br />
+                    </div>
+                    <div className="field">
+                      <label className="label">First Name</label>
+                      <p className="control">
+                        <input className="input" name="firstName" type="text" placeholder="John" />
+                      </p>
+                    </div>
+                    <div className="field">
+                      <label className="label">Last Name</label>
+                      <p className="control">
+                        <input className="input" name="lastName" type="text" placeholder="Smith" />
+                      </p>
+                    </div>
+                    <br />
+                  </div>
+                }
+                <div className="field">
+                  <label className="label">Email</label>
                   <p className="control">
-                    <input className="input" name="firstName" type="text" placeholder="John" />
+                    <input className="input" name="email" type="text" placeholder="jsmith@example.org" />
                   </p>
                 </div>
-                <div>
-                  <label className="label">Last Name</label>
+                <div className="field">
+                  <label className="label">Password</label>
                   <p className="control">
-                    <input className="input" name="lastName" type="text" placeholder="Smith" />
+                    <input className="input" name="password" type="password" placeholder="●●●●●●●" />
                   </p>
                 </div>
-              </div>
-            }
-            <div>
-              <label className="label">Email</label>
-              <p className="control">
-                <input className="input" name="email" type="text" placeholder="jsmith@example.org" />
-              </p>
+                <br />
+                <div className="field">
+                  <button className="button is-primary is-fullwidth" type="submit">{displayName}</button>
+                </div>
+                {error && error.response && <div> {error.response.data}</div>}
+              </form>
             </div>
-            <div>
-              <label className="label">Password</label>
-              <p className="control">
-                <input className="input" name="password" type="password" placeholder="●●●●●●●" />
-              </p>
-            </div>
-            <br />
-            <div className="field">
-              <button className="button is-primary is-fullwidth" type="submit">{displayName}</button>
-            </div>
-            {error && error.response && <div> {error.response.data}</div>}
-          </form>
+          </div>
         </div>
       </div>
+      <div className="column"></div>
     </div>
+
   );
 };
 
