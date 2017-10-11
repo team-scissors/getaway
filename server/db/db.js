@@ -5,7 +5,7 @@ const db = new Sequelize(
     pool: {
       max: 5,
       min: 0,
-      idle: 60000,
+      idle: 120000,
       acquire: 0,
     }
   }
