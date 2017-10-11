@@ -22,6 +22,9 @@ class MyTrips extends Component {
     this.props.dispatchSetTrip(formattedTrip);
     this.props.dispatchSetTripName(tripName);
   };
+  handleDeleteTrip = (tripId, e) => {
+    const { allTrips, userId } = this.props;
+  };
   render() {
     const { currentTripName, allTrips, loading } = this.props;
 
@@ -40,7 +43,7 @@ class MyTrips extends Component {
     return (
       <div>
         <nav className="panel flight-list">
-          <table className="table is-striped" style={{width: "100%"}}>
+          <table className="table is-striped my-trips-table">
             <tbody>
               {myTrips &&
                 myTrips.map(trip => {
@@ -57,69 +60,72 @@ class MyTrips extends Component {
                             <tc>
                               <strong>{`${trip.name}`}</strong>
                             </tc>
-                            <tc>
+                            <tc className="my-trip-price">
                               <div> {`$${trip.price}`} </div>
                             </tc>
                             <tc>
-                              <a className="button is-danger is-outlined">
-                                <span>Delete</span>
-                                <span className="icon is-small">
-                                  <i className="fa fa-times"></i>
-                                </span>
-                              </a>
-                            </tc>
-                          </a>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </nav>
-            </div>
-          );
+                              <button
+                                className="button is-danger is-outlined"
+                                onClick={this.handleSetTrip.bind(null, trip.id)}
+                                >
+                                  {/* <span>Delete</span> */}
+                                  <span className="icon is-small">
+                                    <i className="fa fa-times"></i>
+                                  </span>
+                                </button>
+                              </tc>
+                            </a>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </nav>
+              </div>
+            );
+          }
         }
-      }
 
-      const loadTripData = (trips, tripId) => {
-        const foundTrip = trips.find(tripObj => {
-          return tripObj.id === tripId;
-        });
-        return [
-          foundTrip.tripFlightsByTripId.nodes.map(flight => {
-            return {
-              ...flight.flightByFlightId,
-            };
-          }),
-          foundTrip.name,
-        ];
-      };
-
-      const mapState = state => {
-        return {
-          myTrips: state.trips,
-          isLoggedIn: !!state.user.id,
-          userId: state.user.id,
-          currentTripName: state.userInput.currentTripName,
+        const loadTripData = (trips, tripId) => {
+          const foundTrip = trips.find(tripObj => {
+            return tripObj.id === tripId;
+          });
+          return [
+            foundTrip.tripFlightsByTripId.nodes.map(flight => {
+              return {
+                ...flight.flightByFlightId,
+              };
+            }),
+            foundTrip.name,
+          ];
         };
-      };
 
-      const mapDispatch = dispatch => {
-        return {
-          dispatchSetTrip(trip) {
-            dispatch(setTrip(trip));
-          },
-          dispatchSetTripName(tripName) {
-            dispatch(setTripName(tripName));
-          },
-          dispatchDeleteTrip(tripId, userId) {
-            dispatch(deleteTrip(tripId, userId));
-          },
+        const mapState = state => {
+          return {
+            myTrips: state.trips,
+            isLoggedIn: !!state.user.id,
+            userId: state.user.id,
+            currentTripName: state.userInput.currentTripName,
+          };
         };
-      };
 
-      const ApolloMyTrips = graphql(tripsByUserId, {
-        options: ({ userId }) => ({ variables: { id: userId } }),
-        props: ({ data: { loading, allTrips } }) => ({ loading, allTrips }),
-      })(MyTrips);
+        const mapDispatch = dispatch => {
+          return {
+            dispatchSetTrip(trip) {
+              dispatch(setTrip(trip));
+            },
+            dispatchSetTripName(tripName) {
+              dispatch(setTripName(tripName));
+            },
+            dispatchDeleteTrip(tripId, userId) {
+              dispatch(deleteTrip(tripId, userId));
+            },
+          };
+        };
 
-      export default withRouter(connect(mapState, mapDispatch)(ApolloMyTrips));
+        const ApolloMyTrips = graphql(tripsByUserId, {
+          options: ({ userId }) => ({ variables: { id: userId } }),
+          props: ({ data: { loading, allTrips } }) => ({ loading, allTrips }),
+        })(MyTrips);
+
+        export default withRouter(connect(mapState, mapDispatch)(ApolloMyTrips));
