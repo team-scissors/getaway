@@ -44,7 +44,7 @@ class Checkout extends Component {
 
     return (
       <section className="section">
-        <h2 className="has-text-centered">Trip Name {trip && `: ${currentTripName}`}</h2>
+          <h4 className="has-text-centered title is-4">Trip Name {trip && `: ${tripName}`}</h4>
         {trip.length > 0 ? (
           <div>
             <div className="card trip-list">
@@ -87,10 +87,13 @@ class Checkout extends Component {
                 }
               </div>
             </div>
-            <button className="button is-primary is-pulled-right purchase" onClick={() =>
+            <div className="level purchase">
+              <div className="title level-left is-6">Total Cost: {`$${Math.trunc(totalPrice)}`}</div>
+              <button className="button is-primary level-right" onClick={()=> 
               this.StripeHandler.open({
-                name: 'getAway!', description: currentTripName, amount: Math.trunc(totalPrice) * 100
-              })}>Purchase</button>
+                name: 'getAway!',description: tripName, amount: Math.trunc(totalPrice)*100
+                }) }>Purchase</button>
+            </div>
           </div>
         ) : (
             ''

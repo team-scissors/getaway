@@ -124,7 +124,7 @@ class Flights extends Component {
           price: +flight.price,
           departAt: flight.departAt,
           distance: distance,
-          costPerKm: +flight.price / distance,
+          costPerKm: flight.price / distance,
           // Victory polar is counter-clockwise
           bearing:
             (90 -
