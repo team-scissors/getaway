@@ -11,8 +11,10 @@ const SET_CURRENT_FLIGHT = 'SET_CURRENT_FLIGHT';
 const SET_DATE = 'SET_DATE';
 const SET_MAP = 'SET_MAP';
 const SET_TRIP = 'SET_TRIP';
+const CLEAR_TRIP_NAME = 'CLEAR_TRIP_NAME';
 const TRIP_SUBMIT_CONFIRM = 'TRIP_SUBMIT_CONFIRM';
 const CLEAR_TRIP_SUBMIT_CONFIRM = 'CLEAR_TRIP_SUBMIT_CONFIRM';
+
 /**
  * INITIAL STATE
  */
@@ -54,6 +56,10 @@ export const setTrip = trip => {
 
 export const setTripName = tripName => {
   return { type: SET_TRIP_NAME, tripName };
+};
+
+export const clearTripName = () => {
+  return { type: CLEAR_TRIP_NAME };
 };
 
 export const setAirport = abbrv => {
@@ -115,6 +121,11 @@ export default function(state = initialState, action) {
         ...state,
         currentTripName: action.tripName,
       };
+    case CLEAR_TRIP_NAME:
+      return {
+        ...state,
+        currentTripName: '',
+      };
     case SET_MAX_PRICE:
       return {
         ...state,
@@ -129,11 +140,20 @@ export default function(state = initialState, action) {
     case CLEAR_AIRPORT_INPUT:
       return initialState;
     case SET_CURRENT_FLIGHT:
-      return { ...state, currentFlight: action.selectedAirport };
+      return {
+        ...state,
+        currentFlight: action.selectedAirport,
+      };
     case TRIP_SUBMIT_CONFIRM:
-      return { ...state, tripSubmitConfirm: action.confirmMessage };
+      return {
+        ...state,
+        tripSubmitConfirm: action.confirmMessage,
+      };
     case CLEAR_TRIP_SUBMIT_CONFIRM:
-      return { ...state, tripSubmitConfirm: '' };
+      return {
+        ...state,
+        tripSubmitConfirm: '',
+      };
     default:
       return state;
   }
