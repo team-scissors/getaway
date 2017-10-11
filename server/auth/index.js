@@ -36,5 +36,4 @@ router.get('/me', (req, res) => {
   res.json(req.user);
 });
 
-// Disabled OAuth for now
-// router.use('/google', require('./google'))
+router.use('/google', require('./google'))
