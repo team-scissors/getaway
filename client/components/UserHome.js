@@ -10,7 +10,8 @@ export const UserHome = (props) => {
 
   return (
     <div>
-      <h3>Welcome, {email}</h3>
+      <h3 style={{marginTop: "2em"}} className='title is-4 has-text-centered'>Welcome, {email}!</h3>
+      <div style={{marginTop: "1em"}} className='subtitle has-text-centered is-5'>Where is your next get away place?</div>
     </div>
   );
 };
