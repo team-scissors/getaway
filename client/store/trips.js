@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { setError } from './error';
-import { tripSubmitConfirm } from './user-input';
+import { tripSubmitConfirm, clearSubmitConfirm } from './user-input';
 
 /**
  * ACTION TYPES
@@ -71,6 +71,9 @@ export const createTrip = (newTrip, flightIds, message) => {
     .then(() => {
       dispatch(fetchTrips(newTrip.userId));
       dispatch(tripSubmitConfirm(message));
+      setTimeout(() => {
+         dispatch(clearSubmitConfirm());
+      }, 5000);
     })
     .catch(err => dispatch(setError(err)));
   };

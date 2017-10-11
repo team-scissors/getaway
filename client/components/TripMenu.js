@@ -19,9 +19,6 @@ import moment from 'moment';
 import { ControlPanel, FlightListPanel, UserPanel } from '../components';
 
 class TripMenu extends Component {
-  componentDidUpdate() {
-    setTimeout(() => { this.props.dispatchClearSubmitConfirm(); }, 5000);
-  }
 
   handleClearTrip = () => {
     this.props.dispatchClearTrip();

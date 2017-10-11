@@ -12,24 +12,18 @@ import { tripsByUserId } from './util_helper';
 
 class MyTrips extends Component {
 
-  componentWillRecievePRops(nextProps) {
-    console.log('newProps', newProps);
-  }
-
   handleSetTrip = (tripId, e) => {
     const { allTrips } = this.props;
-    // const tripId = e.target.dataset.tripid;
-    // const tripId = e.target.value;
-    // console.log('alltrips:', allTrips);
-    console.log('tripId:', tripId);
     const [formattedTrip, tripName] = loadTripData(allTrips.trips, +tripId);
-    console.log('formattedTrip:', formattedTrip);
     this.props.dispatchSetTrip(formattedTrip);
     this.props.dispatchSetTripName(tripName);
   };
   handleDeleteTrip = (tripId, e) => {
-    const { dispatchDeleteTrip, userId } = this.props;
+    console.log('tripId', tripId);
+    console.log('e', e);
+    const { dispatchDeleteTrip, userId, loading, refetch } = this.props;
     dispatchDeleteTrip(tripId, userId);
+    if (!loading) refetch();
   };
   render() {
     const { currentTripName, allTrips, loading } = this.props;
@@ -45,7 +39,7 @@ class MyTrips extends Component {
         name: trip.name,
         price: Math.trunc(price),
       };
-    });
+    })
     : '';
     return (
       <div>
@@ -74,7 +68,9 @@ class MyTrips extends Component {
                     $$$
                   </div>
                   <div style={{ width: '33%', textAlign: 'right' }}>
-                    <button className="button is-danger is-outlined">
+                    <button
+                       onClick={this.handleDeleteTrip.bind(null, trip.id)}
+                       className="button is-danger is-outlined">
                       Delete Trip
                     </button>
                   </div>
@@ -126,7 +122,7 @@ class MyTrips extends Component {
 
         const ApolloMyTrips = graphql(tripsByUserId, {
           options: ({ userId }) => ({ variables: { id: userId } }),
-          props: ({ data: { loading, allTrips } }) => ({ loading, allTrips }),
+          props: ({ data: { loading, allTrips, refetch } }) => ({ loading, allTrips, refetch }),
         })(MyTrips);
 
         export default withRouter(connect(mapState, mapDispatch)(ApolloMyTrips));
