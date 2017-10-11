@@ -2,7 +2,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { setTrip, setTripName } from '../store';
+import {
+  setTrip,
+  setTripName,
+  deleteTrip,
+} from '../store';
 import { graphql } from 'react-apollo';
 import { tripsByUserId } from './util_helper';
 
@@ -22,76 +26,92 @@ class MyTrips extends Component {
     const { currentTripName, allTrips, loading } = this.props;
 
     const myTrips = !loading
-      ? allTrips.trips.map(trip => {
-          return {
-            id: trip.id,
-            name: trip.name,
-          };
-        })
-      : '';
+    ? allTrips.trips.map(trip => {
+      const price = trip.tripFlightsByTripId.nodes.reduce((acc, node) => {
+        return acc + node.flightByFlightId.price;
+      }, 0);
+      return {
+        id: trip.id,
+        name: trip.name,
+        price: Math.trunc(price),
+      };
+    })
+    : '';
     return (
       <div>
         <nav className="panel flight-list">
-          {myTrips &&
-            myTrips.map(trip => {
-              const active = trip.name === currentTripName;
-              return (
-                <a
-                  onClick={this.handleSetTrip.bind(null, trip.id)}
-                  className={`panel-block
-                ${active ? 'is-active' : ''} list-item`}
-                  key={trip.id}
-                  style={active ? { background: '#00d1b2', color: '#fff' } : {}}
-                >
-                  <div>
-                    <strong>{`${trip.name}`}</strong>
-                  </div>
-                </a>
-              );
-            })}
-        </nav>
-      </div>
-    );
-  }
-}
+          <table className="table is-striped" style={{width: "100%"}}>
+            <tbody>
+              {myTrips &&
+                myTrips.map(trip => {
+                  const active = trip.name === currentTripName;
+                  return (
+                    <tr>
+                      <a
+                        onClick={this.handleSetTrip.bind(null, trip.id)}
+                        className={`panel-block
+                          ${active ? 'is-active is-selected' : ''} list-item`}
+                          key={trip.id}
+                          style={active ? { background: '#00d1b2', color: '#fff' } : {}}
+                          >
+                            <tc>
+                              <strong className="column">{`${trip.name}`}</strong>
+                            </tc>
+                            <tc>
+                              <div className="column"> {`$${trip.price}`} </div>
+                            </tc>
+                          </a>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </nav>
+            </div>
+          );
+        }
+      }
 
-const loadTripData = (trips, tripId) => {
-  const foundTrip = trips.find(tripObj => {
-    return tripObj.id === tripId;
-  });
-  return [
-    foundTrip.tripFlightsByTripId.nodes.map(flight => {
-      return {
-        ...flight.flightByFlightId,
+      const loadTripData = (trips, tripId) => {
+        const foundTrip = trips.find(tripObj => {
+          return tripObj.id === tripId;
+        });
+        return [
+          foundTrip.tripFlightsByTripId.nodes.map(flight => {
+            return {
+              ...flight.flightByFlightId,
+            };
+          }),
+          foundTrip.name,
+        ];
       };
-    }),
-    foundTrip.name,
-  ];
-};
 
-const mapState = state => {
-  return {
-    myTrips: state.trips,
-    isLoggedIn: !!state.user.id,
-    userId: state.user.id,
-    currentTripName: state.userInput.currentTripName,
-  };
-};
+      const mapState = state => {
+        return {
+          myTrips: state.trips,
+          isLoggedIn: !!state.user.id,
+          userId: state.user.id,
+          currentTripName: state.userInput.currentTripName,
+        };
+      };
 
-const mapDispatch = dispatch => {
-  return {
-    dispatchSetTrip(trip) {
-      dispatch(setTrip(trip));
-    },
-    dispatchSetTripName(tripName) {
-      dispatch(setTripName(tripName));
-    },
-  };
-};
+      const mapDispatch = dispatch => {
+        return {
+          dispatchSetTrip(trip) {
+            dispatch(setTrip(trip));
+          },
+          dispatchSetTripName(tripName) {
+            dispatch(setTripName(tripName));
+          },
+          dispatchDeleteTrip(tripId, userId) {
+            dispatch(deleteTrip(tripId, userId));
+          },
+        };
+      };
 
-const ApolloMyTrips = graphql(tripsByUserId, {
-  options: ({ userId }) => ({ variables: { id: userId } }),
-  props: ({ data: { loading, allTrips } }) => ({ loading, allTrips }),
-})(MyTrips);
+      const ApolloMyTrips = graphql(tripsByUserId, {
+        options: ({ userId }) => ({ variables: { id: userId } }),
+        props: ({ data: { loading, allTrips } }) => ({ loading, allTrips }),
+      })(MyTrips);
 
-export default withRouter(connect(mapState, mapDispatch)(ApolloMyTrips));
+      export default withRouter(connect(mapState, mapDispatch)(ApolloMyTrips));

@@ -44,6 +44,17 @@ export const fetchTrips = userId => {
   };
 };
 
+export const deleteTrip = (tripId, userId) => {
+  return dispatch => {
+    return axios.delete(`/api/trips/${tripId}`)
+    .then(res => res.data)
+    .then(() => {
+      dispatch(fetchTrips(userId));
+    })
+    .catch(err => dispatch(setError(err)));
+  };
+};
+
 /* Body to the post api should look something like
 {
   "name": "some name",
