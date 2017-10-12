@@ -5,6 +5,7 @@ import { withRouter, Link } from 'react-router-dom';
 import { logout } from '../store';
 import mapboxgl from 'mapbox-gl';
 import { setMap } from '../store/user-input';
+import airportCoordsTest from '../../data/airportPriceTest';
 
 /**
  * COMPONENT
@@ -116,7 +117,24 @@ class Map extends Component {
         data: this.state.airportsGeoJSON,
       });
 
+      this.map.addSource('airportCoords', {
+        type: 'geojson',
+        data: airportCoordsTest,
+      });
+
+      console.log('airports', this.state.airportsGeoJSON);
+      console.log('airportCoords', airportCoordsTest);
+
       this.map.setPitch(45);
+
+      this.map.addLayer({
+        id: 'airportCoords',
+        source: 'airportCoords',
+        type: 'circle',
+        paint: {
+          'circle-color': 'blue',
+        },
+      });
 
       this.map.addLayer({
         id: 'airports',
@@ -179,6 +197,7 @@ class Map extends Component {
         }
         if (this.map.getSource('airports')) {
           this.map.getSource('airports').setData(this.state.airportsGeoJSON);
+          console.log('airports', this.state.airportsGeoJSON);
         }
         if (this.map.getSource('airport-labels')) {
           this.map

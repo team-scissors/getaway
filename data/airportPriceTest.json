@@ -1,0 +1,1017 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-123.184444, 49.193889]
+      },
+      "properties": {
+        "abbrv": "YVR",
+        "price": 452.916911808
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [11.786086, 48.353783]
+      },
+      "properties": {
+        "abbrv": "MUC",
+        "price": 636.504037092
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-0.461389, 51.4775]
+      },
+      "properties": {
+        "abbrv": "LHR",
+        "price": 1372.626191808
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [2.078464, 41.297078]
+      },
+      "properties": {
+        "abbrv": "BCN",
+        "price": 364.8447792
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [8.728111, 45.630606]
+      },
+      "properties": {
+        "abbrv": "MXP",
+        "price": 431.195712282
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [30.800461, 36.898731]
+      },
+      "properties": {
+        "abbrv": "AYT",
+        "price": 1110.840218136
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [46.698776, 24.95764]
+      },
+      "properties": {
+        "abbrv": "RUH",
+        "price": 1979.32074984
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [130.450686, 33.585942]
+      },
+      "properties": {
+        "abbrv": "FUK",
+        "price": 1395.6998544
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-47.918625, -15.8711]
+      },
+      "properties": {
+        "abbrv": "BSB",
+        "price": 1588.3691616
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.867919, 19.088686]
+      },
+      "properties": {
+        "abbrv": "BOM",
+        "price": 2077.60123935
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [101.709917, 2.745578]
+      },
+      "properties": {
+        "abbrv": "KUL",
+        "price": 1520.11910304
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [116.584556, 40.080111]
+      },
+      "properties": {
+        "abbrv": "PEK",
+        "price": 1616.10439104
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [120.434453, 30.229503]
+      },
+      "properties": {
+        "abbrv": "HGH",
+        "price": 854.89312482
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [121.805214, 31.143378]
+      },
+      "properties": {
+        "abbrv": "PVG",
+        "price": 1434.88315017
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-80.290556, 25.79325]
+      },
+      "properties": {
+        "abbrv": "MIA",
+        "price": 411.543004392
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-97.037997, 32.896828]
+      },
+      "properties": {
+        "abbrv": "DFW",
+        "price": 74.718543852
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-104.673178, 39.861656]
+      },
+      "properties": {
+        "abbrv": "DEN",
+        "price": 81.492186222
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-80.943139, 35.214]
+      },
+      "properties": {
+        "abbrv": "CLT",
+        "price": 123.247272384
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [2.727778, 39.55361]
+      },
+      "properties": {
+        "abbrv": "PMI",
+        "price": 1283.88862719
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.484444, 50.901389]
+      },
+      "properties": {
+        "abbrv": "BRU",
+        "price": 1282.71279942
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [24.963333, 60.317222]
+      },
+      "properties": {
+        "abbrv": "HEL",
+        "price": 1284.951252024
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [12.655972, 55.617917]
+      },
+      "properties": {
+        "abbrv": "CPH",
+        "price": 807.37342218
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-3.566764, 40.493556]
+      },
+      "properties": {
+        "abbrv": "MAD",
+        "price": 1426.287075246
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [16.569722, 48.110278]
+      },
+      "properties": {
+        "abbrv": "VIE",
+        "price": 617.017223952
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [174.791667, -37.008056]
+      },
+      "properties": {
+        "abbrv": "AKL",
+        "price": 1186.53656121
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [140.386389, 35.764722]
+      },
+      "properties": {
+        "abbrv": "NRT",
+        "price": 1659.904136946
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [121.019581, 14.508647]
+      },
+      "properties": {
+        "abbrv": "MNL",
+        "price": 1250.8019352
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-46.655375, -23.626692]
+      },
+      "properties": {
+        "abbrv": "CGH",
+        "price": 686.892703392
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [106.655897, -6.125567]
+      },
+      "properties": {
+        "abbrv": "CGK",
+        "price": 2808.07666974
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [151.177222, -33.946111]
+      },
+      "properties": {
+        "abbrv": "SYD",
+        "price": 2077.95288708
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [118.127739, 24.544036]
+      },
+      "properties": {
+        "abbrv": "XMN",
+        "price": 568.44678042
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-112.011583, 33.434278]
+      },
+      "properties": {
+        "abbrv": "PHX",
+        "price": 311.534783406
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-77.037722, 38.852083]
+      },
+      "properties": {
+        "abbrv": "DCA",
+        "price": 196.81749081
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-122.309306, 47.449]
+      },
+      "properties": {
+        "abbrv": "SEA",
+        "price": 321.9787386
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-73.872608, 40.777245]
+      },
+      "properties": {
+        "abbrv": "LGA",
+        "price": 97.62276276
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-76.668333, 39.175361]
+      },
+      "properties": {
+        "abbrv": "BWI",
+        "price": 79.786450656
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [23.944467, 37.936358]
+      },
+      "properties": {
+        "abbrv": "ATH",
+        "price": 418.247582184
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [8.543125, 50.026421]
+      },
+      "properties": {
+        "abbrv": "FRA",
+        "price": 1329.00845688
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-2.27495, 53.353744]
+      },
+      "properties": {
+        "abbrv": "MAN",
+        "price": 832.212302814
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [17.918611, 59.651944]
+      },
+      "properties": {
+        "abbrv": "ARN",
+        "price": 1386.052416
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [2.359444, 48.725278]
+      },
+      "properties": {
+        "abbrv": "ORY",
+        "price": 1413.0926136
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-9.135919, 38.781311]
+      },
+      "properties": {
+        "abbrv": "LIS",
+        "price": 1308.000595968
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [39.156536, 21.679564]
+      },
+      "properties": {
+        "abbrv": "JED",
+        "price": 2080.583305488
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [141.692283, 42.7752]
+      },
+      "properties": {
+        "abbrv": "CTS",
+        "price": 935.664128064
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [126.790586, 37.558311]
+      },
+      "properties": {
+        "abbrv": "GMP",
+        "price": 2114.378964072
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-74.146947, 4.701594]
+      },
+      "properties": {
+        "abbrv": "BOG",
+        "price": 756.933398208
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [103.994433, 1.350189]
+      },
+      "properties": {
+        "abbrv": "SIN",
+        "price": 1251.800142444
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [113.298786, 23.392436]
+      },
+      "properties": {
+        "abbrv": "CAN",
+        "price": 2601.984741732
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [121.336319, 31.197875]
+      },
+      "properties": {
+        "abbrv": "SHA",
+        "price": 1847.79161658
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-122.374889, 37.618972]
+      },
+      "properties": {
+        "abbrv": "SFO",
+        "price": 345.097134774
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-80.15275, 26.072583]
+      },
+      "properties": {
+        "abbrv": "FLL",
+        "price": 384.365955312
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-83.353389, 42.212444]
+      },
+      "properties": {
+        "abbrv": "DTW",
+        "price": 54.0025056
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-77.455811, 38.944533]
+      },
+      "properties": {
+        "abbrv": "IAD",
+        "price": 168.252024798
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-75.241139, 39.871944]
+      },
+      "properties": {
+        "abbrv": "PHL",
+        "price": 175.05929052
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-115.15225, 36.080056]
+      },
+      "properties": {
+        "abbrv": "LAS",
+        "price": 333.287440092
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-79.630556, 43.677223]
+      },
+      "properties": {
+        "abbrv": "YYZ",
+        "price": 45.126177066
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [13.287711, 52.559686]
+      },
+      "properties": {
+        "abbrv": "TXL",
+        "price": 780.85170801
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [0.235, 51.885]
+      },
+      "properties": {
+        "abbrv": "STN",
+        "price": 781.102992618
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [28.246, -26.139166]
+      },
+      "properties": {
+        "abbrv": "JNB",
+        "price": 2762.666328456
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [12.250797, 41.804475]
+      },
+      "properties": {
+        "abbrv": "FCO",
+        "price": 1422.31914144
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [28.814606, 40.976922]
+      },
+      "properties": {
+        "abbrv": "IST",
+        "price": 500.85207135
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [55.364444, 25.252778]
+      },
+      "properties": {
+        "abbrv": "DXB",
+        "price": 2420.462108844
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [139.779694, 35.552258]
+      },
+      "properties": {
+        "abbrv": "HND",
+        "price": 1033.968482514
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-43.243647, -22.808903]
+      },
+      "properties": {
+        "abbrv": "GIG",
+        "price": 1675.77045534
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [77.103088, 28.5665]
+      },
+      "properties": {
+        "abbrv": "DEL",
+        "price": 2438.884485
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [153.1175, -27.384167]
+      },
+      "properties": {
+        "abbrv": "BNE",
+        "price": 840.115353852
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [113.810664, 22.639258]
+      },
+      "properties": {
+        "abbrv": "SZX",
+        "price": 1374.605515584
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [103.947086, 30.578528]
+      },
+      "properties": {
+        "abbrv": "CTU",
+        "price": 1016.33703192
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-118.408075, 33.942536]
+      },
+      "properties": {
+        "abbrv": "LAX",
+        "price": 447.658003836
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-95.341442, 29.984433]
+      },
+      "properties": {
+        "abbrv": "IAH",
+        "price": 159.397525584
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-82.53325, 27.975472]
+      },
+      "properties": {
+        "abbrv": "TPA",
+        "price": 328.860781578
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-117.189667, 32.733556]
+      },
+      "properties": {
+        "abbrv": "SAN",
+        "price": 455.30483526
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-93.221767, 44.881956]
+      },
+      "properties": {
+        "abbrv": "MSP",
+        "price": 33.965554986
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [100.747283, 13.681108]
+      },
+      "properties": {
+        "abbrv": "BKK",
+        "price": 2250.967785048
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [6.766775, 51.289453]
+      },
+      "properties": {
+        "abbrv": "DUS",
+        "price": 771.708198672
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-0.190278, 51.148056]
+      },
+      "properties": {
+        "abbrv": "LGW",
+        "price": 414.855726408
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [11.100361, 60.193917]
+      },
+      "properties": {
+        "abbrv": "OSL",
+        "price": 433.733566248
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [2.55, 49.012779]
+      },
+      "properties": {
+        "abbrv": "CDG",
+        "price": 646.059339342
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [8.549167, 47.464722]
+      },
+      "properties": {
+        "abbrv": "ZRH",
+        "price": 858.70681632
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-99.072097, 19.436303]
+      },
+      "properties": {
+        "abbrv": "MEX",
+        "price": 430.586149752
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [51.565056, 25.261125]
+      },
+      "properties": {
+        "abbrv": "DOH",
+        "price": 1640.854257372
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [126.493028, 33.511306]
+      },
+      "properties": {
+        "abbrv": "CJU",
+        "price": 1356.969021948
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-46.469511, -23.432075]
+      },
+      "properties": {
+        "abbrv": "GRU",
+        "price": 452.451806262
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [126.450517, 37.469075]
+      },
+      "properties": {
+        "abbrv": "ICN",
+        "price": 1657.182641184
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [144.843333, -37.673333]
+      },
+      "properties": {
+        "abbrv": "MEL",
+        "price": 2542.686154992
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [102.743536, 24.992364]
+      },
+      "properties": {
+        "abbrv": "KMG",
+        "price": 1192.944228228
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-71.005181, 42.364347]
+      },
+      "properties": {
+        "abbrv": "BOS",
+        "price": 161.452544436
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-74.168667, 40.6925]
+      },
+      "properties": {
+        "abbrv": "EWR",
+        "price": 176.162038416
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-111.977772, 40.788389]
+      },
+      "properties": {
+        "abbrv": "SLC",
+        "price": 127.471600998
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-84.428067, 33.636719]
+      },
+      "properties": {
+        "abbrv": "ATL",
+        "price": 50.313682548
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-73.778925, 40.639751]
+      },
+      "properties": {
+        "abbrv": "JFK",
+        "price": 84.732744744
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-81.308994, 28.429394]
+      },
+      "properties": {
+        "abbrv": "MCO",
+        "price": 114.679801782
+      }
+    }
+  ]
+}

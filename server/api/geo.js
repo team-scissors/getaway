@@ -3,18 +3,22 @@ const { Airport, Flight } = require('../db/models');
 // const turf = require('turf');
 module.exports = router;
 
-const constructTIN = (flights, origin) => {
+const constructTIN = origin => {
   const tinLayer = {
     type: 'FeatureCollection',
     features: [],
   };
 
-  flights.forEach(flight => {
+  origin.toAirport.forEach(airport => {
     tinLayer.features.push({
       type: 'Feature',
       geometry: {
         type: 'Point',
-        coordinates: [origin.latitude, origin.longitude],
+        coordinates: [airport.longitude, airport.latitude],
+      },
+      properties: {
+        abbrv: airport.abbrv,
+        price: airport.Flight.price,
       },
     });
   });
@@ -36,7 +40,10 @@ router.get('/tin', (req, res, next) => {
         },
       ],
     }).then(originAirport => {
-      res.json(originAirport);
+      const tinLayer = constructTIN(originAirport);
+      res.json(tinLayer);
+      // console.log(tinLayer);
+      // res.json(originAirport);
     });
     // Airport.findOne({
     //   where: {
