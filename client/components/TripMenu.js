@@ -18,7 +18,40 @@ import { flightsFromAirportByAbbrv } from './util_helper';
 import moment from 'moment';
 import { ControlPanel, FlightListPanel, UserPanel } from '../components';
 
+const getTripPrice = trip => {
+  return trip.length > 0
+    ? trip.reduce((a, b) => {
+        return a + b.price;
+      }, 0)
+    : 0;
+};
+
 class TripMenu extends Component {
+  state = {
+    budget: 1000,
+    remaining: 0,
+    totalPrice: 0,
+  };
+
+  // componentWillReceiveProps(nextProps) {
+  //   const trip = this.props.trip;
+  //   const totalPrice = getTripPrice(trip);
+  //   const remaining = Math.max(+this.state.budget - totalPrice, 0);
+  //   this.setState({ remaining: remaining }, () => {
+  //     this.props.dispatchSetMaxPrice(this.state.remaining);
+  //   });
+  // }
+
+  handleChangeBudget = e => {
+    const trip = this.props.trip;
+    const totalPrice = getTripPrice(trip);
+    this.setState({ budget: e.target.value }, () => {
+      const remaining = Math.max(+this.state.budget - totalPrice, 0);
+      this.setState({ remaining: remaining }, () => {
+        // this.props.dispatchSetMaxPrice(this.state.remaining);
+      });
+    });
+  };
 
   handleClearTrip = () => {
     this.props.dispatchClearTrip();
@@ -63,7 +96,6 @@ class TripMenu extends Component {
 
   handleFlyTo = airport => {
     const { map } = this.props;
-    // console.log('want to fly to: ', airport);
     map.flyTo({
       center: [airport.longitude, airport.latitude],
     });
@@ -98,7 +130,6 @@ class TripMenu extends Component {
             <div className="card-content">
               <form onSubmit={this.handleSaveTrip}>
                 <div className="field">
-                  {/* <label className="label is-medium">Trip</label> */}
                   <div className="control">
                     <label className="label is-medium">
                       {currentTripName ? (
@@ -117,12 +148,38 @@ class TripMenu extends Component {
                       onChange={this.handleTripNameChange}
                     />
                   </div>
+                  <div className="control">
+                    <label className="label is-medium">
+                      <span className="subtitle">Budget</span>
+                    </label>
+                    <input
+                      className="input is-medium"
+                      type="text"
+                      value={this.state.budget}
+                      onChange={this.handleChangeBudget}
+                    />
+                  </div>
                 </div>
               </form>
               <div className="purchase">
                 <div className="heading">Total Trip Cost:</div>
                 <div className="title">
                   {trip.length > 0 ? ` $${Math.trunc(totalPrice)}` : ''}
+                </div>
+              </div>
+              <div className="purchase">
+                <div className="heading">Remaining Budget:</div>
+                <div
+                  className="title"
+                  style={
+                    this.state.budget - totalPrice < 0
+                      ? { color: 'tomato' }
+                      : {}
+                  }
+                >
+                  {this.state.budget > 0
+                    ? ` $${Math.trunc(this.state.budget - totalPrice)}`
+                    : ''}
                 </div>
               </div>
             </div>
@@ -228,6 +285,7 @@ const mapState = state => {
     isLoggedIn: !!state.user.id,
     map: state.userInput.map,
     userId: state.user.id,
+    maxPrice: state.userInput.maxPrice,
     tripSubmitConfirm: state.userInput.tripSubmitConfirm,
   };
 };
@@ -236,6 +294,9 @@ const mapDispatch = dispatch => {
   return {
     handleClick() {
       dispatch(logout());
+    },
+    dispatchSetMaxPrice(maxPrice) {
+      dispatch(setMaxPrice(maxPrice));
     },
     dispatchAddFlightToTrip(flight) {
       dispatch(addFlightToTrip(flight));

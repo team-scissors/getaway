@@ -2,16 +2,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import {
-  setTrip,
-  setTripName,
-  deleteTrip,
-} from '../store';
+import { setTrip, setTripName, deleteTrip } from '../store';
 import { graphql } from 'react-apollo';
 import { tripsByUserId } from './util_helper';
 
 class MyTrips extends Component {
-
   handleSetTrip = (tripId, e) => {
     const { allTrips } = this.props;
     const [formattedTrip, tripName] = loadTripData(allTrips.trips, +tripId);
@@ -30,17 +25,17 @@ class MyTrips extends Component {
     console.log();
 
     const myTrips = !loading
-    ? allTrips.trips.map(trip => {
-      const price = trip.tripFlightsByTripId.nodes.reduce((acc, node) => {
-        return acc + node.flightByFlightId.price;
-      }, 0);
-      return {
-        id: trip.id,
-        name: trip.name,
-        price: Math.trunc(price),
-      };
-    })
-    : '';
+      ? allTrips.trips.map(trip => {
+          const price = trip.tripFlightsByTripId.nodes.reduce((acc, node) => {
+            return acc + node.flightByFlightId.price;
+          }, 0);
+          return {
+            id: trip.id,
+            name: trip.name,
+            price: Math.trunc(price),
+          };
+        })
+      : '';
     return (
       <div>
         <nav className="panel flight-list">
@@ -69,8 +64,9 @@ class MyTrips extends Component {
                   </div>
                   <div style={{ width: '33%', textAlign: 'right' }}>
                     <button
-                       onClick={this.handleDeleteTrip.bind(null, trip.id)}
-                       className="button is-danger is-outlined">
+                      onClick={this.handleDeleteTrip.bind(null, trip.id)}
+                      className="button is-danger is-outlined"
+                    >
                       Delete Trip
                     </button>
                   </div>
@@ -83,46 +79,50 @@ class MyTrips extends Component {
   }
 }
 
-        const loadTripData = (trips, tripId) => {
-          const foundTrip = trips.find(tripObj => {
-            return tripObj.id === tripId;
-          });
-          return [
-            foundTrip.tripFlightsByTripId.nodes.map(flight => {
-              return {
-                ...flight.flightByFlightId,
-              };
-            }),
-            foundTrip.name,
-          ];
-        };
+const loadTripData = (trips, tripId) => {
+  const foundTrip = trips.find(tripObj => {
+    return tripObj.id === tripId;
+  });
+  return [
+    foundTrip.tripFlightsByTripId.nodes.map(flight => {
+      return {
+        ...flight.flightByFlightId,
+      };
+    }),
+    foundTrip.name,
+  ];
+};
 
-        const mapState = state => {
-          return {
-            myTrips: state.trips,
-            isLoggedIn: !!state.user.id,
-            userId: state.user.id,
-            currentTripName: state.userInput.currentTripName,
-          };
-        };
+const mapState = state => {
+  return {
+    myTrips: state.trips,
+    isLoggedIn: !!state.user.id,
+    userId: state.user.id,
+    currentTripName: state.userInput.currentTripName,
+  };
+};
 
-        const mapDispatch = dispatch => {
-          return {
-            dispatchSetTrip(trip) {
-              dispatch(setTrip(trip));
-            },
-            dispatchSetTripName(tripName) {
-              dispatch(setTripName(tripName));
-            },
-            dispatchDeleteTrip(tripId, userId) {
-              dispatch(deleteTrip(tripId, userId));
-            },
-          };
-        };
+const mapDispatch = dispatch => {
+  return {
+    dispatchSetTrip(trip) {
+      dispatch(setTrip(trip));
+    },
+    dispatchSetTripName(tripName) {
+      dispatch(setTripName(tripName));
+    },
+    dispatchDeleteTrip(tripId, userId) {
+      dispatch(deleteTrip(tripId, userId));
+    },
+  };
+};
 
-        const ApolloMyTrips = graphql(tripsByUserId, {
-          options: ({ userId }) => ({ variables: { id: userId } }),
-          props: ({ data: { loading, allTrips, refetch } }) => ({ loading, allTrips, refetch }),
-        })(MyTrips);
+const ApolloMyTrips = graphql(tripsByUserId, {
+  options: ({ userId }) => ({ variables: { id: userId } }),
+  props: ({ data: { loading, allTrips, refetch } }) => ({
+    loading,
+    allTrips,
+    refetch,
+  }),
+})(MyTrips);
 
-        export default withRouter(connect(mapState, mapDispatch)(ApolloMyTrips));
+export default withRouter(connect(mapState, mapDispatch)(ApolloMyTrips));
