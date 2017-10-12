@@ -1,3 +1,4 @@
+import axios from 'axios';
 /**
  * ACTION TYPES
  */
@@ -14,6 +15,7 @@ const SET_TRIP = 'SET_TRIP';
 const CLEAR_TRIP_NAME = 'CLEAR_TRIP_NAME';
 const TRIP_SUBMIT_CONFIRM = 'TRIP_SUBMIT_CONFIRM';
 const CLEAR_TRIP_SUBMIT_CONFIRM = 'CLEAR_TRIP_SUBMIT_CONFIRM';
+const SET_PRICE_TIN = 'SET_PRICE_TIN';
 
 /**
  * INITIAL STATE
@@ -28,11 +30,40 @@ const initialState = {
   departureDate: new Date(2018, 1, 1),
   maxPrice: 1000,
   tripSubmitConfirm: '',
+  tinJSON: {
+    type: 'FeatureCollection',
+    features: [],
+  },
+};
+
+/**
+ * 
+ * Thunk
+ */
+export const getPriceTin = (date, originAbbrv, maxPrice) => {
+  console.log('called with:', date, originAbbrv, maxPrice);
+  return dispatch => {
+    return axios
+      .get(`/api/geo/tin`, {
+        params: {
+          departureDate: date,
+          maxPrice: maxPrice,
+          origin: originAbbrv,
+        },
+      })
+      .then(tinJSON => {
+        dispatch(setPriceTin(tinJSON.data));
+      });
+  };
 };
 
 /**
  * ACTION CREATORS
  */
+
+export const setPriceTin = tinJSON => {
+  return { type: SET_PRICE_TIN, tinJSON };
+};
 
 export const addFlightToTrip = flight => {
   return { type: ADD_FLIGHT_TO_TRIP, flight };
@@ -79,11 +110,11 @@ export const setCurrentFlight = selectedAirport => {
 };
 
 export const tripSubmitConfirm = confirmMessage => {
-  return { type:TRIP_SUBMIT_CONFIRM, confirmMessage };
+  return { type: TRIP_SUBMIT_CONFIRM, confirmMessage };
 };
 
 export const clearSubmitConfirm = () => {
-  return { type:CLEAR_TRIP_SUBMIT_CONFIRM };
+  return { type: CLEAR_TRIP_SUBMIT_CONFIRM };
 };
 
 /**
@@ -91,6 +122,11 @@ export const clearSubmitConfirm = () => {
  */
 export default function(state = initialState, action) {
   switch (action.type) {
+    case SET_PRICE_TIN:
+      return {
+        ...state,
+        tinJSON: action.tinJSON,
+      };
     case SET_DATE:
       return {
         ...state,
