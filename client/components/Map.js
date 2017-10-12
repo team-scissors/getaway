@@ -19,17 +19,27 @@ mapboxgl.accessToken =
   'pk.eyJ1IjoidGhlc2h1byIsImEiOiJjajgyNXZhY2oyaWc4MzJzMG82dWM3Zm9mIn0._fGWYG5J5f0NwYRbVnByeQ';
 
 const primary = '#00D1B2';
-const colors = [
-  '#072017',
-  '#113426',
-  '#1C4A35',
-  '#296045',
-  '#377854',
-  '#469063',
-  '#57A972',
-  '#69C281',
-  '#7CDC8F',
-  '#90F79D',
+const colors2 = [
+  '#ffffe0',
+  '#f4f8db',
+  '#e9f1d6',
+  '#deebd0',
+  '#d2e3cb',
+  '#c7ddc6',
+  '#bbd6c1',
+  '#b1cfbc',
+  '#a6c9b7',
+  '#9ac2b1',
+  '#8fbbac',
+  '#84b4a8',
+  '#78ada2',
+  '#6ca79d',
+  '#60a198',
+  '#529a93',
+  '#46938f',
+  '#358d89',
+  '#248685',
+  '#008080',
 ];
 
 const makeStops = (colorArray, minPrice, maxPrice) => {
@@ -156,10 +166,10 @@ class Map extends Component {
         data: this.state.airportsGeoJSON,
       });
 
-      // this.map.addSource('airportCoords', {
-      //   type: 'geojson',
-      //   data: airportCoordsTest,
-      // });
+      this.map.addSource('airportCoords', {
+        type: 'geojson',
+        data: airportCoordsTest,
+      });
 
       this.map.addSource('tinLayer', {
         type: 'geojson',
@@ -173,21 +183,25 @@ class Map extends Component {
         paint: {
           'fill-color': {
             property: 'average',
-            stops: makeStops(colors.reverse(), 0, 3000),
+            stops: makeStops(colors2, 0, 3000),
           },
           'fill-opacity': 0.6,
           // 'fill-outline-color': 'white',
         },
       });
 
-      // this.map.addLayer({
-      //   id: 'airportCoords',
-      //   source: 'airportCoords',
-      //   type: 'circle',
-      //   paint: {
-      //     'circle-color': 'blue',
-      //   },
-      // });
+      this.map.addLayer({
+        id: 'airportCoords',
+        source: 'airportCoords',
+        type: 'circle',
+        paint: {
+          'circle-radius': 3,
+          'circle-stroke-color': colors[colors.length / 2],
+          'circle-stroke-width': 0.5,
+          'circle-opacity': 0,
+          // 'circle-color': colors[colors.length / 2],
+        },
+      });
 
       this.map.addLayer({
         id: 'airports',
