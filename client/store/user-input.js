@@ -52,7 +52,6 @@ export const getPriceTin = (date, originAbbrv, maxPrice) => {
         },
       })
       .then(tinJSON => {
-        console.log('got tindata:', tinJSON.data.features[0]);
         dispatch(setPriceTin(tinJSON.data));
       });
   };

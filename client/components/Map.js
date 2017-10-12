@@ -19,7 +19,7 @@ mapboxgl.accessToken =
   'pk.eyJ1IjoidGhlc2h1byIsImEiOiJjajgyNXZhY2oyaWc4MzJzMG82dWM3Zm9mIn0._fGWYG5J5f0NwYRbVnByeQ';
 
 const primary = '#00D1B2';
-const colors2 = [
+const colors = [
   '#ffffe0',
   '#f4f8db',
   '#e9f1d6',
@@ -118,8 +118,6 @@ class Map extends Component {
       dispatchGetPriceTin,
     } = this.props;
 
-    // console.log(makeStops(colors, 0, 3000));
-
     // console.log('TIN map:', tinJSON);
     dispatchGetPriceTin(
       moment(departureDate).format('YYYY-MM-DD'),
@@ -183,7 +181,7 @@ class Map extends Component {
         paint: {
           'fill-color': {
             property: 'average',
-            stops: makeStops(colors2, 0, 3000),
+            stops: makeStops(colors, 0, 3000),
           },
           'fill-opacity': 0.6,
           // 'fill-outline-color': 'white',
