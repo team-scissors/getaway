@@ -32,7 +32,6 @@ export const flightsFromAirportByAbbrv = gql`
   }
 `;
 
-// Finish this. TODO
 export const flightsFromAirportByAbbrvAndDate = gql`
   query flightsFromAirportByAbbrvAndDate(
     $airportAbbrv: String = "ORD"
@@ -66,6 +65,38 @@ export const flightsFromAirportByAbbrvAndDate = gql`
       }
     }
   }
+`;
+
+const graphQLQueryUsedForDemo = gql`
+query {
+  airportByAbbrv(abbrv: "ORD") {
+    id
+    name
+    abbrv
+    city
+    country
+    continent
+    longitude
+    latitude
+    flightsByFromId {
+      nodes {
+        id
+        price
+        departAt
+        airportByToId {
+          id
+          name
+          abbrv
+          city
+          country
+          continent
+          longitude
+          latitude
+        }
+      }
+    }
+  }
+}
 `;
 
 /* Gets the trips for a user by their id
