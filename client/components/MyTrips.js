@@ -60,7 +60,7 @@ class MyTrips extends Component {
                       paddingRight: '20px',
                     }}
                   >
-                    $$$
+                    ${trip.price}
                   </div>
                   <div style={{ width: '33%', textAlign: 'right' }}>
                     <button

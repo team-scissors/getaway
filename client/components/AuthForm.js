@@ -54,11 +54,11 @@ const AuthForm = (props) => {
                   </p>
                 </div>
                 <br />
-                <div className="field">
-                  <button className="button is-primary is-fullwidth" type="submit">{displayName}</button>
+                <div className="field has-text-centered">
+                  <button className="button is-primary is-large auth" type="submit">{displayName}</button>
                 </div>
-                <div className="has-text-centered">
-                  <a href="/auth/google">{displayName} with Google</a>
+                <div className="field has-text-centered">
+                  <a href="/auth/google"><img src="/images/btn_google_signin.png"/></a>
                 </div>
                 {error && error.response && <div> {error.response.data}</div>}
               </form>
