@@ -5,6 +5,7 @@ import { withRouter, Link } from 'react-router-dom';
 import { logout } from '../store';
 import mapboxgl from 'mapbox-gl';
 import moment from 'moment';
+import * as _ from 'underscore';
 import { setMap, getPriceTin } from '../store/user-input';
 import airportCoordsTest from '../../data/airportPriceTest';
 
@@ -18,18 +19,26 @@ mapboxgl.accessToken =
   'pk.eyJ1IjoidGhlc2h1byIsImEiOiJjajgyNXZhY2oyaWc4MzJzMG82dWM3Zm9mIn0._fGWYG5J5f0NwYRbVnByeQ';
 
 const primary = '#00D1B2';
-const stops = [
-  [1, '#ffffe0'],
-  [100, '#ffe3af'],
-  [200, '#ffc58a'],
-  [300, '#ffa474'],
-  [400, '#fa8266'],
-  [500, '#ed645c'],
-  [600, '#db4551'],
-  [700, '#c52940'],
-  [800, '#aa0e27'],
-  [900, '#8b0000'],
+const colors = [
+  '#072017',
+  '#113426',
+  '#1C4A35',
+  '#296045',
+  '#377854',
+  '#469063',
+  '#57A972',
+  '#69C281',
+  '#7CDC8F',
+  '#90F79D',
 ];
+
+const makeStops = (colorArray, minPrice, maxPrice) => {
+  const n = colorArray.length;
+  const interval = _.range(minPrice, maxPrice, Math.floor(maxPrice / n));
+  return interval.map((val, idx) => {
+    return [val, colorArray[idx]];
+  });
+};
 
 const buildAirportsGeoJSON = trip => {
   const airportsGeoJSON = {
@@ -98,12 +107,8 @@ class Map extends Component {
       departureDate,
       dispatchGetPriceTin,
     } = this.props;
-    console.log(
-      'From Map:',
-      maxPrice,
-      airportAbbrv,
-      moment(departureDate).format('YYYY-MM-DD'),
-    );
+
+    // console.log(makeStops(colors, 0, 3000));
 
     // console.log('TIN map:', tinJSON);
     dispatchGetPriceTin(
@@ -168,7 +173,7 @@ class Map extends Component {
         paint: {
           'fill-color': {
             property: 'average',
-            stops: stops,
+            stops: makeStops(colors.reverse(), 0, 3000),
           },
           'fill-opacity': 0.6,
           // 'fill-outline-color': 'white',
