@@ -169,8 +169,8 @@ class ControlPanel extends Component {
                     <input
                       className="input is-fullwidth is-small"
                       type="text"
-                      placeholder={this.props.maxPrice}
-                      value={this.state.maxPriceValue}
+                      placeholder={Math.trunc(this.props.maxPrice)}
+                      value={Math.trunc(this.props.maxPrice)}
                       onChange={this.maxPriceChange}
                     />
                   </form>
