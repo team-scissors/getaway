@@ -33,14 +33,14 @@ class TripMenu extends Component {
     totalPrice: 0,
   };
 
-  componentWillReceiveProps(nextProps) {
-    const trip = this.props.trip;
-    const totalPrice = getTripPrice(trip);
-    const remaining = Math.max(+this.state.budget - totalPrice, 0);
-    this.setState({ remaining: remaining }, () => {
-      this.props.dispatchSetMaxPrice(this.state.remaining);
-    });
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   const trip = this.props.trip;
+  //   const totalPrice = getTripPrice(trip);
+  //   const remaining = Math.max(+this.state.budget - totalPrice, 0);
+  //   this.setState({ remaining: remaining }, () => {
+  //     this.props.dispatchSetMaxPrice(this.state.remaining);
+  //   });
+  // }
 
   handleChangeBudget = e => {
     const trip = this.props.trip;
@@ -48,7 +48,7 @@ class TripMenu extends Component {
     this.setState({ budget: e.target.value }, () => {
       const remaining = Math.max(+this.state.budget - totalPrice, 0);
       this.setState({ remaining: remaining }, () => {
-        this.props.dispatchSetMaxPrice(this.state.remaining);
+        // this.props.dispatchSetMaxPrice(this.state.remaining);
       });
     });
   };
