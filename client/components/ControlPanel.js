@@ -145,7 +145,7 @@ class ControlPanel extends Component {
                 <label className="label is-small">Departure Date</label>
               </div>
               <div className="column">
-                <label className="label is-small">Max Price</label>
+                <label className="label is-small">Max Flight Price</label>
               </div>
             </div>
           </div>

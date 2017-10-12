@@ -149,7 +149,7 @@ class TripMenu extends Component {
                     />
                   </div>
                   <div className="control">
-                    <label className="label is-medium">
+                    <label style={{paddingTop: "1rem"}}className="label is-medium">
                       <span className="subtitle">Budget</span>
                     </label>
                     <input
