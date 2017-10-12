@@ -1,16 +1,16 @@
 const router = require('express').Router();
 const { Airport, Flight } = require('../db/models');
-// const turf = require('turf');
+const turf = require('@turf/turf');
 module.exports = router;
 
 const constructTIN = origin => {
-  const tinLayer = {
+  const destAirports = {
     type: 'FeatureCollection',
     features: [],
   };
 
   origin.toAirport.forEach(airport => {
-    tinLayer.features.push({
+    destAirports.features.push({
       type: 'Feature',
       geometry: {
         type: 'Point',
@@ -23,6 +23,13 @@ const constructTIN = origin => {
     });
   });
 
+  const tinLayer = turf.tin(destAirports, 'price');
+  let maxAvg = 0;
+  for (var i = 0; i < tinLayer.features.length; i++) {
+    var properties = tinLayer.features[i].properties;
+    properties.average = (properties.a + properties.b + properties.c) / 3;
+    if (properties.average > maxAvg) maxAvg = properties.average;
+  }
   return tinLayer;
 };
 

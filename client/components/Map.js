@@ -4,8 +4,10 @@ import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import { logout } from '../store';
 import mapboxgl from 'mapbox-gl';
-import { setMap } from '../store/user-input';
+import moment from 'moment';
+import { setMap, getPriceTin } from '../store/user-input';
 import airportCoordsTest from '../../data/airportPriceTest';
+import airportTinTest from '../../data/airportTinTest';
 
 /**
  * COMPONENT
@@ -17,6 +19,18 @@ mapboxgl.accessToken =
   'pk.eyJ1IjoidGhlc2h1byIsImEiOiJjajgyNXZhY2oyaWc4MzJzMG82dWM3Zm9mIn0._fGWYG5J5f0NwYRbVnByeQ';
 
 const primary = '#00D1B2';
+const stops = [
+  [1, '#ffffe0'],
+  [100, '#ffe3af'],
+  [200, '#ffc58a'],
+  [300, '#ffa474'],
+  [400, '#fa8266'],
+  [500, '#ed645c'],
+  [600, '#db4551'],
+  [700, '#c52940'],
+  [800, '#aa0e27'],
+  [900, '#8b0000'],
+];
 
 const buildAirportsGeoJSON = trip => {
   const airportsGeoJSON = {
@@ -78,6 +92,27 @@ const buildTripGeoJSON = trip => {
 // REVIEW: what happens when we have props?
 class Map extends Component {
   componentDidMount() {
+    const {
+      maxPrice,
+      airportAbbrv,
+      tinJSON,
+      departureDate,
+      dispatchGetPriceTin,
+    } = this.props;
+    console.log(
+      'From Map:',
+      maxPrice,
+      airportAbbrv,
+      moment(departureDate).format('YYYY-MM-DD'),
+    );
+
+    console.log('TIN map:', tinJSON);
+    dispatchGetPriceTin(
+      moment(departureDate).format('YYYY-MM-DD'),
+      airportAbbrv,
+      maxPrice,
+    );
+
     this.map = new mapboxgl.Map({
       container: this.mapContainer,
       style: 'mapbox://styles/mapbox/light-v9',
@@ -117,24 +152,42 @@ class Map extends Component {
         data: this.state.airportsGeoJSON,
       });
 
-      this.map.addSource('airportCoords', {
+      // this.map.addSource('airportCoords', {
+      //   type: 'geojson',
+      //   data: airportCoordsTest,
+      // });
+
+      this.map.addSource('tinLayer', {
         type: 'geojson',
-        data: airportCoordsTest,
+        data: this.props.tinJSON,
       });
 
-      console.log('airports', this.state.airportsGeoJSON);
-      console.log('airportCoords', airportCoordsTest);
-
-      this.map.setPitch(45);
+      // console.log('airports', this.state.airportsGeoJSON);
+      // console.log('airportCoords', airportCoordsTest);
+      console.log('tinlayer', this.props.tinJSON);
 
       this.map.addLayer({
-        id: 'airportCoords',
-        source: 'airportCoords',
-        type: 'circle',
+        id: 'tinLayer',
+        source: 'tinLayer',
+        type: 'fill',
         paint: {
-          'circle-color': 'blue',
+          'fill-color': {
+            property: 'average',
+            stops: stops,
+          },
+          'fill-opacity': 0.6,
+          // 'fill-outline-color': 'white',
         },
       });
+
+      // this.map.addLayer({
+      //   id: 'airportCoords',
+      //   source: 'airportCoords',
+      //   type: 'circle',
+      //   paint: {
+      //     'circle-color': 'blue',
+      //   },
+      // });
 
       this.map.addLayer({
         id: 'airports',
@@ -235,6 +288,10 @@ class Map extends Component {
 const mapState = state => ({
   isLoggedIn: !!state.user.id,
   trip: state.userInput.currentTrip,
+  airportAbbrv: state.userInput.originAirportAbbrv,
+  departureDate: state.userInput.departureDate,
+  maxPrice: state.userInput.maxPrice,
+  tinJSON: state.userInput.tinJSON,
 });
 
 const mapDispatch = dispatch => ({
@@ -243,6 +300,9 @@ const mapDispatch = dispatch => ({
   },
   dispatchSetMap(map) {
     dispatch(setMap(map));
+  },
+  dispatchGetPriceTin(date, originAbbrv, maxPrice) {
+    dispatch(getPriceTin(date, originAbbrv, maxPrice));
   },
 });
 
