@@ -57,6 +57,9 @@ const AuthForm = (props) => {
                 <div className="field">
                   <button className="button is-primary is-fullwidth" type="submit">{displayName}</button>
                 </div>
+                <div className="has-text-centered">
+                  <a href="/auth/google">{displayName} with Google</a>
+                </div>
                 {error && error.response && <div> {error.response.data}</div>}
               </form>
             </div>
