@@ -41,6 +41,7 @@ const initialState = {
  * Thunk
  */
 export const getPriceTin = (date, originAbbrv, maxPrice) => {
+  console.log('called with:', date, originAbbrv, maxPrice);
   return dispatch => {
     return axios
       .get(`/api/geo/tin`, {
@@ -51,6 +52,7 @@ export const getPriceTin = (date, originAbbrv, maxPrice) => {
         },
       })
       .then(tinJSON => {
+        console.log('got tindata:', tinJSON.data.features[0]);
         dispatch(setPriceTin(tinJSON.data));
       });
   };

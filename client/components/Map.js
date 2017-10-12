@@ -7,7 +7,6 @@ import mapboxgl from 'mapbox-gl';
 import moment from 'moment';
 import { setMap, getPriceTin } from '../store/user-input';
 import airportCoordsTest from '../../data/airportPriceTest';
-import airportTinTest from '../../data/airportTinTest';
 
 /**
  * COMPONENT
@@ -106,7 +105,7 @@ class Map extends Component {
       moment(departureDate).format('YYYY-MM-DD'),
     );
 
-    console.log('TIN map:', tinJSON);
+    // console.log('TIN map:', tinJSON);
     dispatchGetPriceTin(
       moment(departureDate).format('YYYY-MM-DD'),
       airportAbbrv,
@@ -161,10 +160,6 @@ class Map extends Component {
         type: 'geojson',
         data: this.props.tinJSON,
       });
-
-      // console.log('airports', this.state.airportsGeoJSON);
-      // console.log('airportCoords', airportCoordsTest);
-      console.log('tinlayer', this.props.tinJSON);
 
       this.map.addLayer({
         id: 'tinLayer',
@@ -238,6 +233,19 @@ class Map extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    const { departureDate, airportAbbrv, maxPrice } = this.props;
+    if (
+      nextProps.departureDate !== departureDate ||
+      nextProps.airportAbbrv !== airportAbbrv ||
+      nextProps.maxPrice !== maxPrice
+    ) {
+      this.props.dispatchGetPriceTin(
+        moment(nextProps.departureDate).format('YYYY-MM-DD'),
+        nextProps.airportAbbrv,
+        nextProps.maxPrice,
+      );
+    }
+
     this.setState(
       {
         tripGeoJSON: buildTripGeoJSON(nextProps.trip),
@@ -250,7 +258,6 @@ class Map extends Component {
         }
         if (this.map.getSource('airports')) {
           this.map.getSource('airports').setData(this.state.airportsGeoJSON);
-          console.log('airports', this.state.airportsGeoJSON);
         }
         if (this.map.getSource('airport-labels')) {
           this.map
@@ -270,6 +277,9 @@ class Map extends Component {
 
   render() {
     const { trip } = this.props;
+    if (this.map && this.map.getSource('tinLayer'))
+      this.map.getSource('tinLayer').setData(this.props.tinJSON);
+
     // console.log('map tripGeojson:', tripGeoJSON);
     const style = {
       position: 'absolute',
