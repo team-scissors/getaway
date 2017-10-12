@@ -184,6 +184,7 @@ class Map extends Component {
             stops: makeStops(colors, 0, 3000),
           },
           'fill-opacity': 0.6,
+          'fill-outline-color': 'white',
           // 'fill-outline-color': 'white',
         },
       });
