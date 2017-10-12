@@ -18,6 +18,14 @@ import { flightsFromAirportByAbbrv } from './util_helper';
 import moment from 'moment';
 import { ControlPanel, FlightListPanel, UserPanel } from '../components';
 
+const getTripPrice = trip => {
+  return trip.length > 0
+    ? trip.reduce((a, b) => {
+        return a + b.price;
+      }, 0)
+    : 0;
+};
+
 class TripMenu extends Component {
   state = {
     budget: 1000,
@@ -27,29 +35,16 @@ class TripMenu extends Component {
 
   componentWillReceiveProps(nextProps) {
     const trip = this.props.trip;
-    const totalPrice =
-      trip.length > 0
-        ? trip.reduce((a, b) => {
-            return a + b.price;
-          }, 0)
-        : 0;
-    // this.setState({ totalPrice: totalPrice });
-    // if (nextProps.trip.length != this.props.trip.length) {
+    const totalPrice = getTripPrice(trip);
     const remaining = Math.max(+this.state.budget - totalPrice, 0);
     this.setState({ remaining: remaining }, () => {
       this.props.dispatchSetMaxPrice(this.state.remaining);
     });
-    // }
   }
 
   handleChangeBudget = e => {
     const trip = this.props.trip;
-    const totalPrice =
-      trip.length > 0
-        ? trip.reduce((a, b) => {
-            return a + b.price;
-          }, 0)
-        : 0;
+    const totalPrice = getTripPrice(trip);
     this.setState({ budget: e.target.value }, () => {
       const remaining = Math.max(+this.state.budget - totalPrice, 0);
       this.setState({ remaining: remaining }, () => {
