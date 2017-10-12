@@ -251,7 +251,7 @@ class Flights extends Component {
                 }
                 const color =
                   d.abbrv === destAbbrv
-                    ? primary
+                    ? "blue"
                     : regions[d.continent.replace(/\s/g, '')];
                 return color;
               },
