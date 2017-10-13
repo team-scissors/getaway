@@ -92,10 +92,6 @@ class ControlPanel extends Component {
   };
 
   handleDayChange = date => {
-    // this.setState({
-    //   selectedDay: day,
-    // });
-    // console.log
     this.props.dispatchSetDate(date.toDate());
   };
 
