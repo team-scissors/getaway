@@ -98,18 +98,19 @@ class TopNavFlight extends Component {
             </p>
           </div>
         </div>
-        <div className="level-item has-text-centered">
-          <div className="field is-grouped">
-            <p className="control">
-              <a className="button is-primary " onClick={this.handleLuckyAdd}>
-                {/* <span>¯\_(ツ)_/¯</span> */}
-                <span className="icon is-small">
-                  <i className="fa fa-random" />
-                </span>
-              </a>
-            </p>
+        {/*
+          <div className="level-item has-text-centered">
+            <div className="field is-grouped">
+              <p className="control">
+                <a className="button is-primary " onClick={this.handleLuckyAdd}>
+                  <span className="icon is-small">
+                    <i className="fa fa-random" />
+                  </span>
+                </a>
+              </p>
+            </div>
           </div>
-        </div>
+          */}
         <div className="field is-grouped">
           <p className="control">
             <a className="button is-info " onClick={this.handleAddFlightToTrip}>
