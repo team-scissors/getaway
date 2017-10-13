@@ -102,7 +102,10 @@ class TopNavFlight extends Component {
           <div className="field is-grouped">
             <p className="control">
               <a className="button is-primary " onClick={this.handleLuckyAdd}>
-                <span>¯\_(ツ)_/¯</span>
+                {/* <span>¯\_(ツ)_/¯</span> */}
+                <span className="icon is-small">
+                  <i className="fa fa-random" />
+                </span>
               </a>
             </p>
           </div>
