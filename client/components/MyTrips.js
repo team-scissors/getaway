@@ -22,20 +22,23 @@ class MyTrips extends Component {
   };
   render() {
     const { currentTripName, allTrips, loading } = this.props;
-    console.log();
 
-    const myTrips = !loading
-      ? allTrips.trips.map(trip => {
-          const price = trip.tripFlightsByTripId.nodes.reduce((acc, node) => {
-            return acc + node.flightByFlightId.price;
-          }, 0);
-          return {
-            id: trip.id,
-            name: trip.name,
-            price: Math.trunc(price),
-          };
-        })
-      : '';
+    this.props.refetch();
+    const myTrips =
+      allTrips && allTrips.trips.length > 0
+        ? allTrips.trips.map(trip => {
+            const price = trip.tripFlightsByTripId.nodes.reduce((acc, node) => {
+              return acc + node.flightByFlightId.price;
+            }, 0);
+            return {
+              id: trip.id,
+              name: trip.name,
+              price: Math.trunc(price),
+            };
+          })
+        : '';
+    console.log('alltrips:', allTrips);
+    console.log('myTrips:', myTrips);
     return (
       <div>
         <nav className="panel flight-list">
