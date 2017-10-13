@@ -151,15 +151,10 @@ class Flights extends Component {
     this.setState({ airportData: airportData });
   }
 
-  componentDidUpdate() {}
-
   componentWillReceiveProps(nextProps) {
     const { selectedDestination, origin, maxPrice } = nextProps;
-    if (this.props.selectedDestination !== selectedDestination)
-      if (origin != this.props.origin || maxPrice != this.props.maxPrice) {
-        const airportData = this.createAirportData(origin, maxPrice);
-        this.setState({ airportData: airportData });
-      }
+    const airportData = this.createAirportData(origin, maxPrice);
+    this.setState({ airportData: airportData });
   }
 
   render() {
