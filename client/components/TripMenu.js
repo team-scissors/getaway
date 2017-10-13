@@ -76,12 +76,14 @@ class TripMenu extends Component {
       name: this.props.currentTripName,
       userId: this.props.userId,
     };
+    console.log('this.props.trip', this.props.trip);
     const flightIds =
       this.props.trip.length > 0
         ? this.props.trip.map(trip => {
             return trip.id;
           })
         : [];
+    console.log('flightIds?: ', flightIds);
     if (newTrip.name && newTrip.userId) {
       this.props.dispatchSaveTrip(newTrip, flightIds, message);
     } else {
@@ -149,7 +151,10 @@ class TripMenu extends Component {
                     />
                   </div>
                   <div className="control">
-                    <label style={{paddingTop: "1rem"}}className="label is-medium">
+                    <label
+                      style={{ paddingTop: '1rem' }}
+                      className="label is-medium"
+                    >
                       <span className="subtitle">Budget</span>
                     </label>
                     <input

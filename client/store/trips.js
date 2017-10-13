@@ -35,23 +35,25 @@ export const addTripToTrips = trip => {
 export const fetchTrips = userId => {
   return dispatch => {
     if (!userId) return;
-    return axios.get(`/api/trips/user/${userId}`)
-    .then(res => res.data)
-    .then(trips => {
-      dispatch(getTrips(trips));
-    })
-    .catch(err => dispatch(setError(err)));
+    return axios
+      .get(`/api/trips/user/${userId}`)
+      .then(res => res.data)
+      .then(trips => {
+        dispatch(getTrips(trips));
+      })
+      .catch(err => dispatch(setError(err)));
   };
 };
 
 export const deleteTrip = (tripId, userId) => {
   return dispatch => {
-    return axios.delete(`/api/trips/${tripId}`)
-    .then(res => res.data)
-    .then(() => {
-      dispatch(fetchTrips(userId));
-    })
-    .catch(err => dispatch(setError(err)));
+    return axios
+      .delete(`/api/trips/${tripId}`)
+      .then(res => res.data)
+      .then(() => {
+        dispatch(fetchTrips(userId));
+      })
+      .catch(err => dispatch(setError(err)));
   };
 };
 
@@ -63,29 +65,31 @@ export const deleteTrip = (tripId, userId) => {
 */
 export const createTrip = (newTrip, flightIds, message) => {
   return dispatch => {
-    return axios.post(`/api/trips/`, newTrip)
-    .then(res => res.data)
-    .then(trip => {
-      return axios.post(`/api/trips/${trip.id}`, flightIds);
-    })
-    .then(() => {
-      dispatch(fetchTrips(newTrip.userId));
-      dispatch(tripSubmitConfirm(message));
-      setTimeout(() => {
-         dispatch(clearSubmitConfirm());
-      }, 5000);
-    })
-    .catch(err => dispatch(setError(err)));
+    return axios
+      .post(`/api/trips/`, newTrip)
+      .then(res => res.data)
+      .then(trip => {
+        return axios.post(`/api/trips/${trip.id}`, flightIds);
+      })
+      .then(() => {
+        dispatch(fetchTrips(newTrip.userId));
+        dispatch(tripSubmitConfirm(message));
+        setTimeout(() => {
+          dispatch(clearSubmitConfirm());
+        }, 5000);
+      })
+      .catch(err => dispatch(setError(err)));
   };
 };
 
 export const updateTripNewFlight = (tripId, flightId) => {
   return dispatch => {
-    return axios.put(`/api/trips/${tripId}/${flightId}`)
-    .then(res => {
-      // Do something with the store here. TODO: make an action creator
-    })
-    .catch(err => dispatch(setError(err)));
+    return axios
+      .put(`/api/trips/${tripId}/${flightId}`)
+      .then(res => {
+        // Do something with the store here. TODO: make an action creator
+      })
+      .catch(err => dispatch(setError(err)));
   };
 };
 

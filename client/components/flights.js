@@ -280,18 +280,23 @@ class Flights extends Component {
                       target: 'data',
                       mutation: props => {
                         const a = props.datum;
-                        const selectedFlight = {
-                          price: a.price,
-                          departAt: a.departAt,
-                          dest: {
-                            name: a.name,
-                            abbrv: a.abbrv,
-                            city: a.city,
-                            country: a.country,
-                            latitude: a.latitude,
-                            longitude: a.longitude,
-                          },
-                        };
+                        const abbrv = a.abbrv;
+                        const flightList = this.props.origin.flights.nodes;
+                        const selectedFlight = flightList.find(f => {
+                          return f.dest.abbrv === abbrv;
+                        });
+                        // const selectedFlight = {
+                        //   price: a.price,
+                        //   departAt: a.departAt,
+                        //   dest: {
+                        //     name: a.name,
+                        //     abbrv: a.abbrv,
+                        //     city: a.city,
+                        //     country: a.country,
+                        //     latitude: a.latitude,
+                        //     longitude: a.longitude,
+                        //   },
+                        // };
                         dispatchSetCurrentFlight(selectedFlight);
                       },
                     },
