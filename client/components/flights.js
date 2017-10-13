@@ -124,7 +124,7 @@ class Flights extends Component {
           price: +flight.price,
           departAt: flight.departAt,
           distance: distance,
-          costPerKm: 1/(flight.price / distance),
+          costPerKm: 1 / (flight.price / distance),
           // Victory polar is counter-clockwise
           bearing:
             (90 -
@@ -156,11 +156,10 @@ class Flights extends Component {
   componentWillReceiveProps(nextProps) {
     const { selectedDestination, origin, maxPrice } = nextProps;
     if (this.props.selectedDestination !== selectedDestination)
-      console.log('diff dests!');
-    if (origin != this.props.origin || maxPrice != this.props.maxPrice) {
-      const airportData = this.createAirportData(origin, maxPrice);
-      this.setState({ airportData: airportData });
-    }
+      if (origin != this.props.origin || maxPrice != this.props.maxPrice) {
+        const airportData = this.createAirportData(origin, maxPrice);
+        this.setState({ airportData: airportData });
+      }
   }
 
   render() {
@@ -171,7 +170,6 @@ class Flights extends Component {
       dispatchSetCurrentFlight,
     } = this.props;
 
-    console.log('sel dest:', selectedDestination);
     const destAbbrv = selectedDestination.dest
       ? selectedDestination.dest.abbrv
       : '';
@@ -251,7 +249,7 @@ class Flights extends Component {
                 }
                 const color =
                   d.abbrv === destAbbrv
-                    ? "blue"
+                    ? 'blue'
                     : regions[d.continent.replace(/\s/g, '')];
                 return color;
               },
@@ -286,7 +284,6 @@ class Flights extends Component {
                     {
                       target: 'data',
                       mutation: props => {
-                        console.log('click props:', props);
                         const a = props.datum;
                         const selectedFlight = {
                           price: a.price,

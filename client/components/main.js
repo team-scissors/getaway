@@ -11,10 +11,6 @@ import { logout } from '../store';
  *  rendered out by the component's `children`.
  */
 class Main extends Component {
-  onClick() {
-    console.log('clicked on button');
-  }
-
   render() {
     const classes = this.props.classes;
     const { children, handleClick, isLoggedIn } = this.props;

@@ -14,8 +14,6 @@ class MyTrips extends Component {
     this.props.dispatchSetTripName(tripName);
   };
   handleDeleteTrip = (tripId, e) => {
-    console.log('tripId', tripId);
-    console.log('e', e);
     const { dispatchDeleteTrip, userId, loading, refetch } = this.props;
     dispatchDeleteTrip(tripId, userId);
     if (!loading) refetch();
@@ -37,8 +35,6 @@ class MyTrips extends Component {
             };
           })
         : '';
-    console.log('alltrips:', allTrips);
-    console.log('myTrips:', myTrips);
     return (
       <div>
         <nav className="panel flight-list">

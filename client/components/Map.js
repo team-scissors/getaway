@@ -118,7 +118,6 @@ class Map extends Component {
       dispatchGetPriceTin,
     } = this.props;
 
-    // console.log('TIN map:', tinJSON);
     dispatchGetPriceTin(
       moment(departureDate).format('YYYY-MM-DD'),
       airportAbbrv,
@@ -244,7 +243,7 @@ class Map extends Component {
       );
 
       this.GeoControl.on('geolocate', position => {
-        console.log(position);
+        // console.log(position);
       });
     });
   }
@@ -297,7 +296,6 @@ class Map extends Component {
     if (this.map && this.map.getSource('tinLayer'))
       this.map.getSource('tinLayer').setData(this.props.tinJSON);
 
-    // console.log('map tripGeojson:', tripGeoJSON);
     const style = {
       position: 'absolute',
       top: 0,
