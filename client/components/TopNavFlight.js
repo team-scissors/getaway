@@ -7,6 +7,7 @@ import { graphql } from 'react-apollo';
 import * as _ from 'underscore';
 import { flightsFromAirportByAbbrv } from './util_helper';
 import {
+  setCurrentFlight,
   setAirport,
   clearTrip,
   setMaxPrice,
@@ -24,6 +25,15 @@ class TopNavFlight extends Component {
       this.props.dispatchSetAirport(flight.dest.abbrv);
       this.props.dispatchAddFlightToTrip(flight);
     }
+  };
+
+  handleLuckyAdd = () => {
+    // pick a random dest
+    const flights = this.props.origin.flights.nodes;
+    const randomDest = flights[Math.floor(Math.random() * flights.length)];
+    console.log('random dest:', randomDest);
+    this.props.dispatchSetCurrentFlight(randomDest);
+    // handleAddFlightToTrip();
   };
 
   render() {
@@ -89,21 +99,23 @@ class TopNavFlight extends Component {
           </div>
         </div>
         <div className="level-item has-text-centered">
-          <div>
-            <div className="field is-grouped">
-              <p className="control">
-                <a
-                  className="button is-info is-outlined"
-                  onClick={this.handleAddFlightToTrip}
-                >
-                  <span className="icon is-small">
-                    <i className="fa fa-chevron-right" />
-                  </span>
-                  <span>Add To Trip</span>
-                </a>
-              </p>
-            </div>
+          <div className="field is-grouped">
+            <p className="control">
+              <a className="button is-primary " onClick={this.handleLuckyAdd}>
+                <span>¯\_(ツ)_/¯</span>
+              </a>
+            </p>
           </div>
+        </div>
+        <div className="field is-grouped">
+          <p className="control">
+            <a className="button is-info " onClick={this.handleAddFlightToTrip}>
+              <span className="icon is-small">
+                <i className="fa fa-chevron-right" />
+              </span>
+              <span>Add To Trip</span>
+            </a>
+          </p>
         </div>
       </nav>
     );
@@ -123,6 +135,9 @@ const mapDispatch = dispatch => {
   return {
     handleClick() {
       dispatch(logout());
+    },
+    dispatchSetCurrentFlight(selectedAirport) {
+      dispatch(setCurrentFlight(selectedAirport));
     },
     dispatchAddFlightToTrip(flight) {
       dispatch(addFlightToTrip(flight));
