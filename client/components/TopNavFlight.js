@@ -28,12 +28,12 @@ class TopNavFlight extends Component {
   };
 
   handleLuckyAdd = () => {
-    // pick a random dest
     const flights = this.props.origin.flights.nodes;
-    const randomDest = flights[Math.floor(Math.random() * flights.length)];
-    console.log('random dest:', randomDest);
+    let randomDest = flights[Math.floor(Math.random() * flights.length)];
+    while (randomDest.price > this.props.maxPrice) {
+      randomDest = flights[Math.floor(Math.random() * flights.length)];
+    }
     this.props.dispatchSetCurrentFlight(randomDest);
-    // handleAddFlightToTrip();
   };
 
   render() {
@@ -127,6 +127,7 @@ const mapState = state => {
     trip: state.userInput.currentTrip,
     currentFlight: state.userInput.currentFlight,
     airportAbbrv: state.userInput.originAirportAbbrv,
+    maxPrice: state.userInput.maxPrice,
     isLoggedIn: !!state.user.id,
   };
 };
