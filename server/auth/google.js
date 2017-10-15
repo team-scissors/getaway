@@ -25,7 +25,6 @@ const googleConfig = {
 }
 
 const strategy = new GoogleStrategy(googleConfig, (token, refreshToken, profile, done) => {
-  console.log('profile ', profile);
   const googleId = profile.id
   const name = profile.displayName
   const email = profile.emails[0].value
