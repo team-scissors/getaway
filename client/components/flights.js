@@ -213,8 +213,8 @@ class Flights extends Component {
         />
         <VictoryScatter
           bubbleProperty="costPerKm"
-          maxBubbleSize={7}
-          minBubbleSize={3}
+          maxBubbleSize={10}
+          minBubbleSize={1}
           animate={{
             onEnter: {
               duration: 200,
