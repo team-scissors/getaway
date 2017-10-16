@@ -17,8 +17,8 @@ type Flight {
   price: Float!
   toId: Int
   fromId: Int
-  airportByToId: Airport
-  airportByFromId: Airport
+  airportByToId: Airport!
+  airportByFromId: Airport!
 }
 type Query {
   airportById(id: Int!): Airport

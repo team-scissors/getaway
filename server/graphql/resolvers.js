@@ -24,7 +24,15 @@ const resolvers = {
         }
       });
     },
-  }
+  },
+  Flight: {
+    airportByFromId(flight) {
+      return Airport.findById(flight.fromId);
+    },
+    airportByToId(flight) {
+      return Airport.findById(flight.toId);
+    },
+  },
 };
 
 module.exports = resolvers;
