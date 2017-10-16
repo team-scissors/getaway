@@ -5,7 +5,11 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const passport = require('passport');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
+// GraphQL
 const postgraphql = require('postgraphql').postgraphql;
+const { graphqlExpress, graphiqlExpress } = require('apollo-server-express');
+const schema = require('./graphql/schema');
+
 const db = require('./db');
 const sessionStore = new SequelizeStore({db});
 const PORT = process.env.PORT || 8080;
@@ -55,8 +59,12 @@ const createApp = () => {
   // Serve GraphQL and GraphiQL
   // app.use('/graphql', bodyParser.json(), graphqlExpress({ schema: graphqlSchema }));
   // app.get('/graphiql', graphiqlExpress({ endpointURL: '/graphql' })); // if you want GraphiQL enabled
-  const database_url = process.env.DATABASE_URL || 'postgres://localhost:5432/getaway';
-  app.use(postgraphql(database_url, {graphiql: true}));
+  // const database_url = process.env.DATABASE_URL || 'postgres://localhost:5432/getaway';
+  // app.use(postgraphql(database_url, {graphiql: true}));
+
+  // ~~~~~~~ Our very own GraphQL API ~~~~~~~
+  app.use('/graphql', bodyParser.json(), graphqlExpress({ schema }));
+  app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }));
 
   // static file-serving middleware
   app.use(express.static(path.join(__dirname, '..', 'public')))
