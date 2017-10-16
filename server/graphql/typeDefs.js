@@ -20,10 +20,21 @@ type Flight {
   airportByToId: Airport!
   airportByFromId: Airport!
 }
+type User {
+  id: Int!
+  email: String!
+  tripsByUserId: [Trip]
+}
+type Trip {
+  id: Int!
+  flights: [Flight]
+}
 type Query {
   airportById(id: Int!): Airport
   airportByAbbrv(abbrv: String!): Airport
   airports: [Airport]
+  userById(id: Int!): User
+  userByEmail(email: String!): User
 }
 `;
 

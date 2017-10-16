@@ -1,4 +1,9 @@
-const { Airport, Flight } = require('../db/models');
+const {
+  Airport,
+  Flight,
+  User,
+  Trip,
+} = require('../db/models');
 
 const resolvers = {
   Query: {
@@ -8,6 +13,16 @@ const resolvers = {
     airportById(root, {id}) {
       return Airport.findById(id);
     },
+    userById(root, {id}) {
+      return User.findById(id);
+    },
+    userByEmail(root, {email}) {
+      return User.find({
+        where: {
+          email,
+        }
+      });
+    }
   },
   Airport: {
     flightsByFromId(airport) {
@@ -33,6 +48,20 @@ const resolvers = {
       return Airport.findById(flight.toId);
     },
   },
+  User: {
+    tripsByUserId(user) {
+      return Trip.findAll({
+        where: {
+          userId: user.id,
+        }
+      });
+    }
+  },
+  Trip: {
+    flights(trip) {
+      return trip.getFlights();
+    }
+  }
 };
 
 module.exports = resolvers;
