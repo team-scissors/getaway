@@ -1,4 +1,4 @@
-const { Airport } = require('../db/models');
+const { Airport, Flight } = require('../db/models');
 
 const resolvers = {
   Query: {
@@ -15,6 +15,25 @@ const resolvers = {
         }
       });
     },
+    flightById(root, {id}) {
+      return Flight.findById(id)
+        .then(flight => {
+          console.log(flight);
+          return flight;
+        });
+    },
+    flightWithAirports(root, {id}) {
+      return Flight.findById(id, {
+        include: [
+          { model: Airport, as: 'fromAirport' },
+          { model: Airport, as: 'toAirport' },
+        ]
+      })
+        .then(flight => {
+          console.log(flight);
+          return flight;
+        });
+    }
   },
 };
 
