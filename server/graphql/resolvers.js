@@ -8,33 +8,23 @@ const resolvers = {
     airportById(root, {id}) {
       return Airport.findById(id);
     },
-    airportByAbbrv(root, {abbrv}) {
-      return Airport.find({
+  },
+  Airport: {
+    flightsByFromId(airport) {
+      return Flight.findAll({
         where: {
-          abbrv,
+          fromId: airport.id,
         }
       });
     },
-    flightById(root, {id}) {
-      return Flight.findById(id)
-        .then(flight => {
-          console.log(flight);
-          return flight;
-        });
+    flightsByToId(airport) {
+      return Flight.findAll({
+        where: {
+          toId: airport.id,
+        }
+      });
     },
-    flightWithAirports(root, {id}) {
-      return Flight.findById(id, {
-        include: [
-          { model: Airport, as: 'fromAirport' },
-          { model: Airport, as: 'toAirport' },
-        ]
-      })
-        .then(flight => {
-          console.log(flight);
-          return flight;
-        });
-    }
-  },
+  }
 };
 
 module.exports = resolvers;

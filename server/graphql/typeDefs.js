@@ -9,20 +9,21 @@ type Airport {
   averageTemperature: String!
   longitude: Float!
   latitude: Float!
-  flightsByFromAirport: [Flight]
+  flightsByFromId: [Flight]
+  flightsByToId: [Flight]
 }
 type Flight {
   id: Int!
   price: Float!
-  toId: Airport
-  fromId: Airport
+  toId: Int
+  fromId: Int
+  airportByToId: Airport
+  airportByFromId: Airport
 }
 type Query {
   airportById(id: Int!): Airport
   airportByAbbrv(abbrv: String!): Airport
   airports: [Airport]
-  # flightById(id: Int!): Flight
-  # flightWithAirports(id: Int!): Flight
 }
 `;
 

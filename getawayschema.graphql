@@ -1,0 +1,1849 @@
+type Airport implements Node {
+  # A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  nodeId: ID!
+  id: Int!
+  name: String!
+  abbrv: String!
+  city: String
+  country: String
+  continent: String
+  averageTemperature: String
+  longitude: Float!
+  latitude: Float!
+  createdAt: Datetime!
+  updatedAt: Datetime!
+
+  # Reads and enables pagination through a set of `Flight`.
+  flightsByToId(
+    # The method to use when ordering `Flight`.
+    orderBy: FlightsOrderBy = PRIMARY_KEY_ASC
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+
+    # A condition to be used in determining which values should be returned by the collection.
+    condition: FlightCondition
+  ): FlightsConnection
+
+  # Reads and enables pagination through a set of `Flight`.
+  flightsByFromId(
+    # The method to use when ordering `Flight`.
+    orderBy: FlightsOrderBy = PRIMARY_KEY_ASC
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+
+    # A condition to be used in determining which values should be returned by the collection.
+    condition: FlightCondition
+  ): FlightsConnection
+}
+
+# A condition to be used against `Airport` object types. All fields are tested for equality and combined with a logical ‘and.’
+input AirportCondition {
+  # Checks for equality with the object’s `id` field.
+  id: Int
+
+  # Checks for equality with the object’s `name` field.
+  name: String
+
+  # Checks for equality with the object’s `abbrv` field.
+  abbrv: String
+
+  # Checks for equality with the object’s `city` field.
+  city: String
+
+  # Checks for equality with the object’s `country` field.
+  country: String
+
+  # Checks for equality with the object’s `continent` field.
+  continent: String
+
+  # Checks for equality with the object’s `averageTemperature` field.
+  averageTemperature: String
+
+  # Checks for equality with the object’s `longitude` field.
+  longitude: Float
+
+  # Checks for equality with the object’s `latitude` field.
+  latitude: Float
+
+  # Checks for equality with the object’s `createdAt` field.
+  createdAt: Datetime
+
+  # Checks for equality with the object’s `updatedAt` field.
+  updatedAt: Datetime
+}
+
+input AirportInput {
+  id: Int
+  name: String!
+  abbrv: String!
+  city: String
+  country: String
+  continent: String
+  averageTemperature: String
+  longitude: Float!
+  latitude: Float!
+  createdAt: Datetime!
+  updatedAt: Datetime!
+}
+
+# Represents an update to a `Airport`. Fields that are set will be updated.
+input AirportPatch {
+  id: Int
+  name: String
+  abbrv: String
+  city: String
+  country: String
+  continent: String
+  averageTemperature: String
+  longitude: Float
+  latitude: Float
+  createdAt: Datetime
+  updatedAt: Datetime
+}
+
+# A connection to a list of `Airport` values.
+type AirportsConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # The count of *all* `Airport` you could get from the connection.
+  totalCount: Int
+
+  # A list of edges which contains the `Airport` and cursor to aid in pagination.
+  edges: [AirportsEdge]
+
+  # A list of `Airport` objects.
+  nodes: [Airport!]
+}
+
+# A `Airport` edge in the connection.
+type AirportsEdge {
+  # A cursor for use in pagination.
+  cursor: Cursor
+
+  # The `Airport` at the end of the edge.
+  node: Airport!
+}
+
+# Methods to use when ordering `Airport`.
+enum AirportsOrderBy {
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  NATURAL
+  ID_ASC
+  ID_DESC
+  NAME_ASC
+  NAME_DESC
+  ABBRV_ASC
+  ABBRV_DESC
+  CITY_ASC
+  CITY_DESC
+  COUNTRY_ASC
+  COUNTRY_DESC
+  CONTINENT_ASC
+  CONTINENT_DESC
+  AVERAGE_TEMPERATURE_ASC
+  AVERAGE_TEMPERATURE_DESC
+  LONGITUDE_ASC
+  LONGITUDE_DESC
+  LATITUDE_ASC
+  LATITUDE_DESC
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  UPDATED_AT_ASC
+  UPDATED_AT_DESC
+}
+
+# All input for the `createAirport` mutation.
+input CreateAirportInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+
+  # The `Airport` to be created by this mutation.
+  airport: AirportInput!
+}
+
+# The output of our `createAirport` mutation.
+type CreateAirportPayload {
+  # The exact same `clientMutationId` that was provided in the mutation input,
+  # unchanged and unused. May be used by a client to track mutations.
+  clientMutationId: String
+
+  # The `Airport` that was created by this mutation.
+  airport: Airport
+
+  # An edge for our `Airport`. May be used by Relay 1.
+  airportEdge(
+    # The method to use when ordering `Airport`.
+    orderBy: AirportsOrderBy = PRIMARY_KEY_ASC
+  ): AirportsEdge
+
+  # Our root query field type. Allows us to run any query from our mutation payload.
+  query: Query
+}
+
+# All input for the `createFlight` mutation.
+input CreateFlightInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+
+  # The `Flight` to be created by this mutation.
+  flight: FlightInput!
+}
+
+# The output of our `createFlight` mutation.
+type CreateFlightPayload {
+  # The exact same `clientMutationId` that was provided in the mutation input,
+  # unchanged and unused. May be used by a client to track mutations.
+  clientMutationId: String
+
+  # The `Flight` that was created by this mutation.
+  flight: Flight
+
+  # An edge for our `Flight`. May be used by Relay 1.
+  flightEdge(
+    # The method to use when ordering `Flight`.
+    orderBy: FlightsOrderBy = PRIMARY_KEY_ASC
+  ): FlightsEdge
+
+  # Reads a single `Airport` that is related to this `Flight`.
+  airportByToId: Airport
+
+  # Reads a single `Airport` that is related to this `Flight`.
+  airportByFromId: Airport
+
+  # Our root query field type. Allows us to run any query from our mutation payload.
+  query: Query
+}
+
+# All input for the `createSession` mutation.
+input CreateSessionInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+
+  # The `Session` to be created by this mutation.
+  session: SessionInput!
+}
+
+# The output of our `createSession` mutation.
+type CreateSessionPayload {
+  # The exact same `clientMutationId` that was provided in the mutation input,
+  # unchanged and unused. May be used by a client to track mutations.
+  clientMutationId: String
+
+  # The `Session` that was created by this mutation.
+  session: Session
+
+  # An edge for our `Session`. May be used by Relay 1.
+  sessionEdge(
+    # The method to use when ordering `Session`.
+    orderBy: SessionsOrderBy = PRIMARY_KEY_ASC
+  ): SessionsEdge
+
+  # Our root query field type. Allows us to run any query from our mutation payload.
+  query: Query
+}
+
+# All input for the `createTripFlight` mutation.
+input CreateTripFlightInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+
+  # The `TripFlight` to be created by this mutation.
+  tripFlight: TripFlightInput!
+}
+
+# The output of our `createTripFlight` mutation.
+type CreateTripFlightPayload {
+  # The exact same `clientMutationId` that was provided in the mutation input,
+  # unchanged and unused. May be used by a client to track mutations.
+  clientMutationId: String
+
+  # The `TripFlight` that was created by this mutation.
+  tripFlight: TripFlight
+
+  # An edge for our `TripFlight`. May be used by Relay 1.
+  tripFlightEdge(
+    # The method to use when ordering `TripFlight`.
+    orderBy: TripFlightsOrderBy = PRIMARY_KEY_ASC
+  ): TripFlightsEdge
+
+  # Reads a single `Trip` that is related to this `TripFlight`.
+  tripByTripId: Trip
+
+  # Reads a single `Flight` that is related to this `TripFlight`.
+  flightByFlightId: Flight
+
+  # Our root query field type. Allows us to run any query from our mutation payload.
+  query: Query
+}
+
+# All input for the `createTrip` mutation.
+input CreateTripInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+
+  # The `Trip` to be created by this mutation.
+  trip: TripInput!
+}
+
+# The output of our `createTrip` mutation.
+type CreateTripPayload {
+  # The exact same `clientMutationId` that was provided in the mutation input,
+  # unchanged and unused. May be used by a client to track mutations.
+  clientMutationId: String
+
+  # The `Trip` that was created by this mutation.
+  trip: Trip
+
+  # An edge for our `Trip`. May be used by Relay 1.
+  tripEdge(
+    # The method to use when ordering `Trip`.
+    orderBy: TripsOrderBy = PRIMARY_KEY_ASC
+  ): TripsEdge
+
+  # Reads a single `User` that is related to this `Trip`.
+  userByUserId: User
+
+  # Our root query field type. Allows us to run any query from our mutation payload.
+  query: Query
+}
+
+# All input for the `createUser` mutation.
+input CreateUserInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+
+  # The `User` to be created by this mutation.
+  user: UserInput!
+}
+
+# The output of our `createUser` mutation.
+type CreateUserPayload {
+  # The exact same `clientMutationId` that was provided in the mutation input,
+  # unchanged and unused. May be used by a client to track mutations.
+  clientMutationId: String
+
+  # The `User` that was created by this mutation.
+  user: User
+
+  # An edge for our `User`. May be used by Relay 1.
+  userEdge(
+    # The method to use when ordering `User`.
+    orderBy: UsersOrderBy = PRIMARY_KEY_ASC
+  ): UsersEdge
+
+  # Our root query field type. Allows us to run any query from our mutation payload.
+  query: Query
+}
+
+# A location in a connection that can be used for resuming pagination.
+scalar Cursor
+
+# The day, does not include a time.
+scalar Date
+
+# A point in time as described by the [ISO
+# 8601](https://en.wikipedia.org/wiki/ISO_8601) standard. May or may not include a timezone.
+scalar Datetime
+
+# All input for the `deleteAirportByAbbrv` mutation.
+input DeleteAirportByAbbrvInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+  abbrv: String!
+}
+
+# All input for the `deleteAirportById` mutation.
+input DeleteAirportByIdInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+  id: Int!
+}
+
+# All input for the `deleteAirport` mutation.
+input DeleteAirportInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+
+  # The globally unique `ID` which will identify a single `Airport` to be deleted.
+  nodeId: ID!
+}
+
+# The output of our `deleteAirport` mutation.
+type DeleteAirportPayload {
+  # The exact same `clientMutationId` that was provided in the mutation input,
+  # unchanged and unused. May be used by a client to track mutations.
+  clientMutationId: String
+  airport: Airport
+  deletedAirportId: ID
+
+  # Our root query field type. Allows us to run any query from our mutation payload.
+  query: Query
+}
+
+# All input for the `deleteFlightById` mutation.
+input DeleteFlightByIdInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+  id: Int!
+}
+
+# All input for the `deleteFlight` mutation.
+input DeleteFlightInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+
+  # The globally unique `ID` which will identify a single `Flight` to be deleted.
+  nodeId: ID!
+}
+
+# The output of our `deleteFlight` mutation.
+type DeleteFlightPayload {
+  # The exact same `clientMutationId` that was provided in the mutation input,
+  # unchanged and unused. May be used by a client to track mutations.
+  clientMutationId: String
+  flight: Flight
+  deletedFlightId: ID
+
+  # Reads a single `Airport` that is related to this `Flight`.
+  airportByToId: Airport
+
+  # Reads a single `Airport` that is related to this `Flight`.
+  airportByFromId: Airport
+
+  # Our root query field type. Allows us to run any query from our mutation payload.
+  query: Query
+}
+
+# All input for the `deleteSessionBySid` mutation.
+input DeleteSessionBySidInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+  sid: String!
+}
+
+# All input for the `deleteSession` mutation.
+input DeleteSessionInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+
+  # The globally unique `ID` which will identify a single `Session` to be deleted.
+  nodeId: ID!
+}
+
+# The output of our `deleteSession` mutation.
+type DeleteSessionPayload {
+  # The exact same `clientMutationId` that was provided in the mutation input,
+  # unchanged and unused. May be used by a client to track mutations.
+  clientMutationId: String
+  session: Session
+  deletedSessionId: ID
+
+  # Our root query field type. Allows us to run any query from our mutation payload.
+  query: Query
+}
+
+# All input for the `deleteTripById` mutation.
+input DeleteTripByIdInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+  id: Int!
+}
+
+# All input for the `deleteTripFlightByTripIdAndFlightId` mutation.
+input DeleteTripFlightByTripIdAndFlightIdInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+  tripId: Int!
+  flightId: Int!
+}
+
+# All input for the `deleteTripFlight` mutation.
+input DeleteTripFlightInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+
+  # The globally unique `ID` which will identify a single `TripFlight` to be deleted.
+  nodeId: ID!
+}
+
+# The output of our `deleteTripFlight` mutation.
+type DeleteTripFlightPayload {
+  # The exact same `clientMutationId` that was provided in the mutation input,
+  # unchanged and unused. May be used by a client to track mutations.
+  clientMutationId: String
+  tripFlight: TripFlight
+  deletedTripFlightId: ID
+
+  # Reads a single `Trip` that is related to this `TripFlight`.
+  tripByTripId: Trip
+
+  # Reads a single `Flight` that is related to this `TripFlight`.
+  flightByFlightId: Flight
+
+  # Our root query field type. Allows us to run any query from our mutation payload.
+  query: Query
+}
+
+# All input for the `deleteTrip` mutation.
+input DeleteTripInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+
+  # The globally unique `ID` which will identify a single `Trip` to be deleted.
+  nodeId: ID!
+}
+
+# The output of our `deleteTrip` mutation.
+type DeleteTripPayload {
+  # The exact same `clientMutationId` that was provided in the mutation input,
+  # unchanged and unused. May be used by a client to track mutations.
+  clientMutationId: String
+  trip: Trip
+  deletedTripId: ID
+
+  # Reads a single `User` that is related to this `Trip`.
+  userByUserId: User
+
+  # Our root query field type. Allows us to run any query from our mutation payload.
+  query: Query
+}
+
+# All input for the `deleteUserByEmail` mutation.
+input DeleteUserByEmailInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+  email: String!
+}
+
+# All input for the `deleteUserById` mutation.
+input DeleteUserByIdInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+  id: Int!
+}
+
+# All input for the `deleteUser` mutation.
+input DeleteUserInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+
+  # The globally unique `ID` which will identify a single `User` to be deleted.
+  nodeId: ID!
+}
+
+# The output of our `deleteUser` mutation.
+type DeleteUserPayload {
+  # The exact same `clientMutationId` that was provided in the mutation input,
+  # unchanged and unused. May be used by a client to track mutations.
+  clientMutationId: String
+  user: User
+  deletedUserId: ID
+
+  # Our root query field type. Allows us to run any query from our mutation payload.
+  query: Query
+}
+
+type Flight implements Node {
+  # A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  nodeId: ID!
+  id: Int!
+  departAt: Date!
+  price: Float!
+  createdAt: Datetime!
+  updatedAt: Datetime!
+  toId: Int
+  fromId: Int
+
+  # Reads a single `Airport` that is related to this `Flight`.
+  airportByToId: Airport
+
+  # Reads a single `Airport` that is related to this `Flight`.
+  airportByFromId: Airport
+
+  # Reads and enables pagination through a set of `TripFlight`.
+  tripFlightsByFlightId(
+    # The method to use when ordering `TripFlight`.
+    orderBy: TripFlightsOrderBy = PRIMARY_KEY_ASC
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+
+    # A condition to be used in determining which values should be returned by the collection.
+    condition: TripFlightCondition
+  ): TripFlightsConnection
+}
+
+# A condition to be used against `Flight` object types. All fields are tested for equality and combined with a logical ‘and.’
+input FlightCondition {
+  # Checks for equality with the object’s `id` field.
+  id: Int
+
+  # Checks for equality with the object’s `departAt` field.
+  departAt: Date
+
+  # Checks for equality with the object’s `price` field.
+  price: Float
+
+  # Checks for equality with the object’s `createdAt` field.
+  createdAt: Datetime
+
+  # Checks for equality with the object’s `updatedAt` field.
+  updatedAt: Datetime
+
+  # Checks for equality with the object’s `toId` field.
+  toId: Int
+
+  # Checks for equality with the object’s `fromId` field.
+  fromId: Int
+}
+
+input FlightInput {
+  id: Int
+  departAt: Date!
+  price: Float!
+  createdAt: Datetime!
+  updatedAt: Datetime!
+  toId: Int
+  fromId: Int
+}
+
+# Represents an update to a `Flight`. Fields that are set will be updated.
+input FlightPatch {
+  id: Int
+  departAt: Date
+  price: Float
+  createdAt: Datetime
+  updatedAt: Datetime
+  toId: Int
+  fromId: Int
+}
+
+# A connection to a list of `Flight` values.
+type FlightsConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # The count of *all* `Flight` you could get from the connection.
+  totalCount: Int
+
+  # A list of edges which contains the `Flight` and cursor to aid in pagination.
+  edges: [FlightsEdge]
+
+  # A list of `Flight` objects.
+  nodes: [Flight!]
+}
+
+# A `Flight` edge in the connection.
+type FlightsEdge {
+  # A cursor for use in pagination.
+  cursor: Cursor
+
+  # The `Flight` at the end of the edge.
+  node: Flight!
+}
+
+# Methods to use when ordering `Flight`.
+enum FlightsOrderBy {
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  NATURAL
+  ID_ASC
+  ID_DESC
+  DEPART_AT_ASC
+  DEPART_AT_DESC
+  PRICE_ASC
+  PRICE_DESC
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  UPDATED_AT_ASC
+  UPDATED_AT_DESC
+  TO_ID_ASC
+  TO_ID_DESC
+  FROM_ID_ASC
+  FROM_ID_DESC
+}
+
+# The root mutation type which contains root level fields which mutate data.
+type Mutation {
+  # Creates a single `Flight`.
+  createFlight(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: CreateFlightInput!
+  ): CreateFlightPayload
+
+  # Updates a single `Flight` using its globally unique id and a patch.
+  updateFlight(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: UpdateFlightInput!
+  ): UpdateFlightPayload
+
+  # Updates a single `Flight` using a unique key and a patch.
+  updateFlightById(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: UpdateFlightByIdInput!
+  ): UpdateFlightPayload
+
+  # Deletes a single `Flight` using its globally unique id.
+  deleteFlight(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: DeleteFlightInput!
+  ): DeleteFlightPayload
+
+  # Deletes a single `Flight` using a unique key.
+  deleteFlightById(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: DeleteFlightByIdInput!
+  ): DeleteFlightPayload
+
+  # Creates a single `Session`.
+  createSession(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: CreateSessionInput!
+  ): CreateSessionPayload
+
+  # Updates a single `Session` using its globally unique id and a patch.
+  updateSession(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: UpdateSessionInput!
+  ): UpdateSessionPayload
+
+  # Updates a single `Session` using a unique key and a patch.
+  updateSessionBySid(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: UpdateSessionBySidInput!
+  ): UpdateSessionPayload
+
+  # Deletes a single `Session` using its globally unique id.
+  deleteSession(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: DeleteSessionInput!
+  ): DeleteSessionPayload
+
+  # Deletes a single `Session` using a unique key.
+  deleteSessionBySid(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: DeleteSessionBySidInput!
+  ): DeleteSessionPayload
+
+  # Creates a single `Airport`.
+  createAirport(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: CreateAirportInput!
+  ): CreateAirportPayload
+
+  # Updates a single `Airport` using its globally unique id and a patch.
+  updateAirport(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: UpdateAirportInput!
+  ): UpdateAirportPayload
+
+  # Updates a single `Airport` using a unique key and a patch.
+  updateAirportById(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: UpdateAirportByIdInput!
+  ): UpdateAirportPayload
+
+  # Updates a single `Airport` using a unique key and a patch.
+  updateAirportByAbbrv(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: UpdateAirportByAbbrvInput!
+  ): UpdateAirportPayload
+
+  # Deletes a single `Airport` using its globally unique id.
+  deleteAirport(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: DeleteAirportInput!
+  ): DeleteAirportPayload
+
+  # Deletes a single `Airport` using a unique key.
+  deleteAirportById(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: DeleteAirportByIdInput!
+  ): DeleteAirportPayload
+
+  # Deletes a single `Airport` using a unique key.
+  deleteAirportByAbbrv(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: DeleteAirportByAbbrvInput!
+  ): DeleteAirportPayload
+
+  # Creates a single `TripFlight`.
+  createTripFlight(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: CreateTripFlightInput!
+  ): CreateTripFlightPayload
+
+  # Updates a single `TripFlight` using its globally unique id and a patch.
+  updateTripFlight(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: UpdateTripFlightInput!
+  ): UpdateTripFlightPayload
+
+  # Updates a single `TripFlight` using a unique key and a patch.
+  updateTripFlightByTripIdAndFlightId(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: UpdateTripFlightByTripIdAndFlightIdInput!
+  ): UpdateTripFlightPayload
+
+  # Deletes a single `TripFlight` using its globally unique id.
+  deleteTripFlight(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: DeleteTripFlightInput!
+  ): DeleteTripFlightPayload
+
+  # Deletes a single `TripFlight` using a unique key.
+  deleteTripFlightByTripIdAndFlightId(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: DeleteTripFlightByTripIdAndFlightIdInput!
+  ): DeleteTripFlightPayload
+
+  # Creates a single `Trip`.
+  createTrip(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: CreateTripInput!
+  ): CreateTripPayload
+
+  # Updates a single `Trip` using its globally unique id and a patch.
+  updateTrip(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: UpdateTripInput!
+  ): UpdateTripPayload
+
+  # Updates a single `Trip` using a unique key and a patch.
+  updateTripById(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: UpdateTripByIdInput!
+  ): UpdateTripPayload
+
+  # Deletes a single `Trip` using its globally unique id.
+  deleteTrip(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: DeleteTripInput!
+  ): DeleteTripPayload
+
+  # Deletes a single `Trip` using a unique key.
+  deleteTripById(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: DeleteTripByIdInput!
+  ): DeleteTripPayload
+
+  # Creates a single `User`.
+  createUser(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: CreateUserInput!
+  ): CreateUserPayload
+
+  # Updates a single `User` using its globally unique id and a patch.
+  updateUser(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: UpdateUserInput!
+  ): UpdateUserPayload
+
+  # Updates a single `User` using a unique key and a patch.
+  updateUserById(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: UpdateUserByIdInput!
+  ): UpdateUserPayload
+
+  # Updates a single `User` using a unique key and a patch.
+  updateUserByEmail(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: UpdateUserByEmailInput!
+  ): UpdateUserPayload
+
+  # Deletes a single `User` using its globally unique id.
+  deleteUser(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: DeleteUserInput!
+  ): DeleteUserPayload
+
+  # Deletes a single `User` using a unique key.
+  deleteUserById(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: DeleteUserByIdInput!
+  ): DeleteUserPayload
+
+  # Deletes a single `User` using a unique key.
+  deleteUserByEmail(
+    # The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    input: DeleteUserByEmailInput!
+  ): DeleteUserPayload
+}
+
+# An object with a globally unique `ID`.
+interface Node {
+  # A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  nodeId: ID!
+}
+
+# Information about pagination in a connection.
+type PageInfo {
+  # When paginating forwards, are there more items?
+  hasNextPage: Boolean!
+
+  # When paginating backwards, are there more items?
+  hasPreviousPage: Boolean!
+
+  # When paginating backwards, the cursor to continue.
+  startCursor: Cursor
+
+  # When paginating forwards, the cursor to continue.
+  endCursor: Cursor
+}
+
+# The root query type which gives access points into the data universe.
+type Query implements Node {
+  # Fetches an object given its globally unique `ID`.
+  node(
+    # The globally unique `ID`.
+    nodeId: ID!
+  ): Node
+
+  # Reads and enables pagination through a set of `Flight`.
+  allFlights(
+    # The method to use when ordering `Flight`.
+    orderBy: FlightsOrderBy = PRIMARY_KEY_ASC
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+
+    # A condition to be used in determining which values should be returned by the collection.
+    condition: FlightCondition
+  ): FlightsConnection
+
+  # Reads a single `Flight` using its globally unique `ID`.
+  flight(
+    # The globally unique `ID` to be used in selecting a single `Flight`.
+    nodeId: ID!
+  ): Flight
+  flightById(id: Int!): Flight
+
+  # Reads and enables pagination through a set of `Session`.
+  allSessions(
+    # The method to use when ordering `Session`.
+    orderBy: SessionsOrderBy = PRIMARY_KEY_ASC
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+
+    # A condition to be used in determining which values should be returned by the collection.
+    condition: SessionCondition
+  ): SessionsConnection
+
+  # Reads a single `Session` using its globally unique `ID`.
+  session(
+    # The globally unique `ID` to be used in selecting a single `Session`.
+    nodeId: ID!
+  ): Session
+  sessionBySid(sid: String!): Session
+
+  # Reads and enables pagination through a set of `Airport`.
+  allAirports(
+    # The method to use when ordering `Airport`.
+    orderBy: AirportsOrderBy = PRIMARY_KEY_ASC
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+
+    # A condition to be used in determining which values should be returned by the collection.
+    condition: AirportCondition
+  ): AirportsConnection
+
+  # Reads a single `Airport` using its globally unique `ID`.
+  airport(
+    # The globally unique `ID` to be used in selecting a single `Airport`.
+    nodeId: ID!
+  ): Airport
+  airportById(id: Int!): Airport
+  airportByAbbrv(abbrv: String!): Airport
+
+  # Reads and enables pagination through a set of `TripFlight`.
+  allTripFlights(
+    # The method to use when ordering `TripFlight`.
+    orderBy: TripFlightsOrderBy = PRIMARY_KEY_ASC
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+
+    # A condition to be used in determining which values should be returned by the collection.
+    condition: TripFlightCondition
+  ): TripFlightsConnection
+
+  # Reads a single `TripFlight` using its globally unique `ID`.
+  tripFlight(
+    # The globally unique `ID` to be used in selecting a single `TripFlight`.
+    nodeId: ID!
+  ): TripFlight
+  tripFlightByTripIdAndFlightId(tripId: Int!, flightId: Int!): TripFlight
+
+  # Reads and enables pagination through a set of `Trip`.
+  allTrips(
+    # The method to use when ordering `Trip`.
+    orderBy: TripsOrderBy = PRIMARY_KEY_ASC
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+
+    # A condition to be used in determining which values should be returned by the collection.
+    condition: TripCondition
+  ): TripsConnection
+
+  # Reads a single `Trip` using its globally unique `ID`.
+  trip(
+    # The globally unique `ID` to be used in selecting a single `Trip`.
+    nodeId: ID!
+  ): Trip
+  tripById(id: Int!): Trip
+
+  # Reads and enables pagination through a set of `User`.
+  allUsers(
+    # The method to use when ordering `User`.
+    orderBy: UsersOrderBy = PRIMARY_KEY_ASC
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+
+    # A condition to be used in determining which values should be returned by the collection.
+    condition: UserCondition
+  ): UsersConnection
+
+  # Reads a single `User` using its globally unique `ID`.
+  user(
+    # The globally unique `ID` to be used in selecting a single `User`.
+    nodeId: ID!
+  ): User
+  userById(id: Int!): User
+  userByEmail(email: String!): User
+
+  # Exposes the root query type nested one level down. This is helpful for Relay 1
+  # which can only query top level fields if they are in a particular form.
+  query: Query!
+
+  # The root query type must be a `Node` to work well with Relay 1 mutations. This just resolves to `query`.
+  nodeId: ID!
+}
+
+type Session implements Node {
+  # A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  nodeId: ID!
+  sid: String!
+  expires: Datetime
+  data: String
+  createdAt: Datetime!
+  updatedAt: Datetime!
+}
+
+# A condition to be used against `Session` object types. All fields are tested for equality and combined with a logical ‘and.’
+input SessionCondition {
+  # Checks for equality with the object’s `sid` field.
+  sid: String
+
+  # Checks for equality with the object’s `expires` field.
+  expires: Datetime
+
+  # Checks for equality with the object’s `data` field.
+  data: String
+
+  # Checks for equality with the object’s `createdAt` field.
+  createdAt: Datetime
+
+  # Checks for equality with the object’s `updatedAt` field.
+  updatedAt: Datetime
+}
+
+input SessionInput {
+  sid: String!
+  expires: Datetime
+  data: String
+  createdAt: Datetime!
+  updatedAt: Datetime!
+}
+
+# Represents an update to a `Session`. Fields that are set will be updated.
+input SessionPatch {
+  sid: String
+  expires: Datetime
+  data: String
+  createdAt: Datetime
+  updatedAt: Datetime
+}
+
+# A connection to a list of `Session` values.
+type SessionsConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # The count of *all* `Session` you could get from the connection.
+  totalCount: Int
+
+  # A list of edges which contains the `Session` and cursor to aid in pagination.
+  edges: [SessionsEdge]
+
+  # A list of `Session` objects.
+  nodes: [Session!]
+}
+
+# A `Session` edge in the connection.
+type SessionsEdge {
+  # A cursor for use in pagination.
+  cursor: Cursor
+
+  # The `Session` at the end of the edge.
+  node: Session!
+}
+
+# Methods to use when ordering `Session`.
+enum SessionsOrderBy {
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  NATURAL
+  SID_ASC
+  SID_DESC
+  EXPIRES_ASC
+  EXPIRES_DESC
+  DATA_ASC
+  DATA_DESC
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  UPDATED_AT_ASC
+  UPDATED_AT_DESC
+}
+
+type Trip implements Node {
+  # A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  nodeId: ID!
+  id: Int!
+  name: String
+  createdAt: Datetime!
+  updatedAt: Datetime!
+  userId: Int
+
+  # Reads a single `User` that is related to this `Trip`.
+  userByUserId: User
+
+  # Reads and enables pagination through a set of `TripFlight`.
+  tripFlightsByTripId(
+    # The method to use when ordering `TripFlight`.
+    orderBy: TripFlightsOrderBy = PRIMARY_KEY_ASC
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+
+    # A condition to be used in determining which values should be returned by the collection.
+    condition: TripFlightCondition
+  ): TripFlightsConnection
+}
+
+# A condition to be used against `Trip` object types. All fields are tested for equality and combined with a logical ‘and.’
+input TripCondition {
+  # Checks for equality with the object’s `id` field.
+  id: Int
+
+  # Checks for equality with the object’s `name` field.
+  name: String
+
+  # Checks for equality with the object’s `createdAt` field.
+  createdAt: Datetime
+
+  # Checks for equality with the object’s `updatedAt` field.
+  updatedAt: Datetime
+
+  # Checks for equality with the object’s `userId` field.
+  userId: Int
+}
+
+type TripFlight implements Node {
+  # A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  nodeId: ID!
+  createdAt: Datetime!
+  updatedAt: Datetime!
+  tripId: Int!
+  flightId: Int!
+
+  # Reads a single `Trip` that is related to this `TripFlight`.
+  tripByTripId: Trip
+
+  # Reads a single `Flight` that is related to this `TripFlight`.
+  flightByFlightId: Flight
+}
+
+# A condition to be used against `TripFlight` object types. All fields are tested
+# for equality and combined with a logical ‘and.’
+input TripFlightCondition {
+  # Checks for equality with the object’s `createdAt` field.
+  createdAt: Datetime
+
+  # Checks for equality with the object’s `updatedAt` field.
+  updatedAt: Datetime
+
+  # Checks for equality with the object’s `tripId` field.
+  tripId: Int
+
+  # Checks for equality with the object’s `flightId` field.
+  flightId: Int
+}
+
+input TripFlightInput {
+  createdAt: Datetime!
+  updatedAt: Datetime!
+  tripId: Int!
+  flightId: Int!
+}
+
+# Represents an update to a `TripFlight`. Fields that are set will be updated.
+input TripFlightPatch {
+  createdAt: Datetime
+  updatedAt: Datetime
+  tripId: Int
+  flightId: Int
+}
+
+# A connection to a list of `TripFlight` values.
+type TripFlightsConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # The count of *all* `TripFlight` you could get from the connection.
+  totalCount: Int
+
+  # A list of edges which contains the `TripFlight` and cursor to aid in pagination.
+  edges: [TripFlightsEdge]
+
+  # A list of `TripFlight` objects.
+  nodes: [TripFlight!]
+}
+
+# A `TripFlight` edge in the connection.
+type TripFlightsEdge {
+  # A cursor for use in pagination.
+  cursor: Cursor
+
+  # The `TripFlight` at the end of the edge.
+  node: TripFlight!
+}
+
+# Methods to use when ordering `TripFlight`.
+enum TripFlightsOrderBy {
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  NATURAL
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  UPDATED_AT_ASC
+  UPDATED_AT_DESC
+  TRIP_ID_ASC
+  TRIP_ID_DESC
+  FLIGHT_ID_ASC
+  FLIGHT_ID_DESC
+}
+
+input TripInput {
+  id: Int
+  name: String
+  createdAt: Datetime!
+  updatedAt: Datetime!
+  userId: Int
+}
+
+# Represents an update to a `Trip`. Fields that are set will be updated.
+input TripPatch {
+  id: Int
+  name: String
+  createdAt: Datetime
+  updatedAt: Datetime
+  userId: Int
+}
+
+# A connection to a list of `Trip` values.
+type TripsConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # The count of *all* `Trip` you could get from the connection.
+  totalCount: Int
+
+  # A list of edges which contains the `Trip` and cursor to aid in pagination.
+  edges: [TripsEdge]
+
+  # A list of `Trip` objects.
+  nodes: [Trip!]
+}
+
+# A `Trip` edge in the connection.
+type TripsEdge {
+  # A cursor for use in pagination.
+  cursor: Cursor
+
+  # The `Trip` at the end of the edge.
+  node: Trip!
+}
+
+# Methods to use when ordering `Trip`.
+enum TripsOrderBy {
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  NATURAL
+  ID_ASC
+  ID_DESC
+  NAME_ASC
+  NAME_DESC
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  UPDATED_AT_ASC
+  UPDATED_AT_DESC
+  USER_ID_ASC
+  USER_ID_DESC
+}
+
+# All input for the `updateAirportByAbbrv` mutation.
+input UpdateAirportByAbbrvInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+  abbrv: String!
+
+  # An object where the defined keys will be set on the `Airport` identified by our unique key.
+  airportPatch: AirportPatch!
+}
+
+# All input for the `updateAirportById` mutation.
+input UpdateAirportByIdInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+  id: Int!
+
+  # An object where the defined keys will be set on the `Airport` identified by our unique key.
+  airportPatch: AirportPatch!
+}
+
+# All input for the `updateAirport` mutation.
+input UpdateAirportInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+
+  # The globally unique `ID` which will identify a single `Airport` to be updated.
+  nodeId: ID!
+
+  # An object where the defined keys will be set on the `Airport` identified by our globally unique `ID`.
+  airportPatch: AirportPatch!
+}
+
+# The output of our `updateAirport` mutation.
+type UpdateAirportPayload {
+  # The exact same `clientMutationId` that was provided in the mutation input,
+  # unchanged and unused. May be used by a client to track mutations.
+  clientMutationId: String
+  airport: Airport
+
+  # Our root query field type. Allows us to run any query from our mutation payload.
+  query: Query
+}
+
+# All input for the `updateFlightById` mutation.
+input UpdateFlightByIdInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+  id: Int!
+
+  # An object where the defined keys will be set on the `Flight` identified by our unique key.
+  flightPatch: FlightPatch!
+}
+
+# All input for the `updateFlight` mutation.
+input UpdateFlightInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+
+  # The globally unique `ID` which will identify a single `Flight` to be updated.
+  nodeId: ID!
+
+  # An object where the defined keys will be set on the `Flight` identified by our globally unique `ID`.
+  flightPatch: FlightPatch!
+}
+
+# The output of our `updateFlight` mutation.
+type UpdateFlightPayload {
+  # The exact same `clientMutationId` that was provided in the mutation input,
+  # unchanged and unused. May be used by a client to track mutations.
+  clientMutationId: String
+  flight: Flight
+
+  # Reads a single `Airport` that is related to this `Flight`.
+  airportByToId: Airport
+
+  # Reads a single `Airport` that is related to this `Flight`.
+  airportByFromId: Airport
+
+  # Our root query field type. Allows us to run any query from our mutation payload.
+  query: Query
+}
+
+# All input for the `updateSessionBySid` mutation.
+input UpdateSessionBySidInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+  sid: String!
+
+  # An object where the defined keys will be set on the `Session` identified by our unique key.
+  sessionPatch: SessionPatch!
+}
+
+# All input for the `updateSession` mutation.
+input UpdateSessionInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+
+  # The globally unique `ID` which will identify a single `Session` to be updated.
+  nodeId: ID!
+
+  # An object where the defined keys will be set on the `Session` identified by our globally unique `ID`.
+  sessionPatch: SessionPatch!
+}
+
+# The output of our `updateSession` mutation.
+type UpdateSessionPayload {
+  # The exact same `clientMutationId` that was provided in the mutation input,
+  # unchanged and unused. May be used by a client to track mutations.
+  clientMutationId: String
+  session: Session
+
+  # Our root query field type. Allows us to run any query from our mutation payload.
+  query: Query
+}
+
+# All input for the `updateTripById` mutation.
+input UpdateTripByIdInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+  id: Int!
+
+  # An object where the defined keys will be set on the `Trip` identified by our unique key.
+  tripPatch: TripPatch!
+}
+
+# All input for the `updateTripFlightByTripIdAndFlightId` mutation.
+input UpdateTripFlightByTripIdAndFlightIdInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+  tripId: Int!
+  flightId: Int!
+
+  # An object where the defined keys will be set on the `TripFlight` identified by our unique key.
+  tripFlightPatch: TripFlightPatch!
+}
+
+# All input for the `updateTripFlight` mutation.
+input UpdateTripFlightInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+
+  # The globally unique `ID` which will identify a single `TripFlight` to be updated.
+  nodeId: ID!
+
+  # An object where the defined keys will be set on the `TripFlight` identified by our globally unique `ID`.
+  tripFlightPatch: TripFlightPatch!
+}
+
+# The output of our `updateTripFlight` mutation.
+type UpdateTripFlightPayload {
+  # The exact same `clientMutationId` that was provided in the mutation input,
+  # unchanged and unused. May be used by a client to track mutations.
+  clientMutationId: String
+  tripFlight: TripFlight
+
+  # Reads a single `Trip` that is related to this `TripFlight`.
+  tripByTripId: Trip
+
+  # Reads a single `Flight` that is related to this `TripFlight`.
+  flightByFlightId: Flight
+
+  # Our root query field type. Allows us to run any query from our mutation payload.
+  query: Query
+}
+
+# All input for the `updateTrip` mutation.
+input UpdateTripInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+
+  # The globally unique `ID` which will identify a single `Trip` to be updated.
+  nodeId: ID!
+
+  # An object where the defined keys will be set on the `Trip` identified by our globally unique `ID`.
+  tripPatch: TripPatch!
+}
+
+# The output of our `updateTrip` mutation.
+type UpdateTripPayload {
+  # The exact same `clientMutationId` that was provided in the mutation input,
+  # unchanged and unused. May be used by a client to track mutations.
+  clientMutationId: String
+  trip: Trip
+
+  # Reads a single `User` that is related to this `Trip`.
+  userByUserId: User
+
+  # Our root query field type. Allows us to run any query from our mutation payload.
+  query: Query
+}
+
+# All input for the `updateUserByEmail` mutation.
+input UpdateUserByEmailInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+  email: String!
+
+  # An object where the defined keys will be set on the `User` identified by our unique key.
+  userPatch: UserPatch!
+}
+
+# All input for the `updateUserById` mutation.
+input UpdateUserByIdInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+  id: Int!
+
+  # An object where the defined keys will be set on the `User` identified by our unique key.
+  userPatch: UserPatch!
+}
+
+# All input for the `updateUser` mutation.
+input UpdateUserInput {
+  # An arbitrary string value with no semantic meaning. Will be included in the
+  # payload verbatim. May be used to track mutations by the client.
+  clientMutationId: String
+
+  # The globally unique `ID` which will identify a single `User` to be updated.
+  nodeId: ID!
+
+  # An object where the defined keys will be set on the `User` identified by our globally unique `ID`.
+  userPatch: UserPatch!
+}
+
+# The output of our `updateUser` mutation.
+type UpdateUserPayload {
+  # The exact same `clientMutationId` that was provided in the mutation input,
+  # unchanged and unused. May be used by a client to track mutations.
+  clientMutationId: String
+  user: User
+
+  # Our root query field type. Allows us to run any query from our mutation payload.
+  query: Query
+}
+
+type User implements Node {
+  # A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  nodeId: ID!
+  id: Int!
+  email: String!
+  firstName: String
+  lastName: String
+  password: String
+  address: String
+  salt: String
+  googleId: String
+  createdAt: Datetime!
+  updatedAt: Datetime!
+
+  # Reads and enables pagination through a set of `Trip`.
+  tripsByUserId(
+    # The method to use when ordering `Trip`.
+    orderBy: TripsOrderBy = PRIMARY_KEY_ASC
+
+    # Read all values in the set before (above) this cursor.
+    before: Cursor
+
+    # Read all values in the set after (below) this cursor.
+    after: Cursor
+
+    # Only read the first `n` values of the set.
+    first: Int
+
+    # Only read the last `n` values of the set.
+    last: Int
+
+    # Skip the first `n` values from our `after` cursor, an alternative to cursor
+    # based pagination. May not be used with `last`.
+    offset: Int
+
+    # A condition to be used in determining which values should be returned by the collection.
+    condition: TripCondition
+  ): TripsConnection
+}
+
+# A condition to be used against `User` object types. All fields are tested for equality and combined with a logical ‘and.’
+input UserCondition {
+  # Checks for equality with the object’s `id` field.
+  id: Int
+
+  # Checks for equality with the object’s `email` field.
+  email: String
+
+  # Checks for equality with the object’s `firstName` field.
+  firstName: String
+
+  # Checks for equality with the object’s `lastName` field.
+  lastName: String
+
+  # Checks for equality with the object’s `password` field.
+  password: String
+
+  # Checks for equality with the object’s `address` field.
+  address: String
+
+  # Checks for equality with the object’s `salt` field.
+  salt: String
+
+  # Checks for equality with the object’s `googleId` field.
+  googleId: String
+
+  # Checks for equality with the object’s `createdAt` field.
+  createdAt: Datetime
+
+  # Checks for equality with the object’s `updatedAt` field.
+  updatedAt: Datetime
+}
+
+input UserInput {
+  id: Int
+  email: String!
+  firstName: String
+  lastName: String
+  password: String
+  address: String
+  salt: String
+  googleId: String
+  createdAt: Datetime!
+  updatedAt: Datetime!
+}
+
+# Represents an update to a `User`. Fields that are set will be updated.
+input UserPatch {
+  id: Int
+  email: String
+  firstName: String
+  lastName: String
+  password: String
+  address: String
+  salt: String
+  googleId: String
+  createdAt: Datetime
+  updatedAt: Datetime
+}
+
+# A connection to a list of `User` values.
+type UsersConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # The count of *all* `User` you could get from the connection.
+  totalCount: Int
+
+  # A list of edges which contains the `User` and cursor to aid in pagination.
+  edges: [UsersEdge]
+
+  # A list of `User` objects.
+  nodes: [User!]
+}
+
+# A `User` edge in the connection.
+type UsersEdge {
+  # A cursor for use in pagination.
+  cursor: Cursor
+
+  # The `User` at the end of the edge.
+  node: User!
+}
+
+# Methods to use when ordering `User`.
+enum UsersOrderBy {
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  NATURAL
+  ID_ASC
+  ID_DESC
+  EMAIL_ASC
+  EMAIL_DESC
+  FIRST_NAME_ASC
+  FIRST_NAME_DESC
+  LAST_NAME_ASC
+  LAST_NAME_DESC
+  PASSWORD_ASC
+  PASSWORD_DESC
+  ADDRESS_ASC
+  ADDRESS_DESC
+  SALT_ASC
+  SALT_DESC
+  GOOGLE_ID_ASC
+  GOOGLE_ID_DESC
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  UPDATED_AT_ASC
+  UPDATED_AT_DESC
+}
