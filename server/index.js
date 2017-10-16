@@ -6,7 +6,7 @@ const session = require('express-session');
 const passport = require('passport');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 // GraphQL
-const postgraphql = require('postgraphql').postgraphql;
+// const postgraphql = require('postgraphql').postgraphql;
 const { graphqlExpress, graphiqlExpress } = require('apollo-server-express');
 const schema = require('./graphql/schema');
 

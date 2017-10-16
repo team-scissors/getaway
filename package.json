@@ -86,6 +86,7 @@
     "eslint-plugin-jsx-a11y": "^5.1.1",
     "eslint-plugin-react": "^7.4.0",
     "file-loader": "^0.11.2",
+    "graphql-tools": "^2.5.0",
     "jsonfile": "^4.0.0",
     "mocha": "^3.3.0",
     "node-sass": "^4.5.0",
