@@ -32,7 +32,6 @@ export const flightsFromAirportByAbbrv = gql`
   }
 `;
 
-// Finish this. TODO
 export const flightsFromAirportByAbbrvAndDate = gql`
   query flightsFromAirportByAbbrvAndDate(
     $airportAbbrv: String = "ORD"

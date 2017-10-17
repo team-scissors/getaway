@@ -54,9 +54,13 @@ const resolvers = {
     airportByToId(flight) {
       return Airport.findById(flight.toId);
     },
-    // price(flight) {
-    //   return 42;
-    // }
+    price(flight) {
+      console.log('flight.departAt:', flight.departAt);
+      return Airport.findById(flight.fromId)
+        .then(airport => {
+          
+        })
+    }
   },
   User: {
     tripsByUserId(user) {
