@@ -28,22 +28,22 @@ router.get('/user/:userId', (req, res, next) => {
 });
 
 // get trips by userId
-router.get('/user/:userId/extended', async (req, res, next) => {
-  try {
-    const trips = await Trip.findAll({
-      include: [Flight],
-      where: {
-        userId: req.params.userId
-      }
-    });
-    const extendedTrips = trips.map(trip => {
-      // Map each of the flights to the current trip TODO
-    });
-  } catch(err) {
-    next(err);
-  }
+// router.get('/user/:userId/extended', async (req, res, next) => {
+//   try {
+//     const trips = await Trip.findAll({
+//       include: [Flight],
+//       where: {
+//         userId: req.params.userId
+//       }
+//     });
+//     const extendedTrips = trips.map(trip => {
+//       // Map each of the flights to the current trip TODO
+//     });
+//   } catch(err) {
+//     next(err);
+//   }
 
-});
+// });
 
 // get a trip by its id
 router.get('/:tripId', (req, res, next) => {

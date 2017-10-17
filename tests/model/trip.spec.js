@@ -1,12 +1,12 @@
 /* global describe beforeEach it */
 
 const { expect } = require('chai');
-const db = require('../server/db/index');
+const db = require('../../server/db/index');
 
 const Trip = db.model('trip');
 const Airport = db.model('airport');
 
-describe.only('Trip model', () => {
+describe('Trip model', () => {
   beforeEach(() => db.sync({ force: true }));
 
   describe('model definition', () => {

@@ -30,16 +30,16 @@ router.get('/', (req, res, next) => {
 
 // Finds all flights by departure date. Make sure the date param
 // looks something like '02-01-2018', NOT '02/01/2018' OR '2-1-18'
-router.get('/:date', async (req, res, next) => {
-  const date = req.params.date;
-  try {
-    const filteredFlights = await Flight.findAll({
-      where: {
-        departAt: date,
-      }
-    })
-    res.json(filteredFlights);
-  } catch(err) {
-    next(err)
-  }
-});
+// router.get('/:date', async (req, res, next) => {
+//   const date = req.params.date;
+//   try {
+//     const filteredFlights = await Flight.findAll({
+//       where: {
+//         departAt: date,
+//       }
+//     })
+//     res.json(filteredFlights);
+//   } catch(err) {
+//     next(err)
+//   }
+// });
