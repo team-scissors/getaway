@@ -54,6 +54,9 @@ const resolvers = {
     airportByToId(flight) {
       return Airport.findById(flight.toId);
     },
+    // price(flight) {
+    //   return 42;
+    // }
   },
   User: {
     tripsByUserId(user) {
