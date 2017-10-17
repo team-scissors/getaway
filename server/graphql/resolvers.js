@@ -13,6 +13,13 @@ const resolvers = {
     airportById(root, {id}) {
       return Airport.findById(id);
     },
+    airportByAbbrv(root, {abbrv}) {
+      return Airport.find({
+        where: {
+          abbrv,
+        }
+      });
+    },
     userById(root, {id}) {
       return User.findById(id);
     },

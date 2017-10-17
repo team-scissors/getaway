@@ -15,6 +15,7 @@ type Airport {
 type Flight {
   id: Int!
   price: Float!
+  departAt: String! # Maybe make Date a custom scalar type
   toId: Int
   fromId: Int
   airportByToId: Airport!
