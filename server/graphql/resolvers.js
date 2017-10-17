@@ -1,3 +1,4 @@
+const axios = require('axios');
 const {
   Airport,
   Flight,
@@ -55,11 +56,17 @@ const resolvers = {
       return Airport.findById(flight.toId);
     },
     price(flight) {
-      console.log('flight.departAt:', flight.departAt);
+
       return Airport.findById(flight.fromId)
         .then(airport => {
-          
+          return axios.get(`/api/flights/LAX/2017-10-20`);
         })
+        .then(amadeusResponse => {
+          console.log('amadeusResponse:', amadeusResponse);
+          // return amadeusResponse.destinations[0].price;
+          return 42;
+        });
+        // .then( () => flight.price);
     }
   },
   User: {

@@ -1,6 +1,10 @@
 const router = require('express').Router();
-const {Flight} = require('../db/models');
+const { Flight, Airport } = require('../db/models');
+const axios = require('axios');
+const Promise = require('bluebird');
+const geolib = require('geolib');
 module.exports = router;
+require('../../secrets');
 
 const AMADEUS_API_KEY = process.env.AMADEUS_API_KEY;
 
@@ -32,6 +36,7 @@ router.get('/:origin/:date', (req, res, next) => {
       params,
     });
     const amadeusResponse = axiosResponse.data;
+    console.log('amadeusResponse', amadeusResponse);
     const originAirport = await Airport.find({
       where: { abbrv: amadeusResponse.origin },
       attributes,
