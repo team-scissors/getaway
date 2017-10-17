@@ -1,7 +1,7 @@
 /* global describe beforeEach it */
 
 const { expect } = require('chai');
-const db = require('../server/db/index');
+const db = require('../db/index');
 
 const Trip = db.model('trip');
 const Airport = db.model('airport');
