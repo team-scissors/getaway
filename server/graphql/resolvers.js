@@ -30,7 +30,11 @@ const resolvers = {
           email,
         }
       });
-    }
+    },
+    amadeusFlight(root, {date, originAbbrv}) {
+      return axios.get(`http://localhost:8080/api/flights/${originAbbrv}/${date}`)
+        .then(res => res.data);
+    },
   },
   Airport: {
     flightsByFromId(airport) {
@@ -55,19 +59,6 @@ const resolvers = {
     airportByToId(flight) {
       return Airport.findById(flight.toId);
     },
-    price(flight) {
-
-      return Airport.findById(flight.fromId)
-        .then(airport => {
-          return axios.get(`/api/flights/LAX/2017-10-20`);
-        })
-        .then(amadeusResponse => {
-          console.log('amadeusResponse:', amadeusResponse);
-          // return amadeusResponse.destinations[0].price;
-          return 42;
-        });
-        // .then( () => flight.price);
-    }
   },
   User: {
     tripsByUserId(user) {

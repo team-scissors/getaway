@@ -21,6 +21,28 @@ type Flight {
   airportByToId: Airport!
   airportByFromId: Airport!
 }
+type AmadeusAirport {
+  id: Int
+  name: String
+  abbrv: String
+  city: String
+  country: String
+  continent: String
+  longitude: Float
+  latitude: Float
+}
+type AmadeusDestination {
+  airport: AmadeusAirport
+  bearing: Float
+  distance: Float
+  price: Float
+  priceEfficiency: Float
+}
+type AmadeusFlight {
+  origin: AmadeusAirport
+  date: String
+  destinations: [AmadeusDestination]
+}
 type User {
   id: Int!
   email: String!
@@ -36,6 +58,7 @@ type Query {
   airports: [Airport]
   userById(id: Int!): User
   userByEmail(email: String!): User
+  amadeusFlight(date: String!, originAbbrv: String!): AmadeusFlight
 }
 `;
 
