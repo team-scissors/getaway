@@ -2,7 +2,7 @@
 // REVIEW: TESTS! NICE !!!
 
 const { expect } = require('chai');
-const db = require('../db/index');
+const db = require('../../server/db/index');
 
 const Airport = db.model('airport');
 
