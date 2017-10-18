@@ -54,8 +54,15 @@ This project was designed and implemented by [Tim Shuo](https://github.com/thesh
 4. Run the project in development mode:
 
 	`npm run start-dev`
+	
+5. Create and seed the database. (This could take a while. Go grab a coffee)
 
-5. Run the tests
+	`createdb getaway && npm run seed`
+
+6. Run the tests
 
 	`npm test`
 
+## Tech Stack
+
+Express, Sequelize, PostgreSQL, GraphQL, PostgraphQL, React, Redux, Apollo, Victory Charts (D3), MapBox, Bulma
