@@ -1,3 +1,7 @@
+## Tech Stack
+
+Express, Sequelize, PostgreSQL, GraphQL, PostgraphQL, React, Redux, Apollo, Victory Charts (D3), MapBox, Bulma
+
 # getAway
 
 getAway is a travel-recommendation app that helps users find places to travel to within their given budgets.
@@ -62,7 +66,3 @@ This project was designed and implemented by [Tim Shuo](https://github.com/thesh
 6. Run the tests
 
 	`npm test`
-
-## Tech Stack
-
-Express, Sequelize, PostgreSQL, GraphQL, PostgraphQL, React, Redux, Apollo, Victory Charts (D3), MapBox, Bulma
