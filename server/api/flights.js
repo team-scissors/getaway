@@ -36,7 +36,6 @@ router.get('/:origin/:date', (req, res, next) => {
       params,
     });
     const amadeusResponse = axiosResponse.data;
-    console.log('amadeusResponse', amadeusResponse);
     const originAirport = await Airport.find({
       where: { abbrv: amadeusResponse.origin },
       attributes,
